@@ -1,0 +1,38 @@
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
+body {
+  color: $baseFontColor;
+  font-family: $baseFontFamily;
+  font-size: $baseFontSize;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font-family: inherit;
+  font-size: 100%;
+}
+
+[type='button'],
+[type='reset'],
+[type='submit'],
+button {
+  text-transform: none;
+  overflow: visible;
+  -webkit-appearance: button;
+}
+
+select {
+  text-transform: none;
+}
+
+input {
+  overflow: visible;
+}
