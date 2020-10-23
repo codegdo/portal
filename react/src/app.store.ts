@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, Store } from 'redux';
 import { persistStore } from 'redux-persist';
 
 import { persistedReducer } from './store/reducers';
@@ -11,7 +11,7 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(persistedReducer, composeEnhancers(applyMiddleware()));
+const store: Store = createStore(persistedReducer, composeEnhancers(applyMiddleware()));
 const persistor = persistStore(store);
 
 export { store, persistor };

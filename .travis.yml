@@ -1,3 +1,13 @@
 sudo: required
 services:
   - docker
+before_install:
+  - docker build -t gdo/react-test -f ./react/Dockerfile.dev ./react
+
+script:
+  - docker run gdo/react-test npm run test -- --coverage
+
+after_success:
+  - docker build -t gdo/portal-nginx ./nginx
+  - docker build -t gdo/portal-express ./express
+  - docker build -t gdo/portal-react ./react

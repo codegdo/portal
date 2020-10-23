@@ -1,20 +1,24 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "lib": ["esnext", "dom"],
+    "target": "ES2018",
+    "module": "commonjs",
+    "lib": ["ES2018", "dom"],
     "allowJs": true,
     "jsx": "preserve",
-    "outDir": "./dist",
-    "noEmit": true,
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
     "sourceMap": true,
     "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns" : true,
+    "stripInternal": true,
     "moduleResolution": "node",
     "types": ["react", "react-dom", "react-router-dom"],
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules"],
-  "include": ["src/**/*"]
+  "include": ["src"]
 }
