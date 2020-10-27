@@ -1,6 +1,11 @@
 sudo: required
 services:
   - docker
+branches:
+  only:
+    - dev
+    - stage
+    - prod
 before_install:
   - docker build -t portal/TEST-react -f ./react/Dockerfile.dev ./react
 
