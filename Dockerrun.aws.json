@@ -1,0 +1,36 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "nginx",
+      "image": "gdo/portal-nginx",
+      "hostname": "nginx",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": [
+        "express",
+        "react"
+      ],
+      "memory": 128
+    },
+    {
+      "name": "express",
+      "image": "gdo/portal-express",
+      "hostname": "express",
+      "essential": false,
+      "memory": 128
+    },
+    {
+      "name": "react",
+      "image": "gdo/portal-react",
+      "react": "react",
+      "essential": false,
+      "memory": 128
+    }
+  ]
+}
