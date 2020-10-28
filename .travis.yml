@@ -7,20 +7,20 @@ branches:
     - stage
     - prod
 before_install:
-  - docker build -t portal/TEST-react -f ./react/Dockerfile.dev ./react
+  - docker build -t portal/test-react -f ./react/Dockerfile.dev ./react
 
 script:
-  - docker run portal/TEST-react npm run test -- --coverage
+  - docker run portal/test-react npm run test -- --coverage
 
 after_success:
-  - docker build -t portal/${TRAVIS_BRANCH}-nginx ./nginx
-  - docker build -t portal/${TRAVIS_BRANCH}-express ./express
-  - docker build -t portal/${TRAVIS_BRANCH}-react ./react
+  - docker build -t portal/nginx ./nginx
+  - docker build -t portal/express ./express
+  - docker build -t portal/react ./react
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
   # Push to docker hub
-  - docker push portal/${TRAVIS_BRANCH}-nginx
-  - docker push portal/${TRAVIS_BRANCH}-express
-  - docker push portal/${TRAVIS_BRANCH}-react
+  - docker push portal/nginx
+  - docker push portal/express
+  - docker push portal/react
 #deploy:
 #provider: elasticbeantalk
