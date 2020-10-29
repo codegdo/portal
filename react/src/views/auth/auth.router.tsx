@@ -7,6 +7,11 @@ import {
 
 const routes: RouteComponentData[] = [
   {
+    exact: true,
+    path: '/',
+    redirectTo: '/login',
+  },
+  {
     path: '/login/recovery',
     component: 'auth/login/login.recovery.tsx',
   },
@@ -23,8 +28,8 @@ const routes: RouteComponentData[] = [
     component: 'auth/signup/signup.component.tsx',
   },
   {
-    path: '/',
-    redirectTo: '/login',
+    path: '*',
+    component: 'notfound.component.tsx',
   },
 ];
 
