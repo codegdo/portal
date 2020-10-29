@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, HashRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom';
 
 import { RouteGuard } from './components/route/route.guard';
 import { AuthRouter } from './views/auth/auth.router';
@@ -7,6 +7,7 @@ import { HomeRouter } from './views/home/home.router';
 import { MarketingRouter } from './views/marketing/marketing.router';
 import { SalesRouter } from './views/sales/sales.router';
 import { RewardsRouter } from './views/rewards/rewards.router';
+import { TemplateComponent } from './components/template/template.component';
 
 export const App: React.FC = (): JSX.Element => {
   return (
@@ -28,7 +29,9 @@ export const App: React.FC = (): JSX.Element => {
           <RouteGuard path="/rewards">
             <RewardsRouter />
           </RouteGuard>
-          <Redirect from="*" to="/" />
+          <Route path="*">
+            <TemplateComponent route={{}} />
+          </Route>
         </Switch>
       </BrowserRouter>
     </HashRouter>
