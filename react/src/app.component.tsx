@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import { RouteGuard } from './components/route/route.guard';
 import { AuthRouter } from './views/auth/auth.router';
@@ -28,6 +28,7 @@ export const App: React.FC = (): JSX.Element => {
           <RouteGuard path="/rewards">
             <RewardsRouter />
           </RouteGuard>
+          <Redirect from="*" to="/" />
         </Switch>
       </BrowserRouter>
     </HashRouter>

@@ -11,19 +11,19 @@ const LoginComponent: React.FC = (): JSX.Element => {
   return loggedIn ? (
     <Redirect to="/" />
   ) : (
-    <>
-      <div>
-        LOGIN
+      <>
+        <div>
+          LOGIN
         <button
-          onClick={() =>
-            dispatch(updateSession({ loggedIn: true, user: { name: 'cmr' } }))
-          }
-        >
-          login
+            onClick={() =>
+              dispatch(updateSession({ loggedIn: true, user: { name: 'cmr' } }))
+            }
+          >
+            login
         </button>
-      </div>
-    </>
-  );
+        </div>
+      </>
+    );
 };
 
 export default LoginComponent;

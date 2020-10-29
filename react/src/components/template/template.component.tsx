@@ -12,18 +12,22 @@ export interface TemplateComponentProps {
 export const TemplateComponent: React.FC<TemplateComponentProps> = ({
   route,
 }): JSX.Element => {
+
+  const component = route.component || 'notfound.component.tsx';
+
   const MainComponent = lazy(
-    () => import('../../views' + (route.component || '/notfound.component.tsx'))
+    () => import(`../../views/${component}`)
   );
+
+  console.log(MainComponent);
 
   return (
     <Suspense fallback={null}>
-      {/* <JsxParser
+      <JsxParser
         bindings={{}}
         components={{ MainComponent, NavMain }}
         jsx={`<MainComponent /> <NavMain />`}
-      /> */}
-      <MainComponent />
+      />
     </Suspense>
   );
 };
