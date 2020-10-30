@@ -14,7 +14,7 @@ export const RouteGuard: React.FC<RouteProps> = ({
     <Route
       {...rest}
       render={() => {
-        return loggedIn ? <>{children}</> : <Redirect to="/auth" />;
+        return loggedIn ? <>{children}</> : <Redirect to="/auth/login" />;
       }}
     />
   );

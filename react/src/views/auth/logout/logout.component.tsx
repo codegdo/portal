@@ -10,7 +10,7 @@ const LogoutComponent: React.FC = (): JSX.Element => {
     dispatch(deleteSession());
   });
 
-  return <Redirect to="/auth" />;
+  return <Redirect to="/auth/login" />;
 };
 
 export default LogoutComponent;

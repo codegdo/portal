@@ -14,7 +14,7 @@ export const TemplateComponent: React.FC<TemplateComponentProps> = ({
   route,
 }): JSX.Element => {
   const { url } = useRouteMatch();
-  const { component = 'notfound.component.tsx', redirectTo = '' } = route;
+  const { component = 'notfound.component.tsx', redirectTo = '/' } = route;
   const urlRedirect = (url + redirectTo).replace(/\/\//g, '/');
 
   const MainComponent = lazy(
