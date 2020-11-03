@@ -2,26 +2,24 @@ version: '3.8'
 services:
   nginx:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./nginx
     ports:
       - '8080:80'
     restart: always
   express:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./express
     ports:
       - '5000:5000'
-    volumes:
-      - ./express/src:/app/src
     env_file:
-      - ./express/.env
+      - .env
+    restart: always
   react:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./react
     ports:
       - '9000:9000'
-    volumes:
-      - ./react/src:/app/src
+    restart: always

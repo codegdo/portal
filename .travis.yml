@@ -6,11 +6,12 @@ branches:
     - dev
     - stage
     - prod
+
 before_install:
-  - docker build -t codegdo/portal:react-test -f ./react/Dockerfile.dev ./react
+  - docker build -t react-test -f ./react/Dockerfile.dev ./react
 
 script:
-  - docker run codegdo/portal:react-test npm run test -- --coverage
+  - docker run react-test npm run test -- --coverage
 
 after_success:
   - docker build -t codegdo/portal:nginx-${TRAVIS_BRANCH} ./nginx
