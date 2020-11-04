@@ -4,15 +4,17 @@ import { Container } from 'typedi';
 
 import { connections } from './app.config';
 
+import appRouter from './app.router';
+
 const app = express();
 
 useContainer(Container);
 createConnections(connections)
-  .then(_connection => { console.log('connected') })
-  .catch(error => console.log(error));
+  .then(_connection => {
+    appRouter(app);
 
-app.get('/', (_req, res) => {
-  res.send('hello there');
-});
+    console.log('db connected');
+  })
+  .catch(error => console.log(error));
 
 export default app;

@@ -14,14 +14,24 @@ script:
   - docker run react-test npm run test -- --coverage
 
 after_success:
-  - docker build -t codegdo/portal:nginx-${TRAVIS_BRANCH} ./nginx
-  - docker build -t codegdo/portal:express-${TRAVIS_BRANCH} ./express
-  - docker build -t codegdo/portal:react-${TRAVIS_BRANCH} ./react
+  - docker build -t codegdo/portal:nginx-$TRAVIS_BRANCH ./nginx
+  - docker build -t codegdo/portal:express-$TRAVIS_BRANCH ./express
+  - docker build -t codegdo/portal:react-$TRAVIS_BRANCH ./react
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Push to docker hub
-  - docker push codegdo/portal:nginx-${TRAVIS_BRANCH}
-  - docker push codegdo/portal:express-${TRAVIS_BRANCH}
-  - docker push codegdo/portal:react-${TRAVIS_BRANCH}
-#deploy:
-#provider: elasticbeantalk
+  - docker push codegdo/portal:nginx-$TRAVIS_BRANCH
+  - docker push codegdo/portal:express-$TRAVIS_BRANCH
+  - docker push codegdo/portal:react-$TRAVIS_BRANCH
+deploy:
+  provider: elasticbeantalk
+  region: us-west-1
+  app: portal-$TRAVIS_BRANCH
+  env: portal-$TRAVIS_BRANCH
+  bucket_name: elasticbeanstalk-us-west-1-408615658702
+  bucket_path: portal-$TRAVIS_BRANCH
+  on:
+    branch: $TRAVIS_BRANCH
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
