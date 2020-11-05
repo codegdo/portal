@@ -16,25 +16,25 @@ before_install:
 
 script:
   if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-    - echo "SKIP BEFORE INSTALL";
+    echo "SKIP BEFORE INSTALL";
    else
-    - docker run react-test npm run test -- --coverage
+    docker run react-test npm run test -- --coverage
   fi
 
 after_success:
   if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-    - echo "SKIP BEFORE INSTALL";
+    echo "SKIP BEFORE INSTALL";
    else
     # build images
-    - docker build -t codegdo/portal:nginx-$TRAVIS_BRANCH ./nginx
-    - docker build -t codegdo/portal:express-$TRAVIS_BRANCH ./express
-    - docker build -t codegdo/portal:react-$TRAVIS_BRANCH ./react
+    docker build -t codegdo/portal:nginx-$TRAVIS_BRANCH ./nginx
+    docker build -t codegdo/portal:express-$TRAVIS_BRANCH ./express
+    docker build -t codegdo/portal:react-$TRAVIS_BRANCH ./react
     # log in to the docker CLI
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     # push to docker hub
-    - docker push codegdo/portal:nginx-$TRAVIS_BRANCH
-    - docker push codegdo/portal:express-$TRAVIS_BRANCH
-    - docker push codegdo/portal:react-$TRAVIS_BRANCH
+    docker push codegdo/portal:nginx-$TRAVIS_BRANCH
+    docker push codegdo/portal:express-$TRAVIS_BRANCH
+    docker push codegdo/portal:react-$TRAVIS_BRANCH
   fi
  
 deploy:
