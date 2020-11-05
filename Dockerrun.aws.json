@@ -1,0 +1,36 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "nginx",
+      "image": "codegdo/portal:nginx-dev",
+      "hostname": "nginx",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": [
+        "express",
+        "react"
+      ],
+      "memory": 128
+    },
+    {
+      "name": "express",
+      "image": "codegdo/portal:express-dev",
+      "hostname": "express",
+      "essential": false,
+      "memory": 128
+    },
+    {
+      "name": "react",
+      "image": "codegdo/portal:react-dev",
+      "react": "react",
+      "essential": false,
+      "memory": 128
+    }
+  ]
+}

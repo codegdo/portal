@@ -7,6 +7,7 @@ import { HomeRouter } from './views/home/home.router';
 import { MarketingRouter } from './views/marketing/marketing.router';
 import { SalesRouter } from './views/sales/sales.router';
 import { RewardsRouter } from './views/rewards/rewards.router';
+import { TemplateComponent } from './components/template/template.component';
 
 export const App: React.FC = (): JSX.Element => {
   return (
@@ -28,6 +29,9 @@ export const App: React.FC = (): JSX.Element => {
           <RouteGuard path="/rewards">
             <RewardsRouter />
           </RouteGuard>
+          <Route path="*">
+            <TemplateComponent route={{}} />
+          </Route>
         </Switch>
       </BrowserRouter>
     </HashRouter>

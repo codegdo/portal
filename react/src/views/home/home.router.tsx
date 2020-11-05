@@ -8,7 +8,7 @@ import {
 const routes: RouteComponentData[] = [
   {
     path: '/',
-    component: '/home/home.component.tsx',
+    component: 'home/home.component.tsx',
   },
 ];
 

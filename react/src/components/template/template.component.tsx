@@ -1,4 +1,5 @@
 import React, { Suspense, lazy } from 'react';
+import { Redirect, useRouteMatch } from 'react-router-dom';
 import JsxParser from 'react-jsx-parser';
 
 import { RouteComponentData } from '../route/route.component';
@@ -12,18 +13,23 @@ export interface TemplateComponentProps {
 export const TemplateComponent: React.FC<TemplateComponentProps> = ({
   route,
 }): JSX.Element => {
+  const { url } = useRouteMatch();
+  const { component = 'notfound.component.tsx', redirectTo = '/' } = route;
+  const urlRedirect = (url + redirectTo).replace(/\/\//g, '/');
+
   const MainComponent = lazy(
-    () => import('../../views' + (route.component || '/notfound.component.tsx'))
+    () => import(`../../views/${component}`)
   );
 
-  return (
+  console.log(urlRedirect);
+
+  return route.redirectTo ? <Redirect to={urlRedirect} /> : (
     <Suspense fallback={null}>
-      {/* <JsxParser
+      <JsxParser
         bindings={{}}
         components={{ MainComponent, NavMain }}
         jsx={`<MainComponent /> <NavMain />`}
-      /> */}
-      <MainComponent />
+      />
     </Suspense>
   );
 };

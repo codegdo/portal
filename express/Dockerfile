@@ -1,13 +1,14 @@
-FROM node:alpine as builder
+FROM node:14 as builder
 WORKDIR /app
-COPY package-lock.json package.json ./
+COPY package.json .
 RUN npm install
-COPY ./ ./
+COPY . .
 RUN npm run build
 
-FROM node:alpine
+FROM node:14
 WORKDIR /app
-COPY package-lock.json package.json ./
+COPY package.json .
 RUN npm install --production
 COPY --from=builder ./app/dist ./dist
+EXPOSE 5000
 CMD ["npm", "start"]

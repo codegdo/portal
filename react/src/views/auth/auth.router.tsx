@@ -7,24 +7,29 @@ import {
 
 const routes: RouteComponentData[] = [
   {
+    exact: true,
+    path: '/',
+    redirectTo: '/login',
+  },
+  {
     path: '/login/recovery',
-    component: '/auth/login/login.recovery.tsx',
+    component: 'auth/login/login.recovery.tsx',
   },
   {
     path: '/login',
-    component: '/auth/login/login.component.tsx',
+    component: 'auth/login/login.component.tsx',
   },
   {
     path: '/logout',
-    component: '/auth/logout/logout.component.tsx',
+    component: 'auth/logout/logout.component.tsx',
   },
   {
     path: '/signup',
-    component: '/auth/signup/signup.component.tsx',
+    component: 'auth/signup/signup.component.tsx',
   },
   {
-    path: '/',
-    redirectTo: '/login',
+    path: '*',
+    component: 'notfound.component.tsx',
   },
 ];
 
