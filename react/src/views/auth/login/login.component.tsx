@@ -13,7 +13,7 @@ const LoginComponent: React.FC = (): JSX.Element => {
   ) : (
       <>
         <div>
-          LOGIN HELLO
+          LOGIN DEV
         <button
             onClick={() =>
               dispatch(updateSession({ loggedIn: true, user: { name: 'cmr' } }))
