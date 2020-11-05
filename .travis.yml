@@ -8,25 +8,35 @@ branches:
     - prod
 
 before_install:
-  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "SKIP BEFORE INSTALL"; fi'
-  - docker build -t react-test -f ./react/Dockerfile.dev ./react
+  if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    echo "SKIP BEFORE INSTALL";
+   else
+    docker build -t react-test -f ./react/Dockerfile.dev ./react
+  fi
 
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "SKP SCRIPT"; fi'
-  - docker run react-test npm run test -- --coverage
+  if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    - echo "SKIP BEFORE INSTALL";
+   else
+    - docker run react-test npm run test -- --coverage
+  fi
 
 after_success:
-  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "SKIP AFTER SUCCESS"; fi'
-  - docker build -t codegdo/portal:nginx-$TRAVIS_BRANCH ./nginx
-  - docker build -t codegdo/portal:express-$TRAVIS_BRANCH ./express
-  - docker build -t codegdo/portal:react-$TRAVIS_BRANCH ./react
-  # Log in to the docker CLI
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  # Push to docker hub
-  - docker push codegdo/portal:nginx-$TRAVIS_BRANCH
-  - docker push codegdo/portal:express-$TRAVIS_BRANCH
-  - docker push codegdo/portal:react-$TRAVIS_BRANCH
-
+  if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    - echo "SKIP BEFORE INSTALL";
+   else
+    # build images
+    - docker build -t codegdo/portal:nginx-$TRAVIS_BRANCH ./nginx
+    - docker build -t codegdo/portal:express-$TRAVIS_BRANCH ./express
+    - docker build -t codegdo/portal:react-$TRAVIS_BRANCH ./react
+    # log in to the docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # push to docker hub
+    - docker push codegdo/portal:nginx-$TRAVIS_BRANCH
+    - docker push codegdo/portal:express-$TRAVIS_BRANCH
+    - docker push codegdo/portal:react-$TRAVIS_BRANCH
+  fi
+ 
 deploy:
   provider: elasticbeantalk
   region: us-west-1
