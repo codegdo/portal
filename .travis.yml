@@ -8,14 +8,15 @@ branches:
     - prod
 
 before_install:
+  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "SKIP BEFORE INSTALL"; fi'
   - docker build -t react-test -f ./react/Dockerfile.dev ./react
 
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$TRAVIS_PULL_REQUEST"; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "SKP SCRIPT"; fi'
   - docker run react-test npm run test -- --coverage
 
 after_success:
-  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$TRAVIS_PULL_REQUEST"; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "SKIP AFTER SUCCESS"; fi'
   - docker build -t codegdo/portal:nginx-$TRAVIS_BRANCH ./nginx
   - docker build -t codegdo/portal:express-$TRAVIS_BRANCH ./express
   - docker build -t codegdo/portal:react-$TRAVIS_BRANCH ./react
