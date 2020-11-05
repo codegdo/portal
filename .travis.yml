@@ -11,9 +11,11 @@ before_install:
   - docker build -t react-test -f ./react/Dockerfile.dev ./react
 
 script:
+  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$TRAVIS_PULL_REQUEST"; fi'
   - docker run react-test npm run test -- --coverage
 
 after_success:
+  - 'if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$TRAVIS_PULL_REQUEST"; fi'
   - docker build -t codegdo/portal:nginx-$TRAVIS_BRANCH ./nginx
   - docker build -t codegdo/portal:express-$TRAVIS_BRANCH ./express
   - docker build -t codegdo/portal:react-$TRAVIS_BRANCH ./react
@@ -23,15 +25,15 @@ after_success:
   - docker push codegdo/portal:nginx-$TRAVIS_BRANCH
   - docker push codegdo/portal:express-$TRAVIS_BRANCH
   - docker push codegdo/portal:react-$TRAVIS_BRANCH
+
 deploy:
-  edge: true
   provider: elasticbeantalk
   region: us-west-1
   app: portal-$TRAVIS_BRANCH
   env: portal-$TRAVIS_BRANCH
   bucket_name: elasticbeanstalk-us-west-1-408615658702
   bucket_path: portal-$TRAVIS_BRANCH
-  on:
-    branch: $TRAVIS_BRANCH
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
+  on:
+    branch: $TRAVIS_BRANCH
