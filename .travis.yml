@@ -24,6 +24,7 @@ after_success:
   - docker push codegdo/portal:express-$TRAVIS_BRANCH
   - docker push codegdo/portal:react-$TRAVIS_BRANCH
 deploy:
+  edge: true
   provider: elasticbeantalk
   region: us-west-1
   app: portal-$TRAVIS_BRANCH
@@ -33,5 +34,4 @@ deploy:
   on:
     branch: $TRAVIS_BRANCH
   access_key_id: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: $AWS_SECRET_KEY
+  secret_access_key: $AWS_SECRET_KEY
