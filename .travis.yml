@@ -6,21 +6,32 @@ branches:
     - dev
     - stage
     - prod
+
 before_install:
-  - docker build -t portal/test-react -f ./react/Dockerfile.dev ./react
+  - docker build -t react-test -f ./react/Dockerfile.dev ./react
 
 script:
-  - docker run portal/test-react npm run test -- --coverage
+  - docker run react-test npm run test -- --coverage
 
 after_success:
-  - docker build -t portal/${TRAVIS_BRANCH}-nginx ./nginx
-  - docker build -t portal/${TRAVIS_BRANCH}-express ./express
-  - docker build -t portal/${TRAVIS_BRANCH}-react ./react
+  - docker build -t codegdo/portal:nginx-$TRAVIS_BRANCH ./nginx
+  - docker build -t codegdo/portal:express-$TRAVIS_BRANCH ./express
+  - docker build -t codegdo/portal:react-$TRAVIS_BRANCH ./react
   # Log in to the docker CLI
-  - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Push to docker hub
-  - docker push portal/${TRAVIS_BRANCH}-nginx
-  - docker push portal/${TRAVIS_BRANCH}-express
-  - docker push portal/${TRAVIS_BRANCH}-react
-#deploy:
-#provider: elasticbeantalk
+  - docker push codegdo/portal:nginx-$TRAVIS_BRANCH
+  - docker push codegdo/portal:express-$TRAVIS_BRANCH
+  - docker push codegdo/portal:react-$TRAVIS_BRANCH
+deploy:
+  provider: elasticbeantalk
+  region: us-west-1
+  app: portal-$TRAVIS_BRANCH
+  env: portal-$TRAVIS_BRANCH
+  bucket_name: elasticbeanstalk-us-west-1-408615658702
+  bucket_path: portal-$TRAVIS_BRANCH
+  on:
+    branch: $TRAVIS_BRANCH
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
