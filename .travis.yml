@@ -51,3 +51,7 @@ deploy:
   secret_access_key: $AWS_SECRET_KEY
   on:
     branch: $TRAVIS_BRANCH
+
+env:
+  global:
+    - ENV=$TRAVIS_BRANCH
