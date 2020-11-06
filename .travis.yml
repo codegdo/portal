@@ -24,7 +24,7 @@ script:
     fi;
 
 after_script:
-  - sed -ri -e 's|ENV|'"${TRAVIS_BRANCH}"'|g' Dockerrun.aws.json
+  #- sed -ri -e 's|ENV|'"${TRAVIS_BRANCH}"'|g' Dockerrun.aws.json
 
 after_success:
   - >
