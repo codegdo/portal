@@ -41,7 +41,7 @@ after_success:
     fi;
 
 deploy:
-  - sed -ri "s/ENV/$TRAVIS_BRANCH/" Dockerrun.aws.json
+  #- sed -ri "s/ENV/$TRAVIS_BRANCH/" Dockerrun.aws.json
   provider: elasticbeantalk
   region: us-west-1
   app: portal-$TRAVIS_BRANCH
@@ -50,7 +50,6 @@ deploy:
   bucket_path: portal-$TRAVIS_BRANCH
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
-  edge: true
   on:
     branch: $TRAVIS_BRANCH
 
