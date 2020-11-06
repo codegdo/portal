@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "nginx",
-      "image": "codegdo/portal:nginx-dev",
+      "image": "codegdo/portal:nginx-prod",
       "hostname": "nginx",
       "essential": true,
       "portMappings": [
@@ -20,14 +20,14 @@
     },
     {
       "name": "express",
-      "image": "codegdo/portal:express-dev",
+      "image": "codegdo/portal:express-prod",
       "hostname": "express",
       "essential": false,
       "memory": 128
     },
     {
       "name": "react",
-      "image": "codegdo/portal:react-dev",
+      "image": "codegdo/portal:react-prod",
       "hostname": "react",
       "essential": false,
       "memory": 128
