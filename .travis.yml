@@ -45,7 +45,7 @@ deploy:
   region: us-west-1
   app: portal-$TRAVIS_BRANCH
   env: portal-$TRAVIS_BRANCH
-  bucket_name: portal-bucket-stage
+  bucket_name: elasticbeanstalk-us-west-1-408615658702
   bucket_path: portal-$TRAVIS_BRANCH
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
