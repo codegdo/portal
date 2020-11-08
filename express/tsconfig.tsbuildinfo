@@ -1437,13 +1437,8 @@
         "affectsGlobalScope": false
       },
       "./src/app.config.ts": {
-        "version": "aefa7d0a9647677a1c09f4b0f0dc15e479ec570e6dcc28eaf568b53806a8ce7a",
-        "signature": "b4e1586ffd69038c50ee5cd23bfd4645bbc35734c5cc9edc88ad83560554ce4d",
-        "affectsGlobalScope": false
-      },
-      "./src/app.router.ts": {
-        "version": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "signature": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "version": "9df61e57020452deafa3acac55ac87fb84cece834a7de7b56b5b70d905b761f1",
+        "signature": "b3eaa73a017d01b42108ff0a9ac5f70ae1900c5e43c8af86ed594dec6e1ca0ca",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/node/globals.d.ts": {
@@ -1721,6 +1716,21 @@
         "signature": "088d420a09a36d241f1ddbdcb553951c02ef0844014727a29712d2ced57edd22",
         "affectsGlobalScope": false
       },
+      "./src/api/auth/auth.router.ts": {
+        "version": "2f05da1c4750c3cfb1270519e6a56db3682226f6d9fb37e386e92cac0450a058",
+        "signature": "4e73582fd0b26776870878a284e965e9c5c60e0e874e25f4f2aa9c1748839c9a",
+        "affectsGlobalScope": false
+      },
+      "./src/api/index.ts": {
+        "version": "ebac4013c5f70c752d96595741211cb4074e564f6a32503f2ebd3021580ffad6",
+        "signature": "1c2e8c4e80a7e3d9026bf803fb6dd303c316975e8bdfa970a58a53717de84511",
+        "affectsGlobalScope": false
+      },
+      "./src/app.router.ts": {
+        "version": "78344523c6975d9369219626639f10763f56c2032801b6cf386cd3953289deaa",
+        "signature": "717301a89ff4c1c7e96014c52e48ac9640dffe8a94320796b74a59dedb7350e3",
+        "affectsGlobalScope": false
+      },
       "./node_modules/typedi/token.d.ts": {
         "version": "04df0403a2543fd41fe26173516429c63f063e84561a0ab95f454287513d8039",
         "signature": "04df0403a2543fd41fe26173516429c63f063e84561a0ab95f454287513d8039",
@@ -1782,13 +1792,13 @@
         "affectsGlobalScope": false
       },
       "./src/app.ts": {
-        "version": "e9edaca1420bb572c6cbf7f98e8f1cb61c61055d43f610edf6af37547006abe1",
-        "signature": "629a4ade941bd431c195407a5afd3602c6461fdcc0f65735b7e4a68f8d5d3d51",
+        "version": "4262c0a5e8942d5475fd98fb4d8ed0a7632b3341d70b33e3dcf9dcd53d03b7fd",
+        "signature": "4654f92731de7c18eb496ebf4134d15c881a25c2d6579affd293cde1951e4ced",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
         "version": "c3a806aacab51d807f5975b6513e2950804f40e75c5e917b42528a912023261f",
-        "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
+        "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
         "affectsGlobalScope": false
       }
     },
@@ -1811,6 +1821,7 @@
       ],
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
+      "watch": true,
       "configFilePath": "./tsconfig.json"
     },
     "referencedMap": {
@@ -3118,14 +3129,25 @@
         "./node_modules/typeorm/metadata/relationmetadata.d.ts",
         "./node_modules/typeorm/query-runner/queryrunner.d.ts"
       ],
+      "./src/api/auth/auth.router.ts": [
+        "./node_modules/@types/express/index.d.ts"
+      ],
+      "./src/api/index.ts": [
+        "./src/api/auth/auth.router.ts"
+      ],
       "./src/app.config.ts": [
         "./node_modules/typeorm/index.d.ts"
+      ],
+      "./src/app.router.ts": [
+        "./node_modules/@types/express/index.d.ts",
+        "./src/api/index.ts"
       ],
       "./src/app.ts": [
         "./node_modules/@types/express/index.d.ts",
         "./node_modules/typedi/index.d.ts",
         "./node_modules/typeorm/index.d.ts",
-        "./src/app.config.ts"
+        "./src/app.config.ts",
+        "./src/app.router.ts"
       ],
       "./src/index.ts": [
         "./node_modules/@types/node/http.d.ts",
@@ -4437,8 +4459,17 @@
         "./node_modules/typeorm/metadata/relationmetadata.d.ts",
         "./node_modules/typeorm/query-runner/queryrunner.d.ts"
       ],
+      "./src/api/auth/auth.router.ts": [
+        "./node_modules/@types/express/index.d.ts"
+      ],
+      "./src/api/index.ts": [
+        "./src/api/auth/auth.router.ts"
+      ],
       "./src/app.config.ts": [
         "./node_modules/typeorm/driver/postgres/postgresconnectionoptions.d.ts"
+      ],
+      "./src/app.router.ts": [
+        "./node_modules/@types/express/index.d.ts"
       ],
       "./src/app.ts": [
         "./node_modules/@types/express-serve-static-core/index.d.ts"
@@ -4799,6 +4830,8 @@
       "./node_modules/typescript/lib/lib.esnext.intl.d.ts",
       "./node_modules/typescript/lib/lib.scripthost.d.ts",
       "./node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
+      "./src/api/auth/auth.router.ts",
+      "./src/api/index.ts",
       "./src/app.config.ts",
       "./src/app.router.ts",
       "./src/app.ts",
