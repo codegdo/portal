@@ -10,11 +10,11 @@ const app = express();
 
 useContainer(Container);
 createConnections(connections)
-  .then(_connection => {
+  .then(async (_connection) => {
     appRouter(app);
 
     console.log('db connected');
   })
-  .catch(error => console.log(error));
+  .catch((error) => console.log(error));
 
 export default app;
