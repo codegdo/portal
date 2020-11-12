@@ -6,10 +6,15 @@ branches:
     - dev
     - stage
     - prod
+env:
+  global:
+    - BRANCH=$TRAVIS_BRANCH
+    - PULL_REQUEST=$TRAVIS_PULL_REQUEST
+    - SHA=$TRAVIS_PULL_REQUEST_SHA
 
 before_install:
   - >
-    if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    if [ "$PULL_REQUEST" == "false" ]; then
       echo "SKIP BEFORE INSTALL";
     else
       docker build -t react-test -f ./react/Dockerfile.dev ./react;
@@ -17,7 +22,7 @@ before_install:
 
 script:
   - >
-    if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    if [ "$PULL_REQUEST" == "false" ]; then
       echo "SKIP SCRIPT";
     else
       docker run react-test npm run test -- --coverage;
@@ -25,29 +30,32 @@ script:
 
 after_success:
   - >
-    if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    if [ "$PULL_REQUEST" == "false" ]; then
       echo "SKIP AFTER SUCCESS";
     else
       # build images
-      docker build -t codegdo/portal:nginx-$TRAVIS_BRANCH ./nginx;
-      docker build -t codegdo/portal:express-$TRAVIS_BRANCH ./express;
-      docker build -t codegdo/portal:react-$TRAVIS_BRANCH ./react;
+      docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
+      docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
+      docker build -t codegdo/portal:react-$BRANCH -t codegdo/portal:react-$BRANCH-$SHA ./react;
       # log in to the docker CLI
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin;
       # push to docker hub
-      docker push codegdo/portal:nginx-$TRAVIS_BRANCH;
-      docker push codegdo/portal:express-$TRAVIS_BRANCH;
-      docker push codegdo/portal:react-$TRAVIS_BRANCH;
+      docker push codegdo/portal:nginx-$BRANCH;
+      docker push codegdo/portal:express-$BRANCH;
+      docker push codegdo/portal:react-$BRANCH;
+      docker push codegdo/portal:nginx-$BRANCH-$SHA;
+      docker push codegdo/portal:express-$BRANCH-$SHA;
+      docker push codegdo/portal:react-$BRANCH-$SHA;
     fi;
 
 deploy:
   provider: elasticbeantalk
   region: us-west-1
-  app: portal-$TRAVIS_BRANCH
-  env: portal-$TRAVIS_BRANCH
+  app: portal-$BRANCH
+  env: portal-$BRANCH
   bucket_name: elasticbeanstalk-us-west-1-408615658702
-  bucket_path: portal-$TRAVIS_BRANCH
+  bucket_path: portal-$BRANCH
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
   on:
-    branch: $TRAVIS_BRANCH
+    branch: $BRANCH
