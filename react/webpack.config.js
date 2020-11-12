@@ -25,7 +25,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: process.env.ASSET_PATH || '/',
+    publicPath: process.env.ASSET_PATH,
   },
   module: {
     rules: [
