@@ -13,7 +13,7 @@ spec:
             backend:
               serviceName: express-service
               servicePort: 5000
-          - path: /
+          - path: /(.*)
             backend:
               serviceName: react-service
               servicePort: 9000
