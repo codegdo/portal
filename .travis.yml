@@ -26,7 +26,6 @@ script:
       echo "SKIP SCRIPT";
     else
       docker run react-test npm run test -- --coverage;
-      kubectl get pods;
     fi;
 
 after_success:
@@ -34,16 +33,14 @@ after_success:
     if [ "$PULL_REQUEST" == "false" ]; then
       echo "SKIP AFTER SUCCESS";
     else
-      sed -i -e "s/dev/stage/g" $TRAVIS_BUILD_DIR/Dockerrun.aws.json;
-
+      sed -i -e "s/abc/$BRANCH/g" Dockerrun.aws.json;
+      git add .;
       # build images
       docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
       docker build -t codegdo/portal:react-$BRANCH -t codegdo/portal:react-$BRANCH-$SHA ./react;
-
       # log in to the docker CLI
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin;
-      
       # push to docker hub
       docker push codegdo/portal:nginx-$BRANCH;
       docker push codegdo/portal:express-$BRANCH;
