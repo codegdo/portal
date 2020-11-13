@@ -13,10 +13,6 @@ env:
     - SHA=$TRAVIS_PULL_REQUEST_SHA
 
 before_install:
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-  - chmod +x ./kubectl
-  - sudo mv ./kubectl /usr/local/bin/kubectl
-
   - >
     if [ "$PULL_REQUEST" == "false" ]; then
       echo "SKIP BEFORE INSTALL";
@@ -24,14 +20,19 @@ before_install:
       docker build -t react-test -f ./react/Dockerfile.dev ./react;
     fi;
 
+install:
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - sudo mv ./kubectl /usr/local/bin/kubectl
+
 script:
   - >
     if [ "$PULL_REQUEST" == "false" ]; then
       echo "SKIP SCRIPT";
     else
       docker run react-test npm run test -- --coverage;
-      kubectl get pods;
     fi;
+  - kubectl get pods
 
 after_success:
   - >
