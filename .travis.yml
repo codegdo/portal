@@ -33,7 +33,7 @@ after_success:
     if [ "$PULL_REQUEST" == "false" ]; then
       echo "SKIP AFTER SUCCESS";
     else
-      sed -i -e "s/abc/$BRANCH/g" ./Dockerrun.aws.json
+      sed -i -e "s/abc/$BRANCH/g" Dockerrun.aws.json
       git add .
       # build images
       docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
