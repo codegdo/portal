@@ -38,7 +38,7 @@ after_success:
     if [ "$PULL_REQUEST" == "false" ]; then
       echo "SKIP AFTER SUCCESS";
     else
-      sed -i -e "s/abc/$BRANCH/g" $TRAVIS_BUILD_DIR/Dockerrun.aws.json;
+      sed -i -e "s/dev/stage/g" $TRAVIS_BUILD_DIR/Dockerrun.aws.json;
       # build images
       docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
