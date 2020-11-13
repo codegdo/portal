@@ -41,6 +41,8 @@ after_success:
       echo "SKIP AFTER SUCCESS";
     else
       sed -ri "s/dev/stage/g" Dockerrun.aws.json;
+      sed -ri "s/dev/stage/g" $TRAVIS_BUILD_DIR/Dockerrun.aws.json;
+      sed -ri "s/dev/stage/g" ./Dockerrun.aws.json;
       # build images
       docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
