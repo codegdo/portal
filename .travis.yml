@@ -13,14 +13,13 @@ env:
     - SHA=$TRAVIS_PULL_REQUEST_SHA
 
 before_install:
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - sudo mv ./kubectl /usr/local/bin/kubectl
   - >
     if [ "$PULL_REQUEST" == "false" ]; then
       echo "SKIP BEFORE INSTALL";
     else
-      curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl;
-      chmod +x ./kubectl;
-      sudo mv ./kubectl /usr/local/bin/kubectl;
-
       docker build -t react-test -f ./react/Dockerfile.dev ./react;
     fi;
 
