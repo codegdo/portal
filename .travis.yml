@@ -18,18 +18,11 @@ before_install:
       docker build -t react-test -f ./react/Dockerfile.dev ./react;
     fi;
 
-install:
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-  - chmod +x ./kubectl
-  - sudo mv ./kubectl /usr/local/bin/kubectl
-  - echo ${HOME}/.kube/config
-
 script:
   - >
     if [ "$PULL_REQUEST" == "false" ]; then
       docker run react-test npm run test -- --coverage;
     fi;
-  #- kubectl get pods
 
 after_success:
   - >
@@ -65,7 +58,5 @@ deploy:
   bucket_path: portal-$BRANCH
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
-  skip_cleanup: true
-  edge: true
   on:
     branch: $BRANCH
