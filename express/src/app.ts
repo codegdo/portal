@@ -1,13 +1,14 @@
 import express from 'express';
-import { createConnections, useContainer } from 'typeorm';
-import { Container } from 'typedi';
+//import { createConnections, useContainer } from 'typeorm';
+//import { Container } from 'typedi';
 
-import { connections } from './app.config';
+//import { connections } from './app.config';
 
 import appRouter from './app.router';
 
 const app = express();
-
+appRouter(app);
+/*
 useContainer(Container);
 createConnections(connections)
   .then(async (_connection) => {
@@ -16,5 +17,5 @@ createConnections(connections)
     console.log('db connected');
   })
   .catch((error) => console.log(error));
-
+*/
 export default app;
