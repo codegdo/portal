@@ -14,26 +14,26 @@ env:
 
 before_install:
   - >
-    if [ "$PULL_REQUEST" == "false" ]; then
+    if [ "$PULL_REQUEST" == "true" ]; then
       docker build -t react-test -f ./react/Dockerfile.dev ./react;
     fi;
 
-install:
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-  - chmod +x ./kubectl
-  - sudo mv ./kubectl /usr/local/bin/kubectl
-  - echo ${HOME}/.kube/config
+#install:
+#- curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+#- chmod +x ./kubectl
+#- sudo mv ./kubectl /usr/local/bin/kubectl
+#- echo ${HOME}/.kube/config
 
 script:
   - >
-    if [ "$PULL_REQUEST" == "false" ]; then
+    if [ "$PULL_REQUEST" == "true" ]; then
       docker run react-test npm run test -- --coverage;
     fi;
   # - kubectl get pods
 
 after_success:
   - >
-    if [ "$PULL_REQUEST" == "false" ]; then
+    if [ "$PULL_REQUEST" == "true" ]; then
       # build images
       docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
