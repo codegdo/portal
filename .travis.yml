@@ -29,11 +29,13 @@ script:
     if [ "$PULL_REQUEST" == "false" ]; then
       docker run react-test npm run test -- --coverage;
     fi;
-  # - kubectl get pods
+  #- kubectl get pods
 
 after_success:
   - >
     if [ "$PULL_REQUEST" == "false" ]; then
+      echo "SKIP AFTER SUCCESS";
+    else
       # build images
       docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
