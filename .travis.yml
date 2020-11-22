@@ -14,25 +14,19 @@ env:
 
 before_install:
   - >
-    if [ "$PULL_REQUEST" == "false" ]; then
-      echo "SKIP BEFORE INSTALL";
-    else
+    if [ "$PULL_REQUEST" != "false" ]; then
       docker build -t react-test -f ./react/Dockerfile.dev ./react;
     fi;
 
 script:
   - >
-    if [ "$PULL_REQUEST" == "false" ]; then
-      echo "SKIP SCRIPT";
-    else
+    if [ "$PULL_REQUEST" != "false" ]; then
       docker run react-test npm run test -- --coverage;
     fi;
 
 after_success:
   - >
-    if [ "$PULL_REQUEST" == "false" ]; then
-      echo "SKIP AFTER SUCCESS";
-    else
+    if [ "$PULL_REQUEST" != "false" ]; then
       # build images
       docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
