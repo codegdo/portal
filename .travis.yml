@@ -51,10 +51,6 @@ after_success:
       #docker push codegdo/portal:react-$BRANCH-$SHA;
     fi;
 
-#before_deploy:
-  #- sed -i -e "s/ENV/$BRANCH/g" $TRAVIS_BUILD_DIR/Dockerrun.aws.json
-  #- git add .
-
 deploy:
   provider: elasticbeantalk
   region: us-west-1
