@@ -33,16 +33,13 @@ script:
     else
       docker run react-test npm run test -- --coverage;
     fi;
-  # - kubectl get pods
+  #- kubectl get pods
 
 after_success:
   - >
     if [ "$PULL_REQUEST" == "false" ]; then
       echo "SKIP AFTER SUCCESS";
     else
-      sed -ri "s/dev/stage/g" Dockerrun.aws.json;
-      sed -ri "s/dev/stage/g" $TRAVIS_BUILD_DIR/Dockerrun.aws.json;
-      sed -ri "s/dev/stage/g" ./Dockerrun.aws.json;
       # build images
       docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
@@ -59,13 +56,14 @@ after_success:
     fi;
 
 deploy:
-  provider: elasticbeantalk
-  region: us-west-1
-  app: portal-$BRANCH
-  env: portal-$BRANCH
-  bucket_name: elasticbeanstalk-us-west-1-408615658702
-  bucket_path: portal-$BRANCH
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
-  on:
-    branch: $BRANCH
+  - echo "SKIP DEPLOY"
+  #provider: elasticbeantalk
+  #region: us-west-1
+  #app: portal-$BRANCH
+  #env: portal-$BRANCH
+  #bucket_name: elasticbeanstalk-us-west-1-408615658702
+  #bucket_path: portal-$BRANCH
+  #access_key_id: $AWS_ACCESS_KEY
+  #secret_access_key: $AWS_SECRET_KEY
+  #on:
+  #branch: $BRANCH
