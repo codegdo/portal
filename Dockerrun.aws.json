@@ -27,7 +27,7 @@
     },
     {
       "name": "react",
-      "image": "codegdo/portal:react-ENV",
+      "image": "codegdo/portal:react-dev",
       "hostname": "react",
       "essential": false,
       "memory": 128
