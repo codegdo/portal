@@ -15,8 +15,6 @@ env:
 before_install:
   - >
     if [ "$PULL_REQUEST" == "false" ]; then
-      echo "SKIP BEFORE INSTALL";
-    else
       docker build -t react-test -f ./react/Dockerfile.dev ./react;
     fi;
 
@@ -29,8 +27,6 @@ install:
 script:
   - >
     if [ "$PULL_REQUEST" == "false" ]; then
-      echo "SKIP SCRIPT";
-    else
       docker run react-test npm run test -- --coverage;
     fi;
   # - kubectl get pods
@@ -38,11 +34,6 @@ script:
 after_success:
   - >
     if [ "$PULL_REQUEST" == "false" ]; then
-      echo "SKIP AFTER SUCCESS";
-    else
-      sed -ri "s/dev/stage/g" Dockerrun.aws.json;
-      sed -ri "s/dev/stage/g" $TRAVIS_BUILD_DIR/Dockerrun.aws.json;
-      sed -ri "s/dev/stage/g" ./Dockerrun.aws.json;
       # build images
       docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
@@ -53,10 +44,15 @@ after_success:
       docker push codegdo/portal:nginx-$BRANCH;
       docker push codegdo/portal:express-$BRANCH;
       docker push codegdo/portal:react-$BRANCH;
-      # docker push codegdo/portal:nginx-$BRANCH-$SHA;
-      # docker push codegdo/portal:express-$BRANCH-$SHA;
-      # docker push codegdo/portal:react-$BRANCH-$SHA;
+
+      #docker push codegdo/portal:nginx-$BRANCH-$SHA;
+      #docker push codegdo/portal:express-$BRANCH-$SHA;
+      #docker push codegdo/portal:react-$BRANCH-$SHA;
     fi;
+
+before_deploy:
+  - sed -i -e "s/ENV/$BRANCH/g" $TRAVIS_BUILD_DIR/Dockerrun.aws.json
+  - git add .
 
 deploy:
   provider: elasticbeantalk
@@ -67,5 +63,7 @@ deploy:
   bucket_path: portal-$BRANCH
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
+  skip_cleanup: true
+  edge: true
   on:
     branch: $BRANCH
