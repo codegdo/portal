@@ -41,12 +41,10 @@ after_success:
       # docker push codegdo/portal:express-$BRANCH-$SHA;
       # docker push codegdo/portal:react-$BRANCH-$SHA;
     fi;
-  - echo Dockerrrun.aws.json
-  - sed -ri "s/dev/$BRANCH/" Dockerrun.aws.json
-  - git add .
 
 before_deploy:
-  - echo Dockerrrun.aws.json
+  - sed -ri "s/dev/$BRANCH/" Dockerrun.aws.json
+  - git add .
 
 deploy:
   provider: elasticbeantalk
@@ -57,5 +55,8 @@ deploy:
   bucket_path: portal-$BRANCH
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
+  zip_file: Dockerrun.aws.json
+  skip_cleanup: true
+  edge: true
   on:
     branch: $BRANCH
