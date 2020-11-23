@@ -43,7 +43,7 @@ after_success:
     fi;
 
 before_deploy:
-  - sed -ri "s/dev/$BRANCH/" Dockerrun.aws.json
+  - sed -ri "s/ENV/$BRANCH/" Dockerrun.aws.json
   - git add .
 
 deploy:
