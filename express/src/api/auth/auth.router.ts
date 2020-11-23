@@ -6,4 +6,4 @@ router.post('/auth/login', (_req, res) => {
   res.json('login');
 });
 
-export { router as authRouter }
+export { router as authRouter };
