@@ -41,6 +41,7 @@ after_success:
       # docker push codegdo/portal:express-$BRANCH-$SHA;
       # docker push codegdo/portal:react-$BRANCH-$SHA;
     fi;
+  - echo Dockerrrun.aws.json
 
 before_deploy:
   - echo Dockerrrun.aws.json
