@@ -42,6 +42,9 @@ after_success:
       # docker push codegdo/portal:react-$BRANCH-$SHA;
     fi;
 
+before_deploy:
+  - echo Dockerrrun.aws.json
+
 deploy:
   provider: elasticbeantalk
   region: us-west-1
