@@ -1,8 +1,0 @@
-express
-k8s
-nginx
-react
-
-.travis.yml
-docker-compose.yml
-.env
