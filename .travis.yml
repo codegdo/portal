@@ -16,7 +16,7 @@ env:
 before_install:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
-      if [ "$PULL_BRANCH =~ ^react\/.*$" ]; then
+      if [ "$PULL_BRANCH =~ ^react.*$" ]; then
         docker build -t react-test -f ./react/Dockerfile.dev ./react;
       fi;
     fi;
@@ -24,7 +24,7 @@ before_install:
 script:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
-      if [ "$PULL_BRANCH =~ ^react\/.*$" ]; then
+      if [ "$PULL_BRANCH =~ ^react.*$" ]; then
         docker run react-test npm run test -- --coverage;
       fi;
     fi;
@@ -32,26 +32,26 @@ script:
 after_success:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
-      if [ "$PULL_BRANCH =~ ^nginx\/.*$" ]; then
+      if [ "$PULL_BRANCH =~ ^nginx.*$" ]; then
         docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       fi;
-      if [ "$PULL_BRANCH =~ ^express\/.*$" ]; then
+      if [ "$PULL_BRANCH =~ ^express.*$" ]; then
         docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
       fi;
-      if [ "$PULL_BRANCH =~ ^react\/.*$" ]; then
+      if [ "$PULL_BRANCH =~ ^react.*$" ]; then
         docker build -t codegdo/portal:react-$BRANCH -t codegdo/portal:react-$BRANCH-$SHA ./react;
       fi;
 
       # log in to the docker CLI
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin;
 
-      if [ "$PULL_BRANCH =~ ^nginx\/.*$" ]; then
+      if [ "$PULL_BRANCH =~ ^nginx.*$" ]; then
         docker push codegdo/portal:nginx-$BRANCH;
       fi;
-      if [ "$PULL_BRANCH =~ ^express\/.*$" ]; then
+      if [ "$PULL_BRANCH =~ ^express.*$" ]; then
         docker push codegdo/portal:express-$BRANCH;
       fi;
-      if [ "$PULL_BRANCH =~ ^react\/.*$" ]; then
+      if [ "$PULL_BRANCH =~ ^react.*$" ]; then
         docker push codegdo/portal:react-$BRANCH;
       fi;
       
