@@ -24,23 +24,38 @@ before_install:
 script:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
-      docker run react-test npm run test -- --coverage;
+      if [ "$PULL_BRANCH =~ ^release/r\/.*$" ]; then
+        docker run react-test npm run test -- --coverage;
+      fi;
     fi;
-  - if [ "$PULL_BRANCH =~ ^release/r\/.*$" ]; then echo "$PULL_BRANCH"; fi
 
 after_success:
   - >
     if [ "$PULL_REQUEST" != "false"]; then
-      # build images
-      docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
-      docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
-      docker build -t codegdo/portal:react-$BRANCH -t codegdo/portal:react-$BRANCH-$SHA ./react;
+      if [ "$PULL_BRANCH =~ ^release/n\/.*$" ]; then
+        docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
+      fi;
+      if [ "$PULL_BRANCH =~ ^release/e\/.*$" ]; then
+        docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
+      fi;
+      if [ "$PULL_BRANCH =~ ^release/r\/.*$" ]; then
+        docker build -t codegdo/portal:react-$BRANCH -t codegdo/portal:react-$BRANCH-$SHA ./react;
+      fi;
+
       # log in to the docker CLI
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin;
+
+      if [ "$PULL_BRANCH =~ ^release/n\/.*$" ]; then
+        docker push codegdo/portal:nginx-$BRANCH;
+      fi;
+      if [ "$PULL_BRANCH =~ ^release/e\/.*$" ]; then
+        docker push codegdo/portal:express-$BRANCH;
+      fi;
+      if [ "$PULL_BRANCH =~ ^release/r\/.*$" ]; then
+        docker push codegdo/portal:react-$BRANCH;
+      fi;
+      
       # push to docker hub
-      docker push codegdo/portal:nginx-$BRANCH;
-      docker push codegdo/portal:express-$BRANCH;
-      docker push codegdo/portal:react-$BRANCH;
       # docker push codegdo/portal:nginx-$BRANCH-$SHA;
       # docker push codegdo/portal:express-$BRANCH-$SHA;
       # docker push codegdo/portal:react-$BRANCH-$SHA;
