@@ -31,7 +31,7 @@ script:
 
 after_success:
   - >
-    if [ "$PULL_REQUEST" != "false"]; then
+    if [ "$PULL_REQUEST" != "false" ]; then
       if [ "$PULL_BRANCH =~ ^release/n\/.*$" ]; then
         docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       fi;
