@@ -10,7 +10,54 @@ env:
   global:
     - BRANCH=$TRAVIS_BRANCH
     - PULL_REQUEST=$TRAVIS_PULL_REQUEST
+    - PULL_BRANCH=$TRAVIS_PULL_REQUEST_BRANCH
     - SHA=$TRAVIS_PULL_REQUEST_SHA
 
 before_install:
-  - if [ "$TRAVIS_PULL_REQUEST_BRANCH =~ ^release\/.*$" ]; then echo "$TRAVIS_PULL_REQUEST_BRANCH"; fi
+  - >
+    if [ "$PULL_REQUEST" != "false" && "$PULL_BRANCH" =~ "\/r*" ]; then
+      docker build -t react-test -f ./react/Dockerfile.dev ./react;
+    fi;
+
+script:
+  - >
+    if [ "$PULL_REQUEST" != "false" && "$PULL_BRANCH" =~ "\/r*"]; then
+      docker run react-test npm run test -- --coverage;
+    fi;
+
+after_success:
+  - >
+    if [ "$PULL_REQUEST" != "false" && "$PULL_BRANCH" =~ "\/r*" ]; then
+      # build images
+      docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
+      docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
+      docker build -t codegdo/portal:react-$BRANCH -t codegdo/portal:react-$BRANCH-$SHA ./react;
+      # log in to the docker CLI
+      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin;
+      # push to docker hub
+      docker push codegdo/portal:nginx-$BRANCH;
+      docker push codegdo/portal:express-$BRANCH;
+      docker push codegdo/portal:react-$BRANCH;
+      # docker push codegdo/portal:nginx-$BRANCH-$SHA;
+      # docker push codegdo/portal:express-$BRANCH-$SHA;
+      # docker push codegdo/portal:react-$BRANCH-$SHA;
+    fi;
+
+before_deploy:
+  - sed -ri "s/ENV/$BRANCH/" Dockerrun.aws.json
+  - git add .
+
+deploy:
+  provider: elasticbeantalk
+  region: us-west-1
+  app: portal-$BRANCH
+  env: portal-$BRANCH
+  bucket_name: elasticbeanstalk-us-west-1-408615658702
+  bucket_path: portal-$BRANCH
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  zip_file: Dockerrun.aws.json
+  skip_cleanup: true
+  edge: true
+  on:
+    branch: $BRANCH
