@@ -32,10 +32,10 @@ script:
 after_success:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
-      if [ "$PULL_BRANCH =~ /\/r*/" ]; then
+      if [ "$PULL_BRANCH =~ /\/n*/" ]; then
         docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       fi;
-      if [ "$PULL_BRANCH =~ /\/r*/" ]; then
+      if [ "$PULL_BRANCH =~ /\/e*/" ]; then
         docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
       fi;
       if [ "$PULL_BRANCH =~ /\/r*/" ]; then
@@ -45,10 +45,10 @@ after_success:
       # log in to the docker CLI
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin;
 
-      if [ "$PULL_BRANCH =~ /\/r*/" ]; then
+      if [ "$PULL_BRANCH =~ /\/n*/" ]; then
         docker push codegdo/portal:nginx-$BRANCH;
       fi;
-      if [ "$PULL_BRANCH =~ /\/r*/" ]; then
+      if [ "$PULL_BRANCH =~ /\/e*/" ]; then
         docker push codegdo/portal:express-$BRANCH;
       fi;
       if [ "$PULL_BRANCH =~ /\/r*/" ]; then
