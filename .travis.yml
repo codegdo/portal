@@ -15,28 +15,30 @@ env:
 before_install:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
-      docker build -t react-test -f ./react/Dockerfile.dev ./react;
+      # docker build -t react-test -f ./react/Dockerfile.dev ./react;
     fi;
 
 script:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
-      docker run react-test npm run test -- --coverage;
+      # docker run react-test npm run test -- --coverage;
     fi;
+  - echo $TRAVIS_PULL_REQUEST_BRANCH
+  - echo $TRAVIS_PULL_REQUEST_SLUG
 
 after_success:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
       # build images
-      docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
-      docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
-      docker build -t codegdo/portal:react-$BRANCH -t codegdo/portal:react-$BRANCH-$SHA ./react;
+      # docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
+      # docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
+      # docker build -t codegdo/portal:react-$BRANCH -t codegdo/portal:react-$BRANCH-$SHA ./react;
       # log in to the docker CLI
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin;
       # push to docker hub
-      docker push codegdo/portal:nginx-$BRANCH;
-      docker push codegdo/portal:express-$BRANCH;
-      docker push codegdo/portal:react-$BRANCH;
+      # docker push codegdo/portal:nginx-$BRANCH;
+      # docker push codegdo/portal:express-$BRANCH;
+      # docker push codegdo/portal:react-$BRANCH;
       # docker push codegdo/portal:nginx-$BRANCH-$SHA;
       # docker push codegdo/portal:express-$BRANCH-$SHA;
       # docker push codegdo/portal:react-$BRANCH-$SHA;
