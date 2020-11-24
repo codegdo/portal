@@ -13,5 +13,4 @@ env:
     - SHA=$TRAVIS_PULL_REQUEST_SHA
 
 before_install:
-  - echo $TRAVIS_PULL_REQUEST_BRANCH
-  - echo $TRAVIS_PULL_REQUEST_SLUG
+  - if [$TRAVIS_PULL_REQUEST_BRANCH =~ ^release.*$] then echo $TRAVIS_PULL_REQUEST_BRANCH; fi
