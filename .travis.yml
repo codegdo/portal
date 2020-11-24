@@ -24,7 +24,7 @@ script:
     if [ "$PULL_REQUEST" != "false" ]; then
       docker run react-test npm run test -- --coverage;
     fi;
-  - if [ "$PULL_BRANCH" =~ "^release\/.*$" ]; then echo "$PULL_BRANCH"; fi
+  - if [ "$PULL_BRANCH =~ ^release\/.*$" ]; then echo "$PULL_BRANCH"; fi
 
 after_success:
   - >
