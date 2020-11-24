@@ -15,7 +15,7 @@ env:
 
 before_install:
   - >
-    if [ "$PULL_REQUEST" != "false" ]; then
+    if [ "$PULL_REQUEST" != "false" && "$PULL_BRANCH =~ ^release\/r.*$" ]; then
       docker build -t react-test -f ./react/Dockerfile.dev ./react;
     fi;
 
@@ -24,7 +24,7 @@ script:
     if [ "$PULL_REQUEST" != "false" ]; then
       docker run react-test npm run test -- --coverage;
     fi;
-  - if [ "$PULL_BRANCH =~ ^release\/.*$" ]; then echo "$PULL_BRANCH"; fi
+  - if [ "$PULL_BRANCH =~ ^release\/r.*$" ]; then echo "$PULL_BRANCH"; fi
 
 after_success:
   - >
