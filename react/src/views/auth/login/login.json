@@ -10,11 +10,12 @@
     {
       "id": 11,
       "classId": null,
+      "name": "Submit",
       "type": "button",
-      "dataType": "submit",
-      "dataComponent": "ELEMENT",
-      "dataAttribute": {},
-      "value": "Login",
+      "dataType": "button",
+      "dataRole": "element",
+      "attribute": {},
+      "value": "Submit",
       "data": [],
       "position": 0,
       "parentPosition": null
@@ -24,6 +25,7 @@
     {
       "id": 2,
       "classId": null,
+      "name": "",
       "type": "div",
       "dataType": "container",
       "dataRole": "block",

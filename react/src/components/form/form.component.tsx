@@ -26,7 +26,8 @@ export const Form: React.FC<FormProps> & FormExtends = ({ data, onSubmit, childr
   }, [submitted]);
 
   // 
-  const onClick = (): void => {
+  const onClick = (name: string): void => {
+    console.log(name);
     setSubmitted(true);
   }
 

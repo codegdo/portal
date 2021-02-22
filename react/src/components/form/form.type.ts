@@ -1,6 +1,7 @@
 export interface FormType extends Partial<BlockType> {
   id: number;
   classId: string;
+  name: string;
   title: string;
   description: string;
 
@@ -15,27 +16,25 @@ export interface FormType extends Partial<BlockType> {
 export interface BlockType {
   id: number;
   classId: string;
+  name: string;
   type: string;
   dataType: string;
   dataRole: string;
   attribute: { [x: string]: any };
-  data: NormalizeBlockField[];
+  value: string;
+  data: NormalizeBlockField[] | string;
   position: number;
   mapToParent: number;
 }
 
 export interface FieldType extends BlockType {
-  name: string;
   label: string;
   description: string;
   text: string;
   caption: string;
   placeholder: string;
 
-  value: string;
-  keyValue: string;
   maxLength: number;
-
   parentId: any;
 
   isRequired: boolean;
@@ -48,7 +47,7 @@ export interface FormContextValue {
   data: FormType;
   form: { string: string };
   submitted: boolean;
-  onClick?: <T>(args: T) => void;
+  onClick?: (name: string) => void;
 }
 
 export interface FormProps {
@@ -70,8 +69,4 @@ export interface FormElementProps {
 
 export interface FormFieldProps {
   field: FieldType;
-}
-
-export interface FormButtonProps {
-  data: NormalizeBlockField;
 }
