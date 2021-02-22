@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "target": "ES2018",
     "module": "commonjs",
     "declaration": true,
@@ -12,7 +14,7 @@
     "noImplicitReturns": true,
     "stripInternal": true,
     "moduleResolution": "node",
-    "types": ["node", "express"],
+    "types": ["node", "ts-node", "express", "jest"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },

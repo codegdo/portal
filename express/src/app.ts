@@ -1,20 +1,25 @@
-import express from 'express';
-import { createConnections, useContainer } from 'typeorm';
+import 'reflect-metadata';
+import express, { Application } from 'express';
+import { useExpressServer, useContainer } from 'routing-controllers';
 import { Container } from 'typedi';
 
-import { connections } from './app.config';
+import { appConnection } from './app.connection';
+import { appMiddleware } from './app.middleware';
 
-import appRouter from './app.router';
-
-const app = express();
+export default async (): Promise<Application> => {
+  let app = express();
+  const connections = await appConnection();
 
   useContainer(Container);
-createConnections(connections)
-  .then(async (_connection) => {
-    appRouter(app);
 
-    console.log('db connected');
-  })
-  .catch((error) => console.log(error));
+  if (connections) {
+    appMiddleware(app);
+    useExpressServer(app, {
+      controllers: [__dirname + '/api/**/*.controllers.ts'],
+      middlewares: [__dirname + '/middlewares/*.middleware.ts'],
+      interceptors: [],
+    });
+  }
 
-export default app;
+  return app;
+};

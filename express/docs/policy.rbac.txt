@@ -1,0 +1,105 @@
+{
+  "version": "1",
+  "id": "",
+  "metadata": {
+    "Modules": {
+      "Home": "*",
+      "Marketing": "*",
+      "Sales": "*",
+      "Rewards": "*",
+      "Admin": "*",
+      "System": "*"
+    },
+    "Pages": {
+      "Marketing": {
+        "Summary": "*",
+        "Requests": "*",
+        "Claims": "*",
+        "Accruals": "*"
+      },
+      "Sales": {
+        "Summary": "*",
+        "Deals": "*"
+      },
+      "Rewards": {
+        "Summary": "*",
+        "Claims": "*"
+      },
+      "Admin": {
+        "Users": "*"
+      }
+    },
+    "Objects": {
+      "MarketingSummary": {
+        "Company": "*"
+      }
+    },
+    "Fields": {}
+  }
+}
+
+module
+------
+allow:*
+deny:*
+
+page
+------
+add:*
+view:*
+edit:*
+delete:*
+
+object
+------
+allow:*
+deny:*
+
+field
+------
+noaccess:*
+read:*
+write:*
+
+
+visible
+editable
+readonly
+
+1:asdfdf::
+
+
+marketing/summary
+
+module
+------
+allow:*
+deny:*
+
+page
+------
+view:*
+add:*
+edit:*
+delete:*
+
+object
+------
+read:*
+create:*
+edit:*
+delete:*
+
+field
+------
+none:*
+read:*
+write:*
+
+read/write
+read/write/tranfer
+
+1, module, allow/deny
+2, page, view/add/edit/delete
+3, object, read/create/edit/delete
+4, field, none/read/write

@@ -1,0 +1,27 @@
+// GIT BRANCH
+portal
+	main
+	dev
+	stage
+	prod
+
+// 
+react/1
+release/1.0.react
+hotfix/1.0.react
+
+// switched to a new branch
+$ git checkout -b react/1
+$ git branch react/1 main
+
+// add files to branch
+$ git add .
+$ git add --all
+
+// commit files
+$ git commit -m ""
+
+// checkout main
+$ git checkout main
+
+// merge 
