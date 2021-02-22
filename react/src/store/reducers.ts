@@ -1,9 +1,12 @@
-import { AnyAction, combineReducers } from 'redux';
+import { AnyAction, combineReducers, Reducer } from 'redux';
 import { persistReducer } from 'redux-persist';
+import { PersistPartial } from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
 
-import { AppState } from './types';
 import { sessionReducer } from './session/session.reducer';
+
+export type AppState = ReturnType<typeof appReducer>;
+type RootReducer = ReturnType<typeof rootReducer>;
 
 export const appReducer = combineReducers({
   session: sessionReducer,
@@ -14,13 +17,11 @@ const rootReducer = (state: AppState | undefined, action: AnyAction): AppState =
   if (action.type === 'session/DELETE_SESSION') {
     storage.removeItem('persist:root');
     state = undefined;
-
-    console.log('reset store');
   }
   return appReducer(state, action);
 };
 
-export const persistedReducer = persistReducer(
-  { key: 'root', storage },
-  rootReducer
-);
+export const persistedReducer: Reducer<
+  RootReducer & PersistPartial,
+  AnyAction
+> = persistReducer({ key: 'root', storage }, rootReducer);

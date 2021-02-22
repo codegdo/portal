@@ -2,20 +2,15 @@ import React, { Suspense, lazy } from 'react';
 import { Redirect, useRouteMatch } from 'react-router-dom';
 import JsxParser from 'react-jsx-parser';
 
-import { RouteComponentData } from '../route/route.component';
-
 import { NavMain } from '../nav/nav.partial';
+import { stripTrailingSlash } from '../../utils';
+import { TemplateComponentProps } from './template.type';
 
-export interface TemplateComponentProps {
-  route: RouteComponentData;
-}
-
-export const TemplateComponent: React.FC<TemplateComponentProps> = ({
-  route,
-}): JSX.Element => {
+export const TemplateComponent: React.FC<TemplateComponentProps> = (props): JSX.Element => {
+  const { route } = props;
   const { url } = useRouteMatch();
   const { component = 'notfound.component.tsx', redirectTo = '/' } = route;
-  const urlRedirect = (url + redirectTo).replace(/\/\//g, '/');
+  const urlRedirect = stripTrailingSlash(`${url}/${redirectTo}`);
 
   const MainComponent = lazy(
     () => import(`../../views/${component}`)

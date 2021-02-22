@@ -8,7 +8,7 @@ import appRouter from './app.router';
 
 const app = express();
 
-useContainer(Container);
+  useContainer(Container);
 createConnections(connections)
   .then(async (_connection) => {
     appRouter(app);

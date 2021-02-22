@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { AppState } from '../../store/types';
+import { AppState } from '../../store/reducers';
 
 export const RouteGuard: React.FC<RouteProps> = ({
   children,
