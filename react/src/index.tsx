@@ -7,11 +7,15 @@ import './css/index.scss';
 import { store, persistor } from './app.store';
 import { App } from './app.component';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <App />
-    </PersistGate>
-  </Provider>,
-  document.getElementById('root') as HTMLElement
-);
+((_window: Window): void => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>,
+    document.getElementById('root') as HTMLElement
+  );
+})(window);
+
+

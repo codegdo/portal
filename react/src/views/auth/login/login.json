@@ -1,0 +1,120 @@
+{
+  "id": 3,
+  "classId": "form",
+  "name": "",
+  "title": "Login",
+  "description": "",
+  "css": {},
+  "styles": "",
+  "buttons": [
+    {
+      "id": 11,
+      "classId": null,
+      "name": "Submit",
+      "type": "button",
+      "dataType": "button",
+      "dataRole": "element",
+      "attribute": {},
+      "value": "Submit",
+      "data": [],
+      "position": 0,
+      "parentPosition": null
+    }
+  ],
+  "data": [
+    {
+      "id": 2,
+      "classId": null,
+      "name": "",
+      "type": "div",
+      "dataType": "container",
+      "dataRole": "block",
+      "attribute": {},
+      "data": [],
+      "value": null,
+      "position": 2,
+      "parentPosition": null
+    }
+  ],
+  "fields": [
+    {
+      "id": 4,
+      "classId": null,
+
+      "type": "input",
+      "dataType": "text",
+      "dataRole": "field",
+
+      "attribute": {},
+      "data": [],
+      "value": null,
+
+      "position": 4,
+      "parentPosition": 2,
+      "parentFieldId": null,
+      "mapTo": "sec",
+
+      "name": "Username",
+      "label": "Username",
+      "description": null,
+      "text": null,
+
+      "isRequired": true,
+      "isReadonly": null,
+      "isAdmin": null
+    },
+    {
+      "id": 5,
+      "classId": null,
+
+      "type": "input",
+      "dataType": "password",
+      "dataRole": "field",
+
+      "attribute": {},
+      "data": [],
+      "value": null,
+
+      "position": 5,
+      "parentPosition": 2,
+      "parentFieldId": null,
+      "mapTo": "sec",
+
+      "name": "Password",
+      "label": "Password",
+      "description": null,
+      "text": null,
+
+      "isRequired": true,
+      "isReadonly": null,
+      "isAdmin": null
+    },
+    {
+      "id": 6,
+      "classId": null,
+
+      "type": "input",
+      "dataType": "checklist",
+      "dataRole": "field",
+
+      "attribute": {},
+      "data": "one:one;two:two;three:three",
+      "value": "one",
+
+      "position": 6,
+      "parentPosition": 2,
+      "parentFieldId": null,
+      "mapTo": "sec",
+
+      "name": "Checklist",
+      "label": "Checklist",
+      "description": null,
+      "text": "hello",
+
+      "isRequired": true,
+      "isReadonly": null,
+      "isAdmin": null
+      
+    }
+  ]
+}

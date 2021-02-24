@@ -12,16 +12,16 @@ const routes: RouteComponentData[] = [
     redirectTo: '/login',
   },
   {
-    path: '/login/recovery',
-    component: 'auth/login/login.recovery.tsx',
-  },
-  {
     path: '/login',
     component: 'auth/login/login.component.tsx',
   },
   {
     path: '/logout',
     component: 'auth/logout/logout.component.tsx',
+  },
+  {
+    path: '/recovery',
+    component: 'auth/recovery.component.tsx',
   },
   {
     path: '/signup',

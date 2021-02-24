@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../store/types';
+import { AppState } from '../../store/reducers';
 
 import { NavComponent } from './nav.component';
 

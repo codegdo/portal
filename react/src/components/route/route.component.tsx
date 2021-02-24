@@ -3,19 +3,7 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import { TemplateComponent } from '../template/template.component';
 import { RouteGuard } from './route.guard';
-
-export interface RouteComponentData {
-  path?: string;
-  exact?: boolean;
-  component?: string;
-  redirectTo?: string;
-  restricted?: boolean;
-  data?: { x: string };
-}
-
-export interface RouteComponentProps {
-  routes: RouteComponentData[];
-}
+import { RouteComponentProps } from './route.type';
 
 export const RouteComponent: React.FC<RouteComponentProps> = ({
   routes,
