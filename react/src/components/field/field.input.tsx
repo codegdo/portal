@@ -9,12 +9,13 @@ export const FieldInput: React.FC = () => {
     return null;
   }
 
-  const { data: { text }, value, onChange } = context;
+  const { data: { text }, value, error, onChange } = context;
 
   return (
     <div>
       <input value={value == null ? '' : value} onChange={onChange} />
       {text && <small>{text}</small>}
+      {error && <strong>{error}</strong>}
     </div>
   )
 }

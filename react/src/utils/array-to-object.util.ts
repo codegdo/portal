@@ -1,21 +1,23 @@
+import { toCamelCase } from './to-camel-case.util';
+
 export interface ArrayToObject {
   data: any[];
-  id: string;
-  key?: string;
-  value?: any;
+  key: string;
+  value?: string;
+  defaultValue?: any;
 }
 
 export function arrayToObject(
   obj: ArrayToObject
 ): { [x: string]: string | number | boolean } {
-  const { data, id, key, value } = obj;
+  const { data, key, value, defaultValue } = obj;
 
   return data.reduce((i, v) => {
-    const keyId = v[id] + '_' + v.id;
+    const keyId = toCamelCase(v[key] + v.id);
 
-    key !== undefined
-      ? (i[keyId] = v[key] || '')
-      : (i[keyId] = value !== undefined ? value : v);
+    value !== undefined
+      ? (i[keyId] = v[value] || '')
+      : (i[keyId] = defaultValue ? defaultValue : v);
 
     return i;
   }, {});

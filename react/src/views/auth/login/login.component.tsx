@@ -4,8 +4,8 @@ import { Redirect } from 'react-router-dom';
 
 import { AppState } from '../../../store/reducers';
 import { useAction, useFetch } from '../../../hooks';
-import { Form, FormRender as render, FormType } from '../../../components/form';
-import { normalizeData } from '../../../utils';
+import { Form, FormType } from '../../../components/form';
+import { normalizeData } from '../../../helpers';
 
 
 interface LoginOutput {
@@ -46,11 +46,7 @@ const Login: React.FC = (): JSX.Element => {
       form == undefined ? <div>loading</div> :
         <Form data={form} onSubmit={handleSubmit}>
           <Form.Header />
-          <Form.Main>
-            {
-              render({ data: form })
-            }
-          </Form.Main>
+          <Form.Main />
           <Form.Footer />
         </Form>
     );

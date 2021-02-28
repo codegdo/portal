@@ -11,10 +11,10 @@ interface FieldExtends {
 
 export const FieldContext = React.createContext<FieldContextValue | undefined>(undefined);
 
-export const Field: React.FC<FieldProps> & FieldExtends = ({ data, value, onChange, children }) => {
+export const Field: React.FC<FieldProps> & FieldExtends = ({ data, value, error, onChange, children }) => {
   return (
     <div>
-      <FieldContext.Provider value={{ data, value, onChange }}>
+      <FieldContext.Provider value={{ data, value, error, onChange }}>
         {
           children
         }

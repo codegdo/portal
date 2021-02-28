@@ -5,7 +5,7 @@ export interface FormType extends Partial<BlockType> {
   title: string;
   description: string;
 
-  css: { [x: string]: any };
+  css: { [key: string]: any };
   styles: string;
 
   buttons: any[];
@@ -20,9 +20,9 @@ export interface BlockType {
   type: string;
   dataType: string;
   dataRole: string;
-  attribute: { [x: string]: any };
+  attribute: { [key: string]: any };
   value: string;
-  data: NormalizeBlockField[] | string;
+  data: NormalizeBlockField[];
   position: number;
   mapToParent: number;
 }
@@ -45,8 +45,8 @@ export type NormalizeBlockField = FormType | BlockType | FieldType;
 
 export interface FormContextValue {
   data: FormType;
-  form: { string: string };
-  submitted: boolean;
+  form: { [key: string]: any };
+  submitting: boolean;
   onClick?: (name: string) => void;
 }
 
@@ -60,11 +60,11 @@ export interface FormRenderProps {
 }
 
 export interface FormBlockProps {
-  block: BlockType;
+  block: NormalizeBlockField;
 }
 
 export interface FormElementProps {
-  element: BlockType;
+  element: NormalizeBlockField;
 }
 
 export interface FormFieldProps {

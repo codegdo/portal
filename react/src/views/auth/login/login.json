@@ -47,7 +47,7 @@
 
       "attribute": {},
       "data": [],
-      "value": null,
+      "value": "usename",
 
       "position": 4,
       "parentPosition": 2,
@@ -60,8 +60,8 @@
       "text": null,
 
       "isRequired": true,
-      "isReadonly": null,
-      "isAdmin": null
+      "isReadonly": false,
+      "isAdmin": false
     },
     {
       "id": 5,
@@ -73,7 +73,7 @@
 
       "attribute": {},
       "data": [],
-      "value": null,
+      "value": "password",
 
       "position": 5,
       "parentPosition": 2,
@@ -86,8 +86,8 @@
       "text": null,
 
       "isRequired": true,
-      "isReadonly": null,
-      "isAdmin": null
+      "isReadonly": false,
+      "isAdmin": false
     },
     {
       "id": 6,
@@ -99,7 +99,7 @@
 
       "attribute": {},
       "data": "one:one;two:two;three:three",
-      "value": "one",
+      "value": null,
 
       "position": 6,
       "parentPosition": 2,
@@ -111,9 +111,9 @@
       "description": null,
       "text": "hello",
 
-      "isRequired": true,
-      "isReadonly": null,
-      "isAdmin": null
+      "isRequired": false,
+      "isReadonly": false,
+      "isAdmin": false
       
     }
   ]

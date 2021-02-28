@@ -1,17 +1,43 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { FormContext } from '.';
+import { useValidation } from '../../hooks/validation.hook';
+import { toCamelCase } from '../../utils';
 import { Field } from '../field/field.component';
 import { FormFieldProps } from './form.type';
 
 export const FormField: React.FC<FormFieldProps> = ({ field }): JSX.Element | null => {
-  const [value, setValue] = useState('');
+  const context = useContext(FormContext);
+
+  if (context == undefined) {
+    return null;
+  }
+
+  const { id, name } = field;
+  const key = toCamelCase(name + id);
+  let { form, submitting } = context;
+  const [value, setValue] = useState(form.values[key]);
+  const [error, setValidate] = useValidation();
+
+  useEffect(() => {
+    if (submitting) {
+      (error == undefined) && setValidate(field, value);
+
+      if (error != '') {
+        form.errors[key] = error;
+      }
+
+      form.values[key] = value;
+    }
+
+  }, [submitting]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    console.log(e.target.value);
+    setValidate(field, e.target.value);
     setValue(e.target.value);
   }
 
   return (
-    <Field data={field} value={value} onChange={handleChange}>
+    <Field data={field} error={error} value={value} onChange={handleChange}>
       <Field.Label />
       <Field.Input />
     </Field>

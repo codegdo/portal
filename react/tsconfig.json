@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2018",
+    "target": "ES2019",
     "module": "commonjs",
-    "lib": ["ES2018", "dom"],
+    "lib": ["ES2019", "dom"],
     "allowJs": true,
     "jsx": "preserve",
     "composite": true,

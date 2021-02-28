@@ -1,11 +1,8 @@
-import React, { useContext } from 'react';
-import { FormContextValue, FormElementProps } from './form.type';
-import { FormContext } from './form.component';
+import React, { } from 'react';
+import { FormElementProps } from './form.type';
 
 export const FormElement: React.FC<FormElementProps> = ({ element }): JSX.Element | null => {
-  const { callback }: FormContextValue = useContext(FormContext);
 
-  console.log(callback);
   const { } = element;
 
   return <div>element</div>
