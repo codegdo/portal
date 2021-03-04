@@ -94,22 +94,32 @@
       "classId": null,
 
       "type": "input",
-      "dataType": "checklist",
+      "dataType": "checkbox",
       "dataRole": "field",
 
       "attribute": {},
-      "data": "one:one;two:two;three:three",
-      "value": null,
+      "data": [
+        {
+          "value":"one", 
+          "text": "item", 
+          "input":"text"
+        }, 
+        {
+          "value":"two", 
+          "text": "item2", 
+          "input":""}
+      ],
+      "value": "two;one::one:asdf",
 
       "position": 6,
       "parentPosition": 2,
       "parentFieldId": null,
       "mapTo": "sec",
 
-      "name": "Checklist",
-      "label": "Checklist",
+      "name": "Checkbox",
+      "label": "Checkbox",
       "description": null,
-      "text": "hello",
+      "text": null,
 
       "isRequired": false,
       "isReadonly": false,

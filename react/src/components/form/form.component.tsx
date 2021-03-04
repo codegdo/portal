@@ -30,6 +30,7 @@ export const Form: React.FC<FormProps> & FormExtends = ({ data, onSubmit, childr
           onSubmit && onSubmit({});
         }
       }
+      console.log(form);
     }
 
     return () => {

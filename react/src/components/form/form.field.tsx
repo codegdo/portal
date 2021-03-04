@@ -31,9 +31,9 @@ export const FormField: React.FC<FormFieldProps> = ({ field }): JSX.Element | nu
 
   }, [submitting]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setValidate(field, e.target.value);
-    setValue(e.target.value);
+  const handleChange = (value: string): void => {
+    setValidate(field, value);
+    setValue(value);
   }
 
   return (

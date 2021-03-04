@@ -41,7 +41,11 @@ export interface FieldType extends BlockType {
   isReadonly: boolean;
 }
 
-export type NormalizeBlockField = FormType | BlockType | FieldType;
+export type NormalizeBlockField =
+  | FormType
+  | BlockType
+  | FieldType
+  | { [key: string]: string };
 
 export interface FormContextValue {
   data: FormType;

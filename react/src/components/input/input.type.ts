@@ -1,15 +1,13 @@
 import { FieldType } from '../types';
 
-export interface FieldProps {
+export interface InputProps {
   data: FieldType;
   value: string;
-  error: string | undefined;
   onChange?: (value: string) => void;
 }
 
-export interface FieldContextValue {
-  data: FieldType;
+export interface InputContextValue {
+  input: FieldType;
   value: string;
-  error: string | undefined;
   onChange?: (value: string) => void;
 }

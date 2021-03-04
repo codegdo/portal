@@ -7,13 +7,11 @@ export interface ArrayToObject {
   defaultValue?: any;
 }
 
-export function arrayToObject(
-  obj: ArrayToObject
-): { [x: string]: string | number | boolean } {
+export function arrayToObject(obj: ArrayToObject): { [x: string]: string } {
   const { data, key, value, defaultValue } = obj;
 
   return data.reduce((i, v) => {
-    const keyId = toCamelCase(v[key] + v.id);
+    const keyId = toCamelCase(v[key] + (v.id || ''));
 
     value !== undefined
       ? (i[keyId] = v[value] || '')
