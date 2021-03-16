@@ -1,0 +1,17 @@
+{
+  "name": "loginSchema",
+  "properties": {
+    "username": [
+      {
+        "type": "minLength",
+        "constraints": [3]
+      }
+    ],
+    "password": [
+      {
+        "type": "minLength",
+        "constraints": [8]
+      }
+    ]
+  }
+}

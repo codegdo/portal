@@ -1,6 +1,9 @@
 import React, { } from 'react';
 import { InputCheckbox } from './input.checkbox';
+import { InputRadio } from './input.radio';
+import { InputSelect } from './input.select';
 import { InputText } from './input.text';
+import { InputTextarea } from './input.textarea';
 import { InputContextValue, InputProps } from './input.type';
 
 export const InputContext = React.createContext<InputContextValue | undefined>(undefined);
@@ -16,11 +19,11 @@ export const Input: React.FC<InputProps> = ({ data, value, onChange }): JSX.Elem
             case 'checkbox':
               return <InputCheckbox />;
             case 'radio':
-              return null;
+              return <InputRadio />;
             case 'select':
-              return null;
+              return <InputSelect />;
             case 'textarea':
-              return null;
+              return <InputTextarea />;
             default:
               return <InputText />
           }

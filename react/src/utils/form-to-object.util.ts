@@ -1,16 +1,22 @@
+import { FormType } from '../components/types';
 import { toCamelCase } from './to-camel-case.util';
 
-export interface ArrayToObject {
-  data: any[];
+export interface FormToObject {
+  data: FormType;
   key: string;
   value?: string;
   defaultValue?: any;
 }
 
-export function arrayToObject(obj: ArrayToObject): { [x: string]: string } {
-  const { data, key, value, defaultValue } = obj;
+export function formToObject(obj: FormToObject): { [x: string]: string } {
+  const {
+    data: { fields },
+    key,
+    value,
+    defaultValue,
+  } = obj;
 
-  return data.reduce((i, v) => {
+  return fields.reduce((i, v) => {
     const keyId = toCamelCase(v[key] + (v.id || ''));
 
     value !== undefined

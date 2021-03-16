@@ -1,5 +1,5 @@
 import { FieldType, FormType } from '../components/types';
-import { splitKeyId } from '../utils/split-key-id.util';
+import { splitStringKeyId } from '../utils';
 
 export const validateField = (field: FieldType, value: string): string => {
   let error = '';
@@ -32,7 +32,7 @@ export const validateForm = (form: any, data: FormType): boolean => {
   let error = false;
   for (let key in form.errors) {
     if (form.errors[key] == undefined || form.errors[key] !== '') {
-      const { id } = splitKeyId(key);
+      const { id } = splitStringKeyId(key);
       const field = data.fields.find((item) => {
         return item.id == id;
       });

@@ -18,6 +18,8 @@
     "types": ["react", "react-dom", "react-router-dom"],
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules"],

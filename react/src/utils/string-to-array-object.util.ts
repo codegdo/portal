@@ -1,9 +1,9 @@
-import { arrayToObject, ArrayToObject } from './array-to-object.util';
+import { formToObject, FormToObject } from './form-to-object.util';
 
 export function stringToArrayObject(
   str: string,
-  option: ArrayToObject
-): [string[], { [x: string]: string }] {
+  option: FormToObject
+): [string[], { [key: string]: string }] {
   const x = str.split('::');
 
   let arr: string[] = x[0].split(';').map(function (item: string) {
@@ -24,7 +24,7 @@ export function stringToArrayObject(
       return result;
     }, {});
 
-    const objKeys = arrayToObject(option);
+    const objKeys = formToObject(option);
 
     obj = { ...objKeys, ...objValues };
   }

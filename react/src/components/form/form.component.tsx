@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { normalizeForm, validateForm } from '../../helpers';
+import React, { useEffect, useRef, useState } from 'react';
+import { normalizeForm } from '../../helpers';
 import { FormFooter } from './form.footer';
 import { FormHeader } from './form.header';
 import { FormMain } from './form.main';
@@ -14,39 +14,34 @@ interface FormExtends {
 export const FormContext = React.createContext<FormContextValue | undefined>(undefined);
 
 export const Form: React.FC<FormProps> & FormExtends = ({ data, onSubmit, children }) => {
-  const form = normalizeForm(data.fields);
-  const [submitting, setSubmitting] = useState(false);
-
+  const { values: formValues, errors: formErrors, validation } = normalizeForm(data);
+  const { current: values } = useRef(formValues);
+  const { current: errors } = useRef(formErrors);
+  const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
-    if (submitting) {
+    if (submit) {
       //
-      if (Object.keys(form.errors).length == 0) {
-        onSubmit && onSubmit({});
-      } else {
-        const error = validateForm(form, data)
-
-        if (!error) {
-          onSubmit && onSubmit({});
-        }
+      if (Object.keys(errors).length == 0) {
+        onSubmit && onSubmit(values);
       }
-      console.log(form);
     }
 
     return () => {
-      setSubmitting(false);
+      setSubmit(false);
     };
-  }, [submitting]);
+  }, [submit]);
 
   // 
   const onClick = (name: string): void => {
-    console.log(name);
-    setSubmitting(true);
+    if (name === 'Submit') {
+      setSubmit(true);
+    }
   }
 
   return (
     <form>
-      <FormContext.Provider value={{ data, form, submitting, onClick }}>
+      <FormContext.Provider value={{ data, values, errors, validation, submit, onClick }}>
         {
           children
         }

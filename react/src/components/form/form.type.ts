@@ -1,3 +1,5 @@
+import { ValidationSchema } from 'class-validator';
+
 export interface FormType extends Partial<BlockType> {
   id: number;
   classId: string;
@@ -36,6 +38,7 @@ export interface FieldType extends BlockType {
 
   maxLength: number;
   parentId: any;
+  mapTo: string;
 
   isRequired: boolean;
   isReadonly: boolean;
@@ -49,8 +52,10 @@ export type NormalizeBlockField =
 
 export interface FormContextValue {
   data: FormType;
-  form: { [key: string]: any };
-  submitting: boolean;
+  values: { [key: string]: string };
+  errors: { [key: string]: string };
+  validation: ValidationSchema;
+  submit: boolean;
   onClick?: (name: string) => void;
 }
 

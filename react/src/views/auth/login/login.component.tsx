@@ -6,7 +6,12 @@ import { AppState } from '../../../store/reducers';
 import { useAction, useFetch } from '../../../hooks';
 import { Form, FormType } from '../../../components/form';
 import { normalizeData } from '../../../helpers';
+import { splitObjectKeyId } from '../../../utils/split-object-key-id.util';
 
+export class LoginDto {
+  username!: string;
+  password!: string;
+}
 
 interface LoginOutput {
   user: {};
@@ -21,7 +26,7 @@ const Login: React.FC = (): JSX.Element => {
   // initial load form
   useEffect(() => {
     (async () => {
-      const json = await import('./login.json');
+      const json = await import('./login.form.json');
       const formData = normalizeData(json.default);
       setForm(formData);
     })()
@@ -35,10 +40,17 @@ const Login: React.FC = (): JSX.Element => {
   }, [status]);
 
   // submit form
-  const handleSubmit = () => {
+  const handleSubmit = (values: { [key: string]: any }) => {
+    //const fields = form === undefined ? [] : form.fields;
+    //const x = mapField(fields, values);
+    //console.log(x);
+
+    const [fields] = splitObjectKeyId(values);
+
     fetchData({
-      body: {}
+      body: { ...fields }
     });
+
   }
 
   return loggedIn ? <Redirect to="/" /> :

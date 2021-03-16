@@ -1,5 +1,6 @@
-import { FormType, FieldType } from '../components/types';
-import { arrayToObject, ArrayToObject, mapToParent } from '../utils';
+import { ValidationSchema } from 'class-validator';
+import { FormType } from '../components/types';
+import { FormToObject, formToObject, formToSchema, mapToParent } from '../utils';
 
 export const normalizeData = (form: FormType): FormType => {
   const { data, fields } = JSON.parse(JSON.stringify(form));
@@ -11,16 +12,17 @@ export const normalizeData = (form: FormType): FormType => {
 };
 
 export function normalizeForm(
-  fields: FieldType[]
-): { values: any; errors: any; ok: boolean } {
-  const obj: ArrayToObject = {
-    data: fields,
+  form: FormType
+): { values: any; errors: any; validation: ValidationSchema } {
+  const obj: FormToObject = {
+    data: form,
     key: 'name',
     value: 'value',
     defaultValue: null,
   };
 
-  const values = arrayToObject(obj);
+  const values = formToObject(obj);
+  const validation = formToSchema(obj);
 
-  return { values, errors: {}, ok: true };
+  return { values, errors: {}, validation };
 }

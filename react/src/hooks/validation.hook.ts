@@ -1,14 +1,28 @@
+import { validate } from 'class-validator';
 import { useState } from 'react';
 import { FieldType } from '../components/form';
-import { validateField } from '../helpers';
-export const useValidation = (): [
-  string | undefined,
-  (field: FieldType, value: string) => void
-] => {
-  const [error, setError] = useState<string | undefined>();
+import { toCamelCase, errorsToObject } from '../utils';
+
+export const useValidation = (
+  defaultError: string
+): [string | undefined, (field: FieldType, value: string) => void] => {
+  const [error, setError] = useState<string | undefined>(defaultError);
 
   const setValidate = (field: FieldType, value: string): void => {
-    setError(validateField(field, value));
+    const { id, name } = field;
+    const schemaId = toCamelCase(name + id);
+    const key = toCamelCase(name);
+
+    //setError(validateField(field, value));
+
+    validate(schemaId, { [key]: value }).then((errors) => {
+      if (errors.length > 0) {
+        const err = errorsToObject(errors);
+        setError(err[key]);
+      } else {
+        setError('');
+      }
+    });
   };
 
   return [error, setValidate];

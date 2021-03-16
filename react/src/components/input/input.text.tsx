@@ -8,9 +8,9 @@ export const InputText: React.FC = () => {
     return null;
   }
 
-  const { value, onChange } = context;
+  const { input: { dataType }, value, onChange } = context;
 
   return (
-    <input value={value == null ? '' : value} onChange={(e) => onChange && onChange(e.target.value)} />
+    <input type={dataType} value={value == null ? '' : value} onChange={(e) => onChange && onChange(e.target.value)} />
   )
 }

@@ -1,7 +1,7 @@
 {
   "id": 3,
   "classId": "form",
-  "name": "",
+  "name": "Login",
   "title": "Login",
   "description": "",
   "css": {},
@@ -47,12 +47,12 @@
 
       "attribute": {},
       "data": [],
-      "value": "usename",
+      "value": "",
 
       "position": 4,
       "parentPosition": 2,
       "parentFieldId": null,
-      "mapTo": "sec",
+      "mapTo": "portal.sec.User",
 
       "name": "Username",
       "label": "Username",
@@ -73,58 +73,24 @@
 
       "attribute": {},
       "data": [],
-      "value": "password",
+      "value": "",
 
       "position": 5,
       "parentPosition": 2,
       "parentFieldId": null,
-      "mapTo": "sec",
+      "mapTo": "portal.sec.User",
 
       "name": "Password",
       "label": "Password",
       "description": null,
       "text": null,
 
+      "minLength": null,
+      "maxLength": null,
+
       "isRequired": true,
       "isReadonly": false,
       "isAdmin": false
-    },
-    {
-      "id": 6,
-      "classId": null,
-
-      "type": "input",
-      "dataType": "checkbox",
-      "dataRole": "field",
-
-      "attribute": {},
-      "data": [
-        {
-          "value":"one", 
-          "text": "item", 
-          "input":"text"
-        }, 
-        {
-          "value":"two", 
-          "text": "item2", 
-          "input":""}
-      ],
-      "value": "two;one::one:asdf",
-
-      "position": 6,
-      "parentPosition": 2,
-      "parentFieldId": null,
-      "mapTo": "sec",
-
-      "name": "Checkbox",
-      "label": "Checkbox",
-      "description": null,
-      "text": null,
-
-      "isRequired": false,
-      "isReadonly": false,
-      "isAdmin": false
-      
     }
   ]
 }

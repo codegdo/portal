@@ -8,61 +8,64 @@ export const InputCheckbox: React.FC = () => {
   if (context == undefined) {
     return null;
   }
+
   // value = 'one;two::one:asf;two:abc'
-  const { input: { data }, value, onChange } = context;
-  const [aChecks, oInputs] = stringToArrayObject(value, { data, key: 'value', value: '' });
+  const { input: { data }, value: initalValue, onChange } = context;
+  const [aChecks, oInputs] = stringToArrayObject(initalValue, { data, key: 'value', value: '' });
   // ['one','two']
   const [checks, setChecks] = useState(aChecks);
   // {one:item, two:item2}
   const [inputs, setInputs] = useState(oInputs);
+  //
+  const [changed, setChanged] = useState(false);
 
   useEffect(() => {
-    const checkVal = checks.join(';');
+    let checkVal = checks.join(';');
     const inputVal = Object.entries(inputs)
       .filter(v => (checks.includes(v[0]) && includedInput(v[0])))
       .map(v => v[0] + ":" + v[1])
       .join(';');
 
-    let updatedVal = checkVal;
-
     if (checks.length > 0 && inputVal) {
-      updatedVal = updatedVal + '::' + inputVal;
+      checkVal = checkVal + '::' + inputVal;
     }
 
-    onChange && onChange(updatedVal);
+    changed && (onChange && onChange(checkVal));
+
+    return () => {
+      setChanged(false);
+    }
   }, [checks, inputs]);
 
   const includedInput = (v: string): boolean => {
-    return data.filter((item: any) => (item.value == v && item.input !== '')).length !== 0;
+    return data.filter((item: any) => (item.value == v && item.input !== '' && item.input !== undefined)).length !== 0;
   }
 
   const checkboxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { value: val } = e.target;
-    const checkVals = checks.includes(val) ? checks.filter((v: string) => v !== val) : [...checks, val];
+    const { value } = e.target;
+    const checkVals = checks.includes(value) ? checks.filter((v: string) => v !== value) : [...checks, value];
 
     setChecks([...checkVals]);
-
-    if (checks.includes(val)) {
-      setInputs({ ...inputs, [val]: '' });
-    }
+    checks.includes(value) && setInputs({ ...inputs, [value]: '' });
+    setChanged(true);
   }
 
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { value: val, name } = e.target;
-    setInputs({ ...inputs, [name]: val });
+    const { value, name } = e.target;
+    setInputs({ ...inputs, [name]: value });
+    setChanged(true);
   }
 
   return (
     <>
       {
-        data.map((item: any, i: number) => {
-          const val = inputs[item.value];
-
+        data.map(({ value, text, input }: any, i: number) => {
+          const checked = checks.includes(value);
           return (
             <label key={i}>
-              <span><input type="checkbox" value={item.value} checked={checks.includes(item.value)} onChange={checkboxChange} /></span>
-              {item.text && <span>{item.text}</span>}
-              {item.input && <span><input type={item.input} name={item.value} disabled={!checks.includes(item.value)} value={val} onChange={inputChange} /></span>}
+              <span><input type="checkbox" value={value} checked={checked} onChange={checkboxChange} /></span>
+              {text && <span>{text}</span>}
+              {input && <span><input type={input} name={value} value={inputs[value]} disabled={!checked} onChange={inputChange} /></span>}
             </label>
           )
         })

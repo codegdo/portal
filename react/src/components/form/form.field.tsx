@@ -1,3 +1,4 @@
+import { registerSchema } from 'class-validator';
 import React, { useContext, useEffect, useState } from 'react';
 import { FormContext } from '.';
 import { useValidation } from '../../hooks/validation.hook';
@@ -12,24 +13,36 @@ export const FormField: React.FC<FormFieldProps> = ({ field }): JSX.Element | nu
     return null;
   }
 
+  let { values, errors, validation, submit } = context;
   const { id, name } = field;
-  const key = toCamelCase(name + id);
-  let { form, submitting } = context;
-  const [value, setValue] = useState(form.values[key]);
-  const [error, setValidate] = useValidation();
+  const keyId = toCamelCase(name + id);
+  const key = toCamelCase(name);
+  const [value, setValue] = useState(values[keyId]);
+
+  const fieldValidationSchema = {
+    name: keyId,
+    properties: {
+      [key]: [...validation.properties[key]]
+    }
+  }
+  const [error, setValidate] = useValidation(errors[key]);
 
   useEffect(() => {
-    if (submitting) {
+    registerSchema(fieldValidationSchema);
+  }, []);
+
+  useEffect(() => {
+    if (submit) {
       (error == undefined) && setValidate(field, value);
 
-      if (error != '') {
-        form.errors[key] = error;
+      if (error && error != '') {
+        errors[keyId] = error;
       }
 
-      form.values[key] = value;
+      values[keyId] = value;
     }
 
-  }, [submitting]);
+  }, [submit]);
 
   const handleChange = (value: string): void => {
     setValidate(field, value);
