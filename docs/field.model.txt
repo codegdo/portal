@@ -1,0 +1,132 @@
+FIELD MODEL
+
+type
+  input       <input type="text" />
+  a           <a></a>
+  div         <div></div>
+  div         <div><table></table></div>
+  ul          <ul><li></li></ul>
+
+dataType
+  text|select|textarea|radio|checkbox       <input type="text" />
+  html                                      <a></a>
+  container                                 <div></div>
+  grid                                      <div><table></table></div>
+  group                                     <ul><li></li></ul>
+
+dataRole
+  field       <li><input type="text" /></li>
+  element     <a></a>
+  block       <div></div>
+  component   <div><table></table></div>
+  component   <ul><li></li></ul>
+
+data
+  {value:"key", text:"label", input:"type"}
+
+value
+  "key::key:value"
+
+JSON
+  [
+    # CHECKBOX LIST
+    {
+      "type": "input",
+      "dataType": "checkbox",
+      "dataRole": "field",
+      "data": [
+        {
+          "value": "one", 
+          "text": "item", 
+          "input": "text"
+        }, 
+        {
+          "value": "two", 
+          "text": "item2", 
+          "input": ""
+        }
+      ],
+      "value": "one::one:description"
+    },
+    # CHECKBOX
+    {
+      "type": "input",
+      "dataType": "checkbox",
+      "dataRole": "field",
+      "data": [
+        {
+          "value": "true", 
+          "text": "item", 
+          "input": ""
+        }
+      ],
+      "value": "true"
+    },
+    # RADIO LIST
+    {
+      "type": "input",
+      "dataType": "radio",
+      "dataRole": "field",
+      "data": [
+        {
+          "value": "1", 
+          "text": "yes"
+        }, 
+        {
+          "value": "0", 
+          "text": "no"
+        }
+      ],
+      "value": "1"
+    },
+    # SELECT
+    {
+      "type": "input",
+      "dataType": "select",
+      "dataRole": "field",
+      "data": [
+        {
+          "value": "CA", 
+          "text": "California"
+        }, 
+        {
+          "value": "TX", 
+          "text": "Texas"
+        }
+      ],
+      "value": "CA"
+    },
+    # SELECT MULTIPLE
+    {
+      "type": "input",
+      "dataType": "select",
+      "dataRole": "field",
+      "data": [
+        {
+          "value": "CA", 
+          "text": "California"
+        }, 
+        {
+          "value": "TX", 
+          "text": "Texas"
+        }
+      ],
+      "value": "CA;TX"
+    },
+    # TEXT
+    {
+      "type": "input",
+      "dataType": "text",
+      "dataRole": "field",
+      "data": [],
+      "value": ""
+    },
+    # TEXTAREA
+    {
+      "type": "input",
+      "dataType": "textarea",
+      "dataRole": "field",
+      "data": [],
+      "value": ""
+    },
+  ]

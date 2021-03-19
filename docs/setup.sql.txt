@@ -1,0 +1,34 @@
+SELECT * FROM dbo."RoleType";
+
+SELECT * FROM sec."Role";
+
+SELECT * FROM sec."User";
+
+UPDATE sec."User"
+SET 
+"isActive" = '1',
+WHERE "UserId" = '1';
+
+INSERT
+INTO dbo."RoleType"
+VALUES
+('1', 'INTERNAL'),
+('2', 'EXTERNAL'),
+('3', 'SYSTEM');
+
+INSERT
+INTO sec."Role"
+VALUES
+('1', 'Internal Owner', null, '1', null, '1'),
+('2', 'System Owner', null, '1', null, '3');
+
+DROP TABLE IF EXISTS
+dbo."Module",
+dbo."RoleType",
+org."Subscription",
+sec."Organization",
+sec."Policy",
+sec."Role",
+sec."Session",
+sec."Token",
+sec."User" CASCADE;
