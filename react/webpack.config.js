@@ -17,6 +17,12 @@ module.exports = {
       aggregateTimeout: 300,
       poll: 1000,
     },
+    proxy: {
+      '/api/**': {
+        target: 'https://localhost:5000',
+        secure: false,
+      },
+    },
   },
   devtool: 'source-map',
   mode: 'development',

@@ -8,6 +8,25 @@ import { MarketingRouter } from './views/marketing/marketing.router';
 import { SalesRouter } from './views/sales/sales.router';
 import { RewardsRouter } from './views/rewards/rewards.router';
 import { TemplateComponent } from './components/template/template.component';
+import { registerSchema } from 'class-validator';
+
+registerSchema({
+  name: "loginSchema",
+  properties: {
+    username: [
+      {
+        type: "minLength",
+        constraints: [3]
+      }
+    ],
+    password: [
+      {
+        type: "minLength",
+        constraints: [8]
+      }
+    ]
+  }
+});
 
 export const App: React.FC = (): JSX.Element => {
   return (

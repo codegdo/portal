@@ -1,7 +1,7 @@
 {
   "id": 3,
   "classId": "form",
-  "name": "",
+  "name": "Login",
   "title": "Login",
   "description": "",
   "css": {},
@@ -47,12 +47,12 @@
 
       "attribute": {},
       "data": [],
-      "value": null,
+      "value": "",
 
       "position": 4,
       "parentPosition": 2,
       "parentFieldId": null,
-      "mapTo": "sec",
+      "mapTo": "portal.sec.User",
 
       "name": "Username",
       "label": "Username",
@@ -60,8 +60,8 @@
       "text": null,
 
       "isRequired": true,
-      "isReadonly": null,
-      "isAdmin": null
+      "isReadonly": false,
+      "isAdmin": false
     },
     {
       "id": 5,
@@ -73,48 +73,24 @@
 
       "attribute": {},
       "data": [],
-      "value": null,
+      "value": "",
 
       "position": 5,
       "parentPosition": 2,
       "parentFieldId": null,
-      "mapTo": "sec",
+      "mapTo": "portal.sec.User",
 
       "name": "Password",
       "label": "Password",
       "description": null,
       "text": null,
 
-      "isRequired": true,
-      "isReadonly": null,
-      "isAdmin": null
-    },
-    {
-      "id": 6,
-      "classId": null,
-
-      "type": "input",
-      "dataType": "checklist",
-      "dataRole": "field",
-
-      "attribute": {},
-      "data": "one:one;two:two;three:three",
-      "value": "one",
-
-      "position": 6,
-      "parentPosition": 2,
-      "parentFieldId": null,
-      "mapTo": "sec",
-
-      "name": "Checklist",
-      "label": "Checklist",
-      "description": null,
-      "text": "hello",
+      "minLength": null,
+      "maxLength": null,
 
       "isRequired": true,
-      "isReadonly": null,
-      "isAdmin": null
-      
+      "isReadonly": false,
+      "isAdmin": false
     }
   ]
 }

@@ -1,3 +1,5 @@
+import { ValidationSchema } from 'class-validator';
+
 export interface FormType extends Partial<BlockType> {
   id: number;
   classId: string;
@@ -5,7 +7,7 @@ export interface FormType extends Partial<BlockType> {
   title: string;
   description: string;
 
-  css: { [x: string]: any };
+  css: { [key: string]: any };
   styles: string;
 
   buttons: any[];
@@ -20,9 +22,9 @@ export interface BlockType {
   type: string;
   dataType: string;
   dataRole: string;
-  attribute: { [x: string]: any };
+  attribute: { [key: string]: any };
   value: string;
-  data: NormalizeBlockField[] | string;
+  data: NormalizeBlockField[];
   position: number;
   mapToParent: number;
 }
@@ -36,17 +38,24 @@ export interface FieldType extends BlockType {
 
   maxLength: number;
   parentId: any;
+  mapTo: string;
 
   isRequired: boolean;
   isReadonly: boolean;
 }
 
-export type NormalizeBlockField = FormType | BlockType | FieldType;
+export type NormalizeBlockField =
+  | FormType
+  | BlockType
+  | FieldType
+  | { [key: string]: any };
 
 export interface FormContextValue {
   data: FormType;
-  form: { string: string };
-  submitted: boolean;
+  values: { [key: string]: string };
+  errors: { [key: string]: string };
+  validation: ValidationSchema;
+  submit: boolean;
   onClick?: (name: string) => void;
 }
 
@@ -60,13 +69,13 @@ export interface FormRenderProps {
 }
 
 export interface FormBlockProps {
-  block: BlockType;
+  block: NormalizeBlockField;
 }
 
 export interface FormElementProps {
-  element: BlockType;
+  element: NormalizeBlockField;
 }
 
 export interface FormFieldProps {
-  field: FieldType;
+  field: NormalizeBlockField;
 }

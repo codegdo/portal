@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Input } from '../input/input.component';
 import { FieldContext } from './field.component';
 
 export const FieldInput: React.FC = () => {
@@ -9,12 +10,14 @@ export const FieldInput: React.FC = () => {
     return null;
   }
 
-  const { data: { text }, value, onChange } = context;
+  const { data, value, error, onChange } = context;
+  const { text } = data;
 
   return (
     <div>
-      <input value={value == null ? '' : value} onChange={onChange} />
+      <Input data={data} value={value} onChange={onChange} />
       {text && <small>{text}</small>}
+      {error && <strong>{error}</strong>}
     </div>
   )
 }

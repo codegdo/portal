@@ -4,24 +4,32 @@ import { Redirect } from 'react-router-dom';
 
 import { AppState } from '../../../store/reducers';
 import { useAction, useFetch } from '../../../hooks';
-import { Form, FormRender as render, FormType } from '../../../components/form';
-import { normalizeData } from '../../../utils';
+import { Form, FormType } from '../../../components/form';
+import { normalizeData } from '../../../helpers';
+import { splitObjectKeyId } from '../../../utils';
+import { storage } from '../../../services';
+import { jwtToken } from '../../../app.config';
 
+export class LoginDto {
+  username!: string;
+  password!: string;
+}
 
-interface LoginOutput {
+interface FetchOutput {
   user: {};
+  token: string;
 }
 
 const Login: React.FC = (): JSX.Element => {
   const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
   const [form, setForm] = useState<FormType>();
   const { updateSession } = useAction();
-  const { status, data, fetchData } = useFetch<LoginOutput>('/auth/login');
+  const { status, data, fetchData } = useFetch<FetchOutput>('api/auth/login');
 
   // initial load form
   useEffect(() => {
     (async () => {
-      const json = await import('./login.json');
+      const json = await import('./login.form.json');
       const formData = normalizeData(json.default);
       setForm(formData);
     })()
@@ -30,15 +38,23 @@ const Login: React.FC = (): JSX.Element => {
   // api response
   useEffect(() => {
     if (status == 'success' && data) {
+      storage.setItem(jwtToken, data.token);
       updateSession({ loggedIn: true, user: data.user });
     }
   }, [status]);
 
   // submit form
-  const handleSubmit = () => {
+  const handleSubmit = (values: { [key: string]: any }) => {
+    //const fields = form === undefined ? [] : form.fields;
+    //const x = mapField(fields, values);
+    //console.log(x);
+
+    const [fields] = splitObjectKeyId(values);
+
     fetchData({
-      body: {}
+      body: { ...fields }
     });
+
   }
 
   return loggedIn ? <Redirect to="/" /> :
@@ -46,11 +62,7 @@ const Login: React.FC = (): JSX.Element => {
       form == undefined ? <div>loading</div> :
         <Form data={form} onSubmit={handleSubmit}>
           <Form.Header />
-          <Form.Main>
-            {
-              render({ data: form })
-            }
-          </Form.Main>
+          <Form.Main />
           <Form.Footer />
         </Form>
     );

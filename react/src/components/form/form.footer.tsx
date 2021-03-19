@@ -9,13 +9,13 @@ export const FormFooter: React.FC = () => {
     return null;
   }
 
-  const { data: { buttons }, onClick } = context;
+  const { data: { buttons }, submitting, onClick } = context;
 
   return (
     <footer>
       {
         buttons.map(({ id, dataType, name, value }) => {
-          return <button key={id} type={dataType} name={name} onClick={() => onClick && onClick(name)}>{value}</button>
+          return <button key={id} type={dataType} name={name} disabled={submitting} onClick={() => onClick && onClick(name)}>{value}</button>
         })
       }
     </footer>

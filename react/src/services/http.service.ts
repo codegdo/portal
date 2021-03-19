@@ -10,6 +10,7 @@ export interface RequestOptions {
   params?: any;
   body?: any;
   withCredentials?: boolean;
+  credentials?: RequestCredentials;
   fetching?: boolean;
 }
 
@@ -22,6 +23,7 @@ class HttpService {
     const config: RequestInit = {
       method: body ? 'POST' : 'GET',
       headers: { 'Content-Type': 'application/json', ...headers },
+      credentials: 'include',
       ...rest,
     };
 
@@ -42,7 +44,6 @@ class HttpService {
           });
         })
         .then((res) => {
-          console.log(res);
           if (res.ok) {
             resolve(res);
           } else {
