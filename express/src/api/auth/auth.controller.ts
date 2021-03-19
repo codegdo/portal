@@ -1,44 +1,57 @@
-import { Request, Response } from 'express';
-import { Container, Inject, Service } from 'typedi';
-import { LoginUserDto, SignupUserDto } from '../../models/portal/dtos';
+import { Body, Get, JsonController, Post, Res, Session } from 'routing-controllers';
+import { Inject } from 'typedi';
 
+import { LoginUserDto, SignupUserDto } from '../../models/portal/dtos';
+import { JwtService } from '../../services';
+import { LoginOutput } from '../../types';
 import { AuthService } from './auth.service';
 
-@Service()
-class AuthController {
+@JsonController('/auth')
+export class AuthController {
   @Inject()
   private authService!: AuthService;
 
-  loginUser = async (req: Request, res: Response): Promise<Response> => {
-    const loginUserDto: LoginUserDto = req.body;
-    const loginOutput = await this.authService.loginUser(loginUserDto);
+  @Inject()
+  private jwt!: JwtService;
 
-    return res.json(loginOutput);
-  };
+  @Post('/signup')
+  async signupUser(@Body() input: SignupUserDto): Promise<any> {
+    await this.authService.signupUser(input);
 
-  signupUser = async (req: Request, res: Response): Promise<Response> => {
-    const singupUserDto: SignupUserDto = req.body;
-    await this.authService.signupUser(singupUserDto);
-    return res.json({ ok: true });
-  };
+    return { ok: true };
+  }
 
-  recoveryUser = async (_req: Request, res: Response): Promise<Response> => {
-    return res.json({ ok: true });
-  };
+  @Get('/verify/:token')
+  async verifyToken() {}
 
-  verifyUser = async (_req: Request, res: Response): Promise<Response> => {
-    return res.json({ ok: true });
-  };
+  @Post('/verify')
+  async verifyUser() {}
 
-  validateUser = async (_req: Request, res: Response): Promise<Response> => {
-    return res.json({ ok: true });
-  };
+  @Post('/login')
+  async loginUser(
+    @Session() session: any,
+    @Body() loginInput: LoginUserDto
+  ): Promise<LoginOutput> {
+    const user = await this.authService.loginUser(loginInput);
+
+    const { username, email } = user;
+    const token = this.jwt.sign({ username });
+    const payload = { user: { username, email }, token };
+
+    session.user = { username, email };
+    return payload;
+  }
+
+  @Get('/logout')
+  async logoutUser(@Session() session: any, @Res() res: any) {
+    session.destroy((error: any) => console.log(error));
+    return res.clearCookie('connect.sid', { path: '/' }).status(200).send('ok.');
+  }
+
+  @Post('/recovery')
+  async recoveryUser() {}
 }
 
-export const {
-  loginUser,
-  signupUser,
-  recoveryUser,
-  verifyUser,
-  validateUser,
-} = Container.get(AuthController);
+//activation
+//resend
+//confirm

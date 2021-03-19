@@ -6,9 +6,11 @@ export const guardMiddleware = (
   next: NextFunction
 ): void => {
   // check and validating jwt
-  //
-  if ('x-jwt' in req.headers) {
-    const token = req.headers['x-jwt'];
+
+  console.log('guard', req.session);
+
+  if ('authorization' in req.headers) {
+    const token = req.headers['authorization'];
     console.log(token);
   }
   next();
