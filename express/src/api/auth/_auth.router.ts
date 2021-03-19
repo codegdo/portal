@@ -6,7 +6,7 @@ import {
   recoveryUser,
   verifyUser,
   validateUser,
-} from './auth.controller';
+} from './_auth.controller';
 
 const router: Router = Router();
 
