@@ -1,0 +1,53 @@
+// GIT BRANCH
+portal
+	main
+	dev
+	stage
+	prod
+
+// TEMP BRANCH
+<name>/<folder>/<feature+version+description>
+...
+bugfix - b
+feature - f
+...
+gdo/root/
+gdo/react/f1-add-form
+gdo/express/f1-add-routing
+
+// RELEASE BRANCH
+<folder>/<feature+version>
+...
+react/release/0.0.1
+react/hotfix/0.0.1
+
+// switched to a new branch
+$ git checkout -b react/1
+$ git branch react/1 main
+
+// add files to branch
+$ git add .
+$ git add --all
+
+// undo add files
+$ git reset
+
+// commit files
+$ git commit -m "<message>"
+
+// checkout main
+$ git checkout main
+
+// merge 
+$ git merge <branchname>
+
+// push commit
+$ git push origin <commit hash>:<remote branchname>
+
+// push branch
+$ git push origin -u <branchname>
+$ git push origin --set-upstream <branchname>
+
+// delete branch
+$ git branch -d <branch name>
+$ git push origin -d <branchname>
