@@ -32,18 +32,36 @@ script:
 after_success:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
-      # build images
-      docker build -t codegdo/portal:nginx-$BRANCH ./nginx;
-      docker build -t codegdo/portal:express-$BRANCH ./express;
-      docker build -t codegdo/portal:react-$BRANCH ./react;
+      if [[ "$PULL_BRANCH" =~ ^nginx\/.*$ ]]; then
+        docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
+      fi;
+      if [[ "$PULL_BRANCH" =~ ^express\/.*$ ]]; then
+        docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
+      fi;
+      if [[ "$PULL_BRANCH" =~ ^react\/.*$ ]]; then
+        docker build -t codegdo/portal:react-$BRANCH -t codegdo/portal:react-$BRANCH-$SHA ./react;
+      fi;
 
       # log in to the docker CLI
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin;
 
-      docker push codegdo/portal:nginx-$BRANCH;
-      docker push codegdo/portal:express-$BRANCH;
-      docker push codegdo/portal:react-$BRANCH;
+      if [[ "$PULL_BRANCH" =~ ^nginx\/.*$ ]]; then
+        docker push codegdo/portal:nginx-$BRANCH;
+        # docker push codegdo/portal:nginx-$BRANCH-$SHA;
+      fi;
+      if [[ "$PULL_BRANCH" =~ ^express\/.*$ ]]; then
+        docker push codegdo/portal:express-$BRANCH;
+        # docker push codegdo/portal:express-$BRANCH-$SHA;
+      fi;
+      if [[ "$PULL_BRANCH" =~ ^react\/.*$ ]]; then
+        docker push codegdo/portal:react-$BRANCH;
+        # docker push codegdo/portal:react-$BRANCH-$SHA;
+      fi;
     fi;
+
+before_deploy:
+  - sed -ri "s/ENV/$BRANCH/" Dockerrun.aws.json
+  - git add .
 
 deploy:
   provider: elasticbeantalk
