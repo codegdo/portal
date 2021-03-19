@@ -6,22 +6,25 @@ import { AppState } from '../../../store/reducers';
 import { useAction, useFetch } from '../../../hooks';
 import { Form, FormType } from '../../../components/form';
 import { normalizeData } from '../../../helpers';
-import { splitObjectKeyId } from '../../../utils/split-object-key-id.util';
+import { splitObjectKeyId } from '../../../utils';
+import { storage } from '../../../services';
+import { jwtToken } from '../../../app.config';
 
 export class LoginDto {
   username!: string;
   password!: string;
 }
 
-interface LoginOutput {
+interface FetchOutput {
   user: {};
+  token: string;
 }
 
 const Login: React.FC = (): JSX.Element => {
   const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
   const [form, setForm] = useState<FormType>();
   const { updateSession } = useAction();
-  const { status, data, fetchData } = useFetch<LoginOutput>('/auth/login');
+  const { status, data, fetchData } = useFetch<FetchOutput>('api/auth/login');
 
   // initial load form
   useEffect(() => {
@@ -35,6 +38,7 @@ const Login: React.FC = (): JSX.Element => {
   // api response
   useEffect(() => {
     if (status == 'success' && data) {
+      storage.setItem(jwtToken, data.token);
       updateSession({ loggedIn: true, user: data.user });
     }
   }, [status]);

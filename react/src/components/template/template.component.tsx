@@ -23,7 +23,7 @@ export const TemplateComponent: React.FC<TemplateComponentProps> = (props): JSX.
       <JsxParser
         bindings={{}}
         components={{ MainComponent, NavMain }}
-        jsx={`<MainComponent /> <NavMain />`}
+        jsx={`<NavMain /><MainComponent />`}
       />
     </Suspense>
   );

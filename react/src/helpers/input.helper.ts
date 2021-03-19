@@ -1,8 +1,8 @@
-import { formToObject, FormToObject } from './form-to-object.util';
+import { FormObject, formObject } from '../helpers';
 
-export function stringToArrayObject(
+export function checkboxValue(
   str: string,
-  option: FormToObject
+  option: FormObject
 ): [string[], { [key: string]: string }] {
   const x = str.split('::');
 
@@ -24,7 +24,7 @@ export function stringToArrayObject(
       return result;
     }, {});
 
-    const objKeys = formToObject(option);
+    const objKeys = formObject(option);
 
     obj = { ...objKeys, ...objValues };
   }

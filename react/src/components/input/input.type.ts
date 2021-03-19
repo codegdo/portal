@@ -1,13 +1,13 @@
-import { FieldType } from '../types';
+import { NormalizeBlockField } from '../types';
 
 export interface InputProps {
-  data: FieldType;
+  data: NormalizeBlockField;
   value: string;
   onChange?: (value: string) => void;
 }
 
 export interface InputContextValue {
-  input: FieldType;
+  input: NormalizeBlockField;
   value: string;
   onChange?: (value: string) => void;
 }

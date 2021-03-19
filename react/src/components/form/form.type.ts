@@ -48,7 +48,7 @@ export type NormalizeBlockField =
   | FormType
   | BlockType
   | FieldType
-  | { [key: string]: string };
+  | { [key: string]: any };
 
 export interface FormContextValue {
   data: FormType;
@@ -77,5 +77,5 @@ export interface FormElementProps {
 }
 
 export interface FormFieldProps {
-  field: FieldType;
+  field: NormalizeBlockField;
 }

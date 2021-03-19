@@ -1,9 +1,7 @@
 import React from 'react';
 
-import {
-  RouteComponent,
-  RouteComponentData,
-} from '../../components/route/route.component';
+import { RouteComponent } from '../../components/route/route.component';
+import { RouteComponentData } from '../../components/types';
 
 const routes: RouteComponentData[] = [
   {

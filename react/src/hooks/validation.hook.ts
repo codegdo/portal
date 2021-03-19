@@ -1,7 +1,8 @@
 import { validate } from 'class-validator';
 import { useState } from 'react';
 import { FieldType } from '../components/form';
-import { toCamelCase, errorsToObject } from '../utils';
+import { toCamelCase } from '../utils';
+import { formError } from '../helpers';
 
 export const useValidation = (
   defaultError: string
@@ -17,7 +18,7 @@ export const useValidation = (
 
     validate(schemaId, { [key]: value }).then((errors) => {
       if (errors.length > 0) {
-        const err = errorsToObject(errors);
+        const err = formError(errors);
         setError(err[key]);
       } else {
         setError('');

@@ -1,8 +1,52 @@
 import { ValidationSchema } from 'class-validator';
-import { FormToObject } from './form-to-object.util';
-import { toCamelCase } from './to-camel-case.util';
+import { FormType } from '../components/types';
+import { toCamelCase } from '../utils';
 
-export function formToSchema(obj: FormToObject): ValidationSchema {
+type FormError = {
+  [x: string]: any;
+};
+
+export interface FormObject {
+  data: FormType;
+  key: string;
+  value?: string;
+  defaultValue?: any;
+}
+
+export const formError = (errors: FormError[]) => {
+  return errors.reduce((i, v) => {
+    const { property, constraints } = v;
+    const str = Object.keys(constraints)
+      .map((k) => {
+        return constraints[k];
+      })
+      .join('\n');
+
+    i[property] = str;
+    return i;
+  }, {});
+};
+
+export function formObject(obj: FormObject): { [x: string]: string } {
+  const {
+    data: { fields },
+    key,
+    value,
+    defaultValue,
+  } = obj;
+
+  return fields.reduce((i, v) => {
+    const keyId = toCamelCase(v[key] + (v.id || ''));
+
+    value !== undefined
+      ? (i[keyId] = v[value] || '')
+      : (i[keyId] = defaultValue ? defaultValue : v);
+
+    return i;
+  }, {});
+}
+
+export function formSchema(obj: FormObject): ValidationSchema {
   const {
     data: { fields, name, id },
     key,

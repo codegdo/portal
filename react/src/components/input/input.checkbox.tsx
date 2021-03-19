@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { stringToArrayObject } from '../../utils/string-to-array-object.util';
+import { checkboxValue } from '../../helpers';
 import { InputContext } from './input.component';
 
 export const InputCheckbox: React.FC = () => {
@@ -11,7 +11,7 @@ export const InputCheckbox: React.FC = () => {
 
   // value = 'one;two::one:asf;two:abc'
   const { input: { data }, value: initalValue, onChange } = context;
-  const [aChecks, oInputs] = stringToArrayObject(initalValue, { data, key: 'value', value: '' });
+  const [aChecks, oInputs] = checkboxValue(initalValue, { data, key: 'value', value: '' });
   // ['one','two']
   const [checks, setChecks] = useState(aChecks);
   // {one:item, two:item2}

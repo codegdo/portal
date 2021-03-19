@@ -11,7 +11,7 @@ interface FetchState<T> {
 }
 
 interface FetchOutput<T> extends FetchState<T> {
-  fetchData: <T>(options: T) => Promise<void>;
+  fetchData: <T>(options?: T) => Promise<void>;
 }
 
 type Action<T> =
