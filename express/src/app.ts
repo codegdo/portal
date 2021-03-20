@@ -7,7 +7,7 @@ import express, { Application } from 'express';
 // import { appMiddleware } from './app.middleware';
 
 export default async (): Promise<Application> => {
-  let app = express();
+  const app = express();
 
   // const connections = await appConnection();
 
