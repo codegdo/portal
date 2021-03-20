@@ -32,6 +32,7 @@ script:
 after_success:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
+      
       if [[ "$PULL_BRANCH" =~ ^nginx\/.*$ ]]; then
         docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
       fi;
@@ -39,6 +40,11 @@ after_success:
         docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;
       fi;
       if [[ "$PULL_BRANCH" =~ ^react\/.*$ ]]; then
+        docker build -t codegdo/portal:react-$BRANCH -t codegdo/portal:react-$BRANCH-$SHA ./react;
+      fi;
+      if [[ "$PULL_BRANCH" =~ ^root\/.*$ ]]; then
+        docker build -t codegdo/portal:nginx-$BRANCH -t codegdo/portal:nginx-$BRANCH-$SHA ./nginx;
+        docker build -t codegdo/portal:express-$BRANCH -t codegdo/portal:express-$BRANCH-$SHA ./express;  
         docker build -t codegdo/portal:react-$BRANCH -t codegdo/portal:react-$BRANCH-$SHA ./react;
       fi;
 
@@ -55,6 +61,14 @@ after_success:
       fi;
       if [[ "$PULL_BRANCH" =~ ^react\/.*$ ]]; then
         docker push codegdo/portal:react-$BRANCH;
+        # docker push codegdo/portal:react-$BRANCH-$SHA;
+      fi;
+      if [[ "$PULL_BRANCH" =~ ^root\/.*$ ]]; then
+        docker push codegdo/portal:nginx-$BRANCH;  
+        docker push codegdo/portal:react-$BRANCH;
+        docker push codegdo/portal:express-$BRANCH;
+        # docker push codegdo/portal:express-$BRANCH-$SHA;
+        # docker push codegdo/portal:nginx-$BRANCH-$SHA;
         # docker push codegdo/portal:react-$BRANCH-$SHA;
       fi;
     fi;
