@@ -31,5 +31,8 @@ export default async (): Promise<Application> => {
     });
   }
 
+  app.use('*', (_req, res) => {
+    res.json({ key: process.env.SESSION_SECRET });
+  });
   return app;
 };
