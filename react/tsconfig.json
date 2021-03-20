@@ -15,7 +15,7 @@
     "noImplicitReturns" : true,
     "stripInternal": true,
     "moduleResolution": "node",
-    "types": ["react", "react-dom", "react-router-dom"],
+    "types": ["react", "react-dom", "react-router-dom", "node"],
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,
