@@ -1,35 +1,36 @@
 import 'reflect-metadata';
 import express, { Application } from 'express';
-import { useExpressServer, useContainer, Action } from 'routing-controllers';
-import { Container } from 'typedi';
+// import { useExpressServer, useContainer, Action } from 'routing-controllers';
+// import { Container } from 'typedi';
 
-import { appConnection } from './app.connection';
-import { appMiddleware } from './app.middleware';
+// import { appConnection } from './app.connection';
+// import { appMiddleware } from './app.middleware';
 
 export default async (): Promise<Application> => {
   let app = express();
-  const connections = await appConnection();
 
-  useContainer(Container);
+  // const connections = await appConnection();
 
-  if (connections) {
-    appMiddleware(app);
-    useExpressServer(app, {
-      authorizationChecker: async () => {
-        return true;
-      },
-      currentUserChecker: async (action: Action) => {
-        const token = action.request.headers['authorization'];
-        console.log('currentUserCheck', action.request.session);
-        console.log(token);
-        //return getEntityManager().findOneByToken(User, token);
-      },
-      routePrefix: '/api',
-      controllers: [__dirname + '/api/**/*.controller.+(js|ts)'],
-      middlewares: [__dirname + '/middlewares/*.middleware.+(js|ts)'],
-      interceptors: [],
-    });
-  }
+  // useContainer(Container);
+
+  // if (connections) {
+  //   appMiddleware(app);
+  //   useExpressServer(app, {
+  //     authorizationChecker: async () => {
+  //       return true;
+  //     },
+  //     currentUserChecker: async (action: Action) => {
+  //       const token = action.request.headers['authorization'];
+  //       console.log('currentUserCheck', action.request.session);
+  //       console.log(token);
+  //       //return getEntityManager().findOneByToken(User, token);
+  //     },
+  //     routePrefix: '/api',
+  //     controllers: [__dirname + '/api/**/*.controller.+(js|ts)'],
+  //     middlewares: [__dirname + '/middlewares/*.middleware.+(js|ts)'],
+  //     interceptors: [],
+  //   });
+  // }
 
   app.use('*', (_req, res) => {
     res.json({ key: process.env.SESSION_SECRET });
