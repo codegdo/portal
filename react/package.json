@@ -4,8 +4,8 @@
   "description": "react server",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production",
-    "dev": "webpack serve",
+    "build": "webpack --env API_URL=http://portal-dev.eba-ig2vd8pw.us-west-1.elasticbeanstalk.com --mode production",
+    "dev": "webpack serve --env API_URL=http://localhost:5000",
     "start": "node index.js",
     "lint:eslint": "eslint src --ext js,ts,tsx",
     "lint:prettier": "prettier src --write --ext js,ts,tsx,json,scss",
@@ -32,6 +32,7 @@
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.1",
     "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.35",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-redux": "^7.1.16",
