@@ -25,8 +25,8 @@ export default async (): Promise<Application> => {
         //return getEntityManager().findOneByToken(User, token);
       },
       routePrefix: '/api',
-      controllers: [__dirname + '/api/**/*.controller.ts'],
-      middlewares: [__dirname + '/middlewares/*.middleware.ts'],
+      controllers: [__dirname + '/api/**/*.controller.+(js|ts)'],
+      middlewares: [__dirname + '/middlewares/*.middleware.+(js|ts)'],
       interceptors: [],
     });
   }
