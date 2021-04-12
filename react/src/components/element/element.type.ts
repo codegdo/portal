@@ -12,7 +12,7 @@ export interface ElementComponentProps {
   attribute: { [x: string]: any };
 }
 
-export interface ButtonComponentProps {
+export interface ButtonProps {
   type: any;
   onClick?: <T>(args: T) => void;
   props: {
@@ -21,11 +21,16 @@ export interface ButtonComponentProps {
   };
 }
 
-export interface SelectComponentProps {
+export interface SelectProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface HeaderComponentProps {
+export interface HeaderProps {
   title?: string;
   description?: string;
+}
+
+export interface MessageProps {
+  text: string;
+  type: string;
 }

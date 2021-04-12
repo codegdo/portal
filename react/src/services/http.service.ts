@@ -11,7 +11,7 @@ export interface RequestOptions {
   body?: any;
   withCredentials?: boolean;
   credentials?: RequestCredentials;
-  fetching?: boolean;
+  init?: boolean;
 }
 
 class HttpService {
@@ -48,7 +48,6 @@ class HttpService {
             resolve(res);
           } else {
             //reject(res);
-            alert();
             throw res;
           }
         })

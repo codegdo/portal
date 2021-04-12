@@ -1,9 +1,10 @@
 import { registerSchema } from 'class-validator';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { FormContext } from '.';
 import { useValidation } from '../../hooks/validation.hook';
 import { toCamelCase } from '../../utils';
 import { Field } from '../field/field.component';
+import { TargetInput } from '../input/input.type';
 import { FormFieldProps } from './form.type';
 
 export const FormField: React.FC<FormFieldProps> = ({ field }): JSX.Element | null => {
@@ -13,40 +14,47 @@ export const FormField: React.FC<FormFieldProps> = ({ field }): JSX.Element | nu
     return null;
   }
 
-  let { values, errors, validation, submit } = context;
-  const { id, name } = field;
-  const keyId = toCamelCase(name + id);
-  const key = toCamelCase(name);
-  const [value, setValue] = useState(values[keyId]);
+  let { values, errors, response, status, formValidationSchema } = context;
+
+  const keyId = toCamelCase(field.name + field.id);
+  const [value, error, setValue, resetValue] = useValidation(values[keyId], errors[keyId]);
 
   const fieldValidationSchema = {
     name: keyId,
     properties: {
-      [key]: [...validation.properties[key]]
+      [keyId]: [...formValidationSchema.properties[keyId]]
     }
-  }
-  const [error, setValidate] = useValidation(errors[key]);
+  };
 
   useEffect(() => {
     registerSchema(fieldValidationSchema);
   }, []);
 
   useEffect(() => {
-    if (submit) {
-      (error == undefined) && setValidate(field, value);
+    values[keyId] = value;
+  }, [value]);
+
+  useEffect(() => {
+    if (status === 'submit') {
+      (error == undefined) && setValue(field, { [keyId]: value });
 
       if (error && error != '') {
         errors[keyId] = error;
       }
-
-      values[keyId] = value;
+    } else if (status === 'reset') {
+      resetValue(field);
     }
 
-  }, [submit]);
+  }, [status]);
 
-  const handleChange = (value: string): void => {
-    setValidate(field, value);
-    setValue(value);
+  useEffect(() => {
+    if (response && response.clear) {
+      resetValue(field);
+    }
+  }, [response]);
+
+  const handleChange = (target: TargetInput): void => {
+    setValue(field, target);
   }
 
   return (

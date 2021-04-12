@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { jwtToken } from '../../../app.config';
@@ -10,19 +10,27 @@ interface HomeOutput {
   ok: boolean;
 }
 
-const LogoutComponent: React.FC = (): JSX.Element => {
+const Logout: React.FC = (): JSX.Element | null => {
   const dispatch = useDispatch();
-  const { fetchData } = useFetch<HomeOutput>('/api/auth/logout');
+  const { status, fetchData } = useFetch<HomeOutput>('/api/auth/logout');
+  const [isLoading, setIsLoading] = useState(true);
+
+  const logout = useCallback(async () => {
+    fetchData();
+  }, [status]);
 
   useEffect(() => {
-    (async () => {
-      fetchData();
-    })();
-    storage.removeItem(jwtToken);
-    dispatch(deleteSession());
-  });
+    if (status == 'idle') {
+      logout();
+    }
+    if (status == 'success' || status == 'error') {
+      storage.removeItem(jwtToken);
+      dispatch(deleteSession());
+      setIsLoading(false);
+    }
+  }, [status]);
 
-  return <Redirect to="/auth/login" />;
+  return isLoading ? null : <Redirect to="/auth/login" />;
 };
 
-export default LogoutComponent;
+export default Logout;

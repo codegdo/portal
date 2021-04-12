@@ -1,8 +1,34 @@
-import { FormObject, formObject } from '../helpers';
+import { toCamelCase } from '../utils';
 
-export function checkboxValue(
+export interface InputObject {
+  data: { [x: string]: any };
+  key: string;
+  value?: string;
+  defaultValue?: any;
+}
+
+export function parseInputObject(option: InputObject): { [x: string]: string } {
+  const {
+    data: { fields },
+    key,
+    value,
+    defaultValue,
+  } = option;
+
+  return fields.reduce((i: any, v: any) => {
+    const keyId = toCamelCase(v[key] + (v.id || ''));
+
+    value !== undefined
+      ? (i[keyId] = v[value] || '')
+      : (i[keyId] = defaultValue ? defaultValue : v);
+
+    return i;
+  }, {});
+}
+
+export function parseCheckboxValue(
   str: string,
-  option: FormObject
+  option: InputObject
 ): [string[], { [key: string]: string }] {
   const x = str.split('::');
 
@@ -24,7 +50,7 @@ export function checkboxValue(
       return result;
     }, {});
 
-    const objKeys = formObject(option);
+    const objKeys = parseInputObject(option);
 
     obj = { ...objKeys, ...objValues };
   }

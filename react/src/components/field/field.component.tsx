@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { FieldLabel } from './field.label';
 import { FieldInput } from './field.input';
@@ -12,9 +12,28 @@ interface FieldExtends {
 export const FieldContext = React.createContext<FieldContextValue | undefined>(undefined);
 
 export const Field: React.FC<FieldProps> & FieldExtends = ({ data, value, error, onChange, children }) => {
+
+  const divRef = useRef<HTMLDivElement>(null);
+
+  const onBlur = () => {
+    if (divRef.current) {
+      if (value) {
+        divRef.current.setAttribute('data-focus', 'true');
+      } else {
+        divRef.current.setAttribute('data-focus', 'false');
+      }
+    }
+  }
+
+  const onFocus = () => {
+    if (divRef.current) {
+      divRef.current.setAttribute('data-focus', 'true');
+    }
+  }
+
   return (
-    <div>
-      <FieldContext.Provider value={{ data, value, error, onChange }}>
+    <div className={error ? 'field _error' : 'field'} ref={divRef}>
+      <FieldContext.Provider value={{ data, value, error, onChange, onFocus, onBlur }}>
         {
           children
         }

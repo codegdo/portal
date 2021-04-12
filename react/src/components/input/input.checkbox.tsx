@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { checkboxValue } from '../../helpers';
+import { parseCheckboxValue } from '../../helpers';
 import { InputContext } from './input.component';
 
 export const InputCheckbox: React.FC = () => {
@@ -10,8 +10,10 @@ export const InputCheckbox: React.FC = () => {
   }
 
   // value = 'one;two::one:asf;two:abc'
-  const { input: { data }, value: initalValue, onChange } = context;
-  const [aChecks, oInputs] = checkboxValue(initalValue, { data, key: 'value', value: '' });
+  const { input: { data }, value: initialValue, onChange } = context;
+
+  const [aChecks, oInputs] = parseCheckboxValue(initialValue, { data, key: 'value', value: '' });
+
   // ['one','two']
   const [checks, setChecks] = useState(aChecks);
   // {one:item, two:item2}
@@ -21,6 +23,7 @@ export const InputCheckbox: React.FC = () => {
 
   useEffect(() => {
     let checkVal = checks.join(';');
+
     const inputVal = Object.entries(inputs)
       .filter(v => (checks.includes(v[0]) && includedInput(v[0])))
       .map(v => v[0] + ":" + v[1])
@@ -41,8 +44,8 @@ export const InputCheckbox: React.FC = () => {
     return data.filter((item: any) => (item.value == v && item.input !== '' && item.input !== undefined)).length !== 0;
   }
 
-  const checkboxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { value } = e.target;
+  const checkboxChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value } = event.target;
     const checkVals = checks.includes(value) ? checks.filter((v: string) => v !== value) : [...checks, value];
 
     setChecks([...checkVals]);

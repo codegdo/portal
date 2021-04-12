@@ -1,0 +1,22 @@
+// DB INSTANCE
+db-portal-dev
+db-portal-stage
+db-portal-prod
+
+// SECURITY GROUP
+sec-portal-dev
+sec-portal-stage
+sec-portal-prod
+
+// ELASTIC BEANSTALK
+portal-dev
+portal-stage
+portal-prod
+
+// AIM
+portal_admin
+
+// BILLING
+billing preference
+cloudwatch
+awsbudget

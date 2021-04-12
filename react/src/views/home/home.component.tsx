@@ -5,7 +5,7 @@ interface HomeOutput {
   message: string;
 }
 const HomeComponent: React.FC = (): JSX.Element => {
-  const { status, data, fetchData } = useFetch<HomeOutput>('/api');
+  const { fetching, data, fetchData } = useFetch<HomeOutput>('/api');
 
   // initial load form
   useEffect(() => {
@@ -16,10 +16,10 @@ const HomeComponent: React.FC = (): JSX.Element => {
 
   // api response
   useEffect(() => {
-    if (status == 'success' && data) {
+    if (fetching == 'success' && data) {
       console.log(data);
     }
-  }, [status]);
+  }, [fetching]);
 
   return (
     <div>

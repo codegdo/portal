@@ -1,10 +1,10 @@
 {
-  "id": 3,
+  "id": 2,
   "classId": "form",
-  "name": "Login",
-  "title": "Login",
+  "name": "Signup",
+  "title": "Signup",
   "description": "",
-  "css": "{}",
+  "css": {},
   "styles": "",
   "buttons": [
     {
@@ -15,7 +15,7 @@
       "dataType": "button",
       "dataRole": "element",
       "options": "{}",
-      "value": "Submit",
+      "value": "Signup",
       "data": "[]",
       "position": 0,
       "parentPosition": null
@@ -23,7 +23,7 @@
   ],
   "data": [
     {
-      "id": 1,
+      "id": 2,
       "classId": null,
       "name": "",
       "type": "div",
@@ -45,7 +45,7 @@
       "dataType": "text",
       "dataRole": "field",
 
-      "options": "{}",
+      "options": "{\"setting\":{\"isFocus\":true}}",
       "data": "[]",
       "value": "",
 
@@ -71,7 +71,7 @@
       "dataType": "password",
       "dataRole": "field",
 
-      "options": "{}",
+      "options": "{\"setting\":{\"showPassword\":true},\"validation\":{\"confirmPassword\":true,\"strongPassword\":true}}",
       "data": "[]",
       "value": "",
 
@@ -82,6 +82,35 @@
 
       "name": "Password",
       "label": "Password",
+      "description": null,
+      "text": null,
+
+      "minLength": null,
+      "maxLength": null,
+
+      "isRequired": true,
+      "isReadonly": false,
+      "isAdmin": false
+    },
+    {
+      "id": 6,
+      "classId": null,
+
+      "type": "input",
+      "dataType": "email",
+      "dataRole": "field",
+
+      "options": "{}",
+      "data": "[]",
+      "value": "",
+
+      "position": 5,
+      "parentPosition": 2,
+      "parentFieldId": null,
+      "mapTo": "portal.sec.User",
+
+      "name": "Email",
+      "label": "Email",
       "description": null,
       "text": null,
 
