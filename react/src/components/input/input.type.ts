@@ -1,13 +1,21 @@
-import { NormalizeBlockField } from '../types';
+import { FieldType } from '../types';
 
-export interface InputProps {
-  data: NormalizeBlockField;
+export type InputProps = {
+  data: FieldType;
   value: string;
-  onChange?: (value: string) => void;
-}
+  onChange?: (target: TargetInput) => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
+};
 
-export interface InputContextValue {
-  input: NormalizeBlockField;
+export type InputContextValue = {
+  input: FieldType;
   value: string;
-  onChange?: (value: string) => void;
-}
+  onChange?: (target: TargetInput) => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
+};
+
+export type TargetInput = {
+  [key: string]: any;
+};

@@ -12,9 +12,11 @@ export const FieldLabel: React.FC = () => {
   const { label, description } = data;
 
   return (
-    <span>
-      <label>{label}</label>
-      {description && <em>{description}</em>}
-    </span>
+    <div className="field-label">
+      <span className="label">
+        <label>{label}</label>
+        {description && <em className="description"><small>{description}</small></em>}
+      </span>
+    </div>
   )
 }

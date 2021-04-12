@@ -16,16 +16,19 @@ export class AuthController {
 
   @Post('/signup')
   async signupUser(@Body() input: SignupUserDto): Promise<any> {
-    await this.authService.signupUser(input);
+    const user = await this.authService.signupUser(input);
 
-    return { ok: true };
+    return { username: user.username };
   }
 
-  @Get('/verify/:token')
-  async verifyToken() {}
+  @Get('/confirm/:token')
+  async confirmToken() {}
 
-  @Post('/verify')
-  async verifyUser() {}
+  @Post('/resend')
+  async resendToken() {
+    throw new Error();
+    //return { message: 'successful' };
+  }
 
   @Post('/login')
   async loginUser(
@@ -53,5 +56,3 @@ export class AuthController {
 }
 
 //activation
-//resend
-//confirm

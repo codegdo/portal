@@ -1,10 +1,10 @@
 {
-  "id": 3,
+  "id": 2,
   "classId": "form",
-  "name": "Login",
-  "title": "Login",
+  "name": "ResendConfirm",
+  "title": "Resend Confirmation",
   "description": "",
-  "css": "{}",
+  "css": {},
   "styles": "",
   "buttons": [
     {
@@ -15,7 +15,7 @@
       "dataType": "button",
       "dataRole": "element",
       "options": "{}",
-      "value": "Submit",
+      "value": "Resend",
       "data": "[]",
       "position": 0,
       "parentPosition": null
@@ -23,7 +23,7 @@
   ],
   "data": [
     {
-      "id": 1,
+      "id": 2,
       "classId": null,
       "name": "",
       "type": "div",
@@ -45,9 +45,9 @@
       "dataType": "text",
       "dataRole": "field",
 
-      "options": "{}",
+      "options": "{\"setting\":{\"isFocus\":true}}",
       "data": "[]",
-      "value": "",
+      "value": null,
 
       "position": 4,
       "parentPosition": 2,
@@ -58,35 +58,6 @@
       "label": "Username",
       "description": null,
       "text": null,
-
-      "isRequired": true,
-      "isReadonly": false,
-      "isAdmin": false
-    },
-    {
-      "id": 5,
-      "classId": null,
-
-      "type": "input",
-      "dataType": "password",
-      "dataRole": "field",
-
-      "options": "{}",
-      "data": "[]",
-      "value": "",
-
-      "position": 5,
-      "parentPosition": 2,
-      "parentFieldId": null,
-      "mapTo": "portal.sec.User",
-
-      "name": "Password",
-      "label": "Password",
-      "description": null,
-      "text": null,
-
-      "minLength": null,
-      "maxLength": null,
 
       "isRequired": true,
       "isReadonly": false,

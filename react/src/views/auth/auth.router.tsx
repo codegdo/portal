@@ -26,6 +26,10 @@ const routes: RouteComponentData[] = [
     component: 'auth/signup/signup.component.tsx',
   },
   {
+    path: '/resend',
+    component: 'auth/resend/resend.component.tsx',
+  },
+  {
     path: '*',
     component: 'notfound.component.tsx',
   },

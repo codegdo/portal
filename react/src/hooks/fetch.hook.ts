@@ -5,13 +5,12 @@ import { http, RequestOptions } from '../services';
 import { stripTrailingSlash } from '../utils';
 
 interface FetchState<T> {
-  status: 'idle' | 'loading' | 'error' | 'success';
+  fetching: 'idle' | 'loading' | 'error' | 'success';
   data?: T;
-  error?: T;
 }
 
 interface FetchOutput<T> extends FetchState<T> {
-  fetchData: <T>(options?: T) => Promise<void>;
+  fetchData: <T>(configs?: T) => Promise<void>;
 }
 
 type Action<T> =
@@ -21,7 +20,7 @@ type Action<T> =
 
 export const useFetch = <T>(
   endpoint: string,
-  { baseUrl, fetching = false, ...rest }: RequestOptions = {}
+  { baseUrl, init = false, ...rest }: RequestOptions = {}
 ): FetchOutput<T> => {
   const token = window.localStorage.getItem(jwtToken);
   const url = baseUrl
@@ -34,9 +33,8 @@ export const useFetch = <T>(
   }
 
   const initialState: FetchState<T> = {
-    status: 'idle',
+    fetching: 'idle',
     data: undefined,
-    error: undefined,
   };
 
   const fetchReducer = <T>(
@@ -45,11 +43,11 @@ export const useFetch = <T>(
   ): FetchState<any> => {
     switch (action.type) {
       case 'REQUEST':
-        return { ...state, status: 'loading' };
+        return { ...state, fetching: 'loading' };
       case 'SUCCESS':
-        return { ...state, status: 'success', data: action.payload };
+        return { ...state, fetching: 'success', data: action.payload };
       case 'FAILURE':
-        return { ...state, status: 'error', error: action.payload };
+        return { ...state, fetching: 'error', data: action.payload };
       default:
         return state;
     }
@@ -58,23 +56,32 @@ export const useFetch = <T>(
   const [state, dispatch] = useReducer(fetchReducer, initialState);
 
   const fetchData = useCallback(
-    async (options: RequestOptions = {}) => {
+    async (configs = {}): Promise<void> => {
+      const { options, settings } = configs;
+
       if (!endpoint) {
         return;
       }
+
       dispatch({ type: 'REQUEST' });
+
       try {
-        const res = await http.request(url, { ...rest, ...options });
-        dispatch({ type: 'SUCCESS', payload: res.data });
+        const { ok, status, data = {} } = await http.request(url, {
+          ...rest,
+          ...options,
+        });
+
+        dispatch({ type: 'SUCCESS', payload: { ok, status, ...data, ...settings } });
       } catch (error) {
-        dispatch({ type: 'FAILURE', payload: error.data });
+        const { ok, status, data = {} } = error;
+        dispatch({ type: 'FAILURE', payload: { ok, status, ...data, ...settings } });
       }
     },
     [endpoint]
   );
 
   useEffect(() => {
-    if (!fetching) {
+    if (!init) {
       return;
     }
     fetchData();

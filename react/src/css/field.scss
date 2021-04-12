@@ -1,0 +1,33 @@
+// FIELD COMPONENT
+
+.field {
+  margin-bottom: 1rem;
+}
+
+// FIELD ITEMS
+
+// .field-label
+// .field-input
+
+// LABEL ELEMENTS
+
+// .label-text
+// .label-description
+
+// INPUT ELEMENTS
+
+.input-hint {
+  display: block;
+}
+
+// .input-description
+
+.input-message {
+  display: none;
+}
+
+// MODIFIER
+
+.error .input-message {
+  display: block;
+}

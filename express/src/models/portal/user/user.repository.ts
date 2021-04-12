@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { LoginUserDto, SignupUserDto } from './user.dto';
-import { ExceptionHttp } from '../../../app.exception';
+import { BadRequestError, InternalServerError } from 'routing-controllers';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -18,9 +18,9 @@ export class UserRepository extends Repository<User> {
       return user;
     } catch (error) {
       if (error.code === '23505') {
-        throw new ExceptionHttp(400, 'User already exists');
+        throw new BadRequestError('User already exists');
       } else {
-        throw new ExceptionHttp(500);
+        throw new InternalServerError('Internal server error');
       }
     }
   }
@@ -41,13 +41,11 @@ export class UserRepository extends Repository<User> {
         if (await user.validatePassword(password)) {
           return user;
         }
-        //throw new ExceptionHttp(400, 'Invalid credentials');
         return undefined;
       }
-      // throw new ExceptionHttp(404, 'Not Found');
       return null;
     } catch (error) {
-      throw new ExceptionHttp(500);
+      throw new InternalServerError('Internal server error');
     }
   }
 }

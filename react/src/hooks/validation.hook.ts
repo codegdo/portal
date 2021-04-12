@@ -2,29 +2,58 @@ import { validate } from 'class-validator';
 import { useState } from 'react';
 import { FieldType } from '../components/form';
 import { toCamelCase } from '../utils';
-import { formError } from '../helpers';
+import { parseFormError } from '../helpers';
+import { TargetInput } from '../components/input/input.type';
 
 export const useValidation = (
-  defaultError: string
-): [string | undefined, (field: FieldType, value: string) => void] => {
-  const [error, setError] = useState<string | undefined>(defaultError);
+  initialValue: string,
+  initialError: string
+): [
+  string,
+  string,
+  (field: FieldType, target: TargetInput) => Promise<void>,
+  (field: FieldType) => void
+] => {
+  const initialState = { value: initialValue, error: initialError };
+  const [state, setState] = useState(initialState);
 
-  const setValidate = (field: FieldType, value: string): void => {
-    const { id, name } = field;
-    const schemaId = toCamelCase(name + id);
-    const key = toCamelCase(name);
+  const setValue = async (field: FieldType, target: TargetInput): Promise<void> => {
+    const keyId = toCamelCase(field.name + field.id);
+    const value = target[keyId];
 
-    //setError(validateField(field, value));
+    const errors = await validate(keyId, { [keyId]: value });
 
-    validate(schemaId, { [key]: value }).then((errors) => {
-      if (errors.length > 0) {
-        const err = formError(errors);
-        setError(err[key]);
-      } else {
-        setError('');
+    let errorMessage = '';
+
+    if (errors.length > 0) {
+      errorMessage = parseFormError(errors)[keyId];
+    }
+
+    // OPTIONS VALIDATION
+    if ('validation' in target) {
+      const { validation } = target;
+
+      // password confirm
+      if ('confirmPassword' in validation) {
+        if (value != validation.confirmPassword) {
+          errorMessage += 'Confirm password not match. ';
+        }
       }
-    });
+
+      // password strength
+      if ('strongPassword' in validation) {
+        if (!/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/.test(value)) {
+          errorMessage += 'Not match requirement. ';
+        }
+      }
+    }
+
+    setState({ ...state, value, error: errorMessage });
   };
 
-  return [error, setValidate];
+  const resetValue = (field: FieldType) => {
+    setState({ value: field.value, error: '' });
+  };
+
+  return [state.value, state.error || initialError, setValue, resetValue];
 };

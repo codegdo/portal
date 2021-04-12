@@ -12,7 +12,7 @@ export class AuthService {
   @Inject()
   private token!: Token;
 
-  signupUser = async (signupUserDto: SignupUserDto): Promise<void> => {
+  signupUser = async (signupUserDto: SignupUserDto): Promise<User> => {
     const user = await this.portal.userRepository.signup(signupUserDto);
 
     // generate token
@@ -25,6 +25,8 @@ export class AuthService {
     await this.portal.tokenRepository.createToken(tokenDto);
 
     // send mail
+
+    return user;
   };
 
   loginUser = async (loginUserDto: LoginUserDto): Promise<User> => {
@@ -48,7 +50,11 @@ export class AuthService {
     return 'hello';
   };
 
-  verifyUser = async () => {
+  confirmToken = async () => {
     return 'hello';
+  };
+
+  resendToken = async () => {
+    return '';
   };
 }

@@ -10,14 +10,14 @@ export const FieldInput: React.FC = () => {
     return null;
   }
 
-  const { data, value, error, onChange } = context;
-  const { text } = data;
+  const { data, value, error, onChange, onBlur, onFocus } = context;
 
   return (
-    <div>
-      <Input data={data} value={value} onChange={onChange} />
-      {text && <small>{text}</small>}
-      {error && <strong>{error}</strong>}
+    <div className="field-input">
+      <div className="input">
+        <Input data={data} value={value} onChange={onChange} onBlur={onBlur} onFocus={onFocus} />
+        {error && <span role="alert" className="input-message">{error}</span>}
+      </div>
     </div>
   )
 }

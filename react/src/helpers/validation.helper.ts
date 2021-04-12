@@ -1,5 +1,4 @@
-import { FieldType, FormType } from '../components/types';
-import { splitStringKeyId } from '../utils';
+import { FieldType } from '../components/types';
 
 export const validateField = (field: FieldType, value: string): string => {
   let error = '';
@@ -25,27 +24,5 @@ export const validateField = (field: FieldType, value: string): string => {
     default:
   }
 
-  return error;
-};
-
-export const validateForm = (form: any, data: FormType): boolean => {
-  let error = false;
-  for (let key in form.errors) {
-    if (form.errors[key] == undefined || form.errors[key] !== '') {
-      const { id } = splitStringKeyId(key);
-      const field = data.fields.find((item) => {
-        return item.id == id;
-      });
-
-      // validation
-      const validation = validateField(field, form.values[key]);
-
-      if (validation !== '') {
-        error = true;
-      }
-    } else {
-      error = true;
-    }
-  }
   return error;
 };

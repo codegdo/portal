@@ -1,35 +1,35 @@
 import { ValidationSchema } from 'class-validator';
 
-export interface FormType extends Partial<BlockType> {
+export type FormType = Partial<BlockType> & {
   id: number;
   classId: string;
   name: string;
   title: string;
   description: string;
 
-  css: { [key: string]: any };
+  css: string;
   styles: string;
 
   buttons: any[];
   data: any[];
   fields: any[];
-}
+};
 
-export interface BlockType {
+export type BlockType = {
   id: number;
   classId: string;
   name: string;
   type: string;
   dataType: string;
   dataRole: string;
-  attribute: { [key: string]: any };
+  options: any;
   value: string;
-  data: NormalizeBlockField[];
+  data: NormalizeElement[];
   position: number;
   mapToParent: number;
-}
+};
 
-export interface FieldType extends BlockType {
+export type FieldType = BlockType & {
   label: string;
   description: string;
   text: string;
@@ -42,40 +42,38 @@ export interface FieldType extends BlockType {
 
   isRequired: boolean;
   isReadonly: boolean;
-}
+};
 
-export type NormalizeBlockField =
-  | FormType
-  | BlockType
-  | FieldType
-  | { [key: string]: any };
+export type NormalizeElement = FormType & BlockType & FieldType;
 
-export interface FormContextValue {
+export type FormContextValue = {
   data: FormType;
   values: { [key: string]: string };
   errors: { [key: string]: string };
-  validation: ValidationSchema;
-  submit: boolean;
+  response: any;
+  status: string | undefined;
+  formValidationSchema: ValidationSchema;
   onClick?: (name: string) => void;
-}
+};
 
-export interface FormProps {
+export type FormProps = {
   data: FormType;
+  response: any;
   onSubmit?: <T>(args: T) => void;
-}
+};
 
-export interface FormRenderProps {
-  data: NormalizeBlockField;
-}
+export type FormRenderProps = {
+  data: NormalizeElement;
+};
 
-export interface FormBlockProps {
-  block: NormalizeBlockField;
-}
+export type FormBlockProps = {
+  block: BlockType;
+};
 
-export interface FormElementProps {
-  element: NormalizeBlockField;
-}
+export type FormElementProps = {
+  element: BlockType;
+};
 
-export interface FormFieldProps {
-  field: NormalizeBlockField;
-}
+export type FormFieldProps = {
+  field: FieldType;
+};
