@@ -41,11 +41,11 @@ const Resend: React.FC = (): JSX.Element => {
   // submit form
   const handleSubmit = (values: { [key: string]: any }) => {
     const [keyFields] = splitObjectKeyId(values);
-    const configs = {
-      options: { body: { ...keyFields } },
-      settings: { clear: true }
+    const config = {
+      option: { body: { ...keyFields } },
+      setting: { clear: true }
     };
-    fetchData(configs);
+    fetchData(config);
   }
 
   return (

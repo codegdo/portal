@@ -1,25 +1,39 @@
 import React, { useContext } from 'react';
-import { InputContext } from './input.component';
+import { InputContext, TargetInput } from './';
+import { FieldType, NormalizeElement } from '../form';
+import { toCamelCase } from '../../utils';
 
 export const InputSelect: React.FC = () => {
   const context = useContext(InputContext);
 
-  if (context == undefined) {
-    return null;
+  const { input, value, onChange } = context || {};
+
+  const { name, id, text, data = [] }: Partial<FieldType> = input || {};
+
+  const nameId = toCamelCase(`${name || ''}${id || ''}`);
+
+  const changeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const target: TargetInput = {
+      [nameId]: event.target.value
+    };
+    onChange && onChange(target);
   }
-  // value = 'one'
-  const { input: { data, text }, value, onChange } = context;
 
   return (
-    <>
-      <select defaultValue={value} onChange={(e) => onChange && onChange(e.target.value)}>
+    <span className="input-select">
+      <select defaultValue={value} onChange={changeSelect}>
         {
-          data.map(({ value: val, text: txt }: any, i: number) => {
+          data.map(({ value: val, text: txt }: NormalizeElement, i: number) => {
             return <option key={i} value={val}>{txt}</option>
           })
         }
       </select>
-      {text && <span>{text}</span>}
-    </>
+      {
+        text &&
+        <em className="description">
+          <small>{text}</small>
+        </em>
+      }
+    </span>
   )
 }

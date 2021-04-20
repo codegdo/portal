@@ -44,6 +44,10 @@ module.exports = (env) => {
     module: {
       rules: [
         {
+          test: /\.(eot|ttf|otf|woff|woff2)$/,
+          use: 'file-loader',
+        },
+        {
           test: /\.(js|jsx|ts|tsx)$/,
           exclude: /node_modules/,
           use: 'babel-loader',
@@ -62,7 +66,19 @@ module.exports = (env) => {
       ],
     },
     resolve: {
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.scss'],
+      extensions: [
+        '.js',
+        '.jsx',
+        '.ts',
+        '.tsx',
+        '.json',
+        '.scss',
+        '.eot',
+        '.ttf',
+        '.woff',
+        '.woff2',
+        '.otf',
+      ],
     },
     plugins: [
       new CleanWebpackPlugin(),

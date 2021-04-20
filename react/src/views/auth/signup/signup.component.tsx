@@ -26,11 +26,11 @@ const Signup: React.FC = (): JSX.Element => {
   // submit form
   const handleSubmit = (values: { [key: string]: any }) => {
     const [keyFields] = splitObjectKeyId(values);
-    const options = {
+    const option = {
       body: { ...keyFields }
     };
 
-    fetchData({ options });
+    fetchData({ option });
   }
 
   return (

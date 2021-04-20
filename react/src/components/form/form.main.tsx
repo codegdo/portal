@@ -13,7 +13,7 @@ export const FormMain: React.FC = () => {
   const { data } = context;
 
   return (
-    <main>
+    <main className="form-main">
       {
         render({ data })
       }

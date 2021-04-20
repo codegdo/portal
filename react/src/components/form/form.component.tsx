@@ -21,7 +21,7 @@ export const Form: React.FC<FormProps> & FormExtends = ({ data, response, onSubm
 
   let { current: values } = useRef(defaultValues);
   //let { current: errors } = useRef(defaultErrors);
-  const [error, setError] = useState(false);
+  let errorRef = useRef(false);
   const [status, setStatus] = useState<string | undefined>();
 
   useEffect(() => {
@@ -31,24 +31,25 @@ export const Form: React.FC<FormProps> & FormExtends = ({ data, response, onSubm
   useEffect(() => {
     if (status === 'submit') {
 
+      errorRef.current = true;
+
       if (Object.keys(errors).length == 0) {
+
         // formValidationSchema
         validate(`${data.name}${data.id}`, values).then((errs) => {
           if (errs.length == 0) {
-            setError(false);
+            //setError(false);
+            //refError.current = false;
             onSubmit && onSubmit(values);
-          } else {
-            setError(true);
           }
         });
-      } else {
-        setError(true);
       }
     }
 
     return () => {
       setStatus(undefined);
     };
+
   }, [status]);
 
   // 
@@ -58,10 +59,18 @@ export const Form: React.FC<FormProps> & FormExtends = ({ data, response, onSubm
     }
   }, [status]);
 
+  if (response) {
+    if (response.ok) {
+      errorRef.current = false;
+    } else {
+      errorRef.current = true;
+    }
+  }
 
+  console.log(status);
 
   return (
-    <form className={error ? 'form _error' : 'form'}>
+    <form className={errorRef.current ? 'form -error' : 'form'}>
       <FormContext.Provider value={{ data, values, errors, formValidationSchema, response, status, onClick }}>
         {
           children

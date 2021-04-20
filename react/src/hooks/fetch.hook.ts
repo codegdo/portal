@@ -1,17 +1,22 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import { apiUrl, jwtToken } from '../app.config';
 
-import { http, RequestOptions } from '../services';
+import { http, RequestOption } from '../services';
 import { stripTrailingSlash } from '../utils';
 
-interface FetchState<T> {
+type FetchConfig = {
+  option?: { [key: string]: any };
+  setting?: { [key: string]: any };
+};
+
+type FetchState<T> = {
   fetching: 'idle' | 'loading' | 'error' | 'success';
   data?: T;
-}
+};
 
-interface FetchOutput<T> extends FetchState<T> {
-  fetchData: <T>(configs?: T) => Promise<void>;
-}
+type FetchOutput<T> = FetchState<T> & {
+  fetchData: (configs?: FetchConfig) => Promise<void>;
+};
 
 type Action<T> =
   | { type: 'REQUEST' }
@@ -20,8 +25,8 @@ type Action<T> =
 
 export const useFetch = <T>(
   endpoint: string,
-  { baseUrl, init = false, ...rest }: RequestOptions = {}
-): FetchOutput<T> => {
+  { baseUrl, init, ...rest }: RequestOption = {}
+): FetchOutput<any> => {
   const token = window.localStorage.getItem(jwtToken);
   const url = baseUrl
     ? stripTrailingSlash(`${baseUrl}/${endpoint}`)
@@ -40,7 +45,7 @@ export const useFetch = <T>(
   const fetchReducer = <T>(
     state: FetchState<T>,
     action: Action<T>
-  ): FetchState<any> => {
+  ): FetchState<T> => {
     switch (action.type) {
       case 'REQUEST':
         return { ...state, fetching: 'loading' };
@@ -56,8 +61,8 @@ export const useFetch = <T>(
   const [state, dispatch] = useReducer(fetchReducer, initialState);
 
   const fetchData = useCallback(
-    async (configs = {}): Promise<void> => {
-      const { options, settings } = configs;
+    async (config: FetchConfig = { option: {}, setting: {} }): Promise<void> => {
+      const { option, setting } = config;
 
       if (!endpoint) {
         return;
@@ -66,15 +71,14 @@ export const useFetch = <T>(
       dispatch({ type: 'REQUEST' });
 
       try {
-        const { ok, status, data = {} } = await http.request(url, {
+        const data = await http.request(url, {
           ...rest,
-          ...options,
+          ...option,
         });
 
-        dispatch({ type: 'SUCCESS', payload: { ok, status, ...data, ...settings } });
+        dispatch({ type: 'SUCCESS', payload: { ...data, ok: true, ...setting } });
       } catch (error) {
-        const { ok, status, data = {} } = error;
-        dispatch({ type: 'FAILURE', payload: { ok, status, ...data, ...settings } });
+        dispatch({ type: 'FAILURE', payload: { ...error, ok: false, ...setting } });
       }
     },
     [endpoint]
@@ -84,8 +88,8 @@ export const useFetch = <T>(
     if (!init) {
       return;
     }
-    fetchData();
-  }, [endpoint]);
+    void fetchData();
+  }, [fetchData]);
 
   return { ...state, fetchData };
 };

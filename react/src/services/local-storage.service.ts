@@ -1,6 +1,6 @@
 export interface StorageItem {
   key: string;
-  value: any;
+  value: string | null;
 }
 
 class LocalStorageService {
@@ -21,11 +21,11 @@ class LocalStorageService {
   }
 
   getAllItems(): StorageItem[] {
-    var list: StorageItem[] = [];
+    const list: StorageItem[] = [];
 
-    for (var i = 0; i < localStorage.length; i++) {
-      var key = localStorage.key(i) || '';
-      var value = localStorage.getItem(key);
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i) || '';
+      const value = localStorage.getItem(key);
 
       list.push({
         key,

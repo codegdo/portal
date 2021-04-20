@@ -11,7 +11,7 @@ export const FormHeader: React.FC = () => {
   const { data: { title, description } } = context;
 
   return (
-    <header>
+    <header className="form-header">
       <h2>{title}</h2>
       {description && <p>{description}</p>}
     </header>

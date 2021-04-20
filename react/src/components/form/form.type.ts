@@ -1,5 +1,16 @@
 import { ValidationSchema } from 'class-validator';
 
+export type FieldOption = {
+  setting?: {
+    showPassword?: boolean;
+    isFocus?: boolean;
+  };
+  validation?: {
+    strongPassword?: boolean;
+    confirmPassword?: boolean;
+  };
+};
+
 export type FormType = Partial<BlockType> & {
   id: number;
   classId: string;
@@ -8,11 +19,11 @@ export type FormType = Partial<BlockType> & {
   description: string;
 
   css: string;
-  styles: string;
+  style: string;
 
-  buttons: any[];
-  data: any[];
-  fields: any[];
+  data: NormalizeElement[];
+  buttons: NormalizeElement[];
+  fields: NormalizeElement[];
 };
 
 export type BlockType = {
@@ -22,7 +33,7 @@ export type BlockType = {
   type: string;
   dataType: string;
   dataRole: string;
-  options: any;
+  option: string | FieldOption;
   value: string;
   data: NormalizeElement[];
   position: number;
@@ -37,7 +48,7 @@ export type FieldType = BlockType & {
   placeholder: string;
 
   maxLength: number;
-  parentId: any;
+  parentId: number;
   mapTo: string;
 
   isRequired: boolean;

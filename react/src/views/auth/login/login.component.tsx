@@ -29,11 +29,12 @@ const Login: React.FC = (): JSX.Element => {
 
   // initial load form
   useEffect(() => {
-    (async () => {
+    void (async () => {
       const json = await import('./login.form.json');
       const formData = normalizeData(json.default);
       setForm(formData);
     })();
+
     console.log(location);
   }, []);
 
@@ -43,26 +44,25 @@ const Login: React.FC = (): JSX.Element => {
       storage.setItem(jwtToken, data.token);
       updateSession({ loggedIn: true, user: data.user });
     }
-  }, [fetching]);
+  }, [fetching, fetchData]);
 
   // submit form
   const handleSubmit = (values: { [key: string]: any }) => {
-    //const fields = form === undefined ? [] : form.fields;
-    //const x = mapField(fields, values);
-    //console.log(x);
-
     const [keyFields] = splitObjectKeyId(values);
-    const options = {
+    const option = {
       body: { ...keyFields }
     };
 
-    fetchData({ options });
+    if (fetching !== 'loading') {
+      void fetchData({ option });
+    }
   }
 
   return loggedIn ? <Redirect to="/" /> :
     (
       form == undefined ? <div>loading</div> :
         <Form data={form} response={data} onSubmit={handleSubmit}>
+          <Form.Message />
           <Form.Header />
           <Form.Main />
           <Form.Footer />

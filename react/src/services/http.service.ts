@@ -1,25 +1,25 @@
-export interface HttpResponse<T> extends Response {
+export type HttpResponse<T> = Response & {
   data?: T;
-}
+};
 
-export interface RequestOptions {
+export type RequestOption = {
   url?: string;
   method?: string;
   baseUrl?: string;
-  headers?: any;
-  params?: any;
-  body?: any;
+  headers?: { [key: string]: string };
+  params?: { [key: string]: string };
+  body?: { [key: string]: any };
   withCredentials?: boolean;
   credentials?: RequestCredentials;
   init?: boolean;
-}
+};
 
 class HttpService {
   public async request<T>(
     url: string,
-    options: RequestOptions = {}
+    option: RequestOption
   ): Promise<HttpResponse<T>> {
-    const { body, headers, ...rest } = options;
+    const { body, headers, ...rest } = option || {};
     const config: RequestInit = {
       method: body ? 'POST' : 'GET',
       headers: { 'Content-Type': 'application/json', ...headers },
@@ -38,7 +38,7 @@ class HttpService {
     return new Promise((resolve, reject) => {
       fetch(req)
         .then((res: HttpResponse<T>) => {
-          return res.json().then((body) => {
+          return res.json().then((body: T) => {
             res.data = body;
             return res;
           });
@@ -51,8 +51,8 @@ class HttpService {
             throw res;
           }
         })
-        .catch((error) => {
-          reject(error);
+        .catch((err: HttpResponse<T>) => {
+          reject(err);
         });
     });
   }
