@@ -1,1 +1,17 @@
 // FORM COMPONENT
+//.form {}
+//.form-header {}
+.form-main {
+  margin: 1.5rem 0;
+}
+//.form-footer {}
+
+// MODIFIER
+.form {
+  &.-error {
+    .input-message {
+      display: block;
+      color: $red-medium;
+    }
+  }
+}

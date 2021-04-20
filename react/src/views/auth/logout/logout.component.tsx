@@ -6,29 +6,29 @@ import { useFetch } from '../../../hooks';
 import { storage } from '../../../services';
 import { deleteSession } from '../../../store/actions';
 
-interface HomeOutput {
+interface FetchOutput {
   ok: boolean;
 }
 
 const Logout: React.FC = (): JSX.Element | null => {
   const dispatch = useDispatch();
-  const { status, fetchData } = useFetch<HomeOutput>('/api/auth/logout');
+  const { fetching, fetchData } = useFetch<FetchOutput>('/api/auth/logout');
   const [isLoading, setIsLoading] = useState(true);
 
-  const logout = useCallback(async () => {
-    fetchData();
-  }, [status]);
+  const logout = useCallback(async (): Promise<void> => {
+    await fetchData();
+  }, [fetching]);
 
   useEffect(() => {
-    if (status == 'idle') {
-      logout();
+    if (fetching == 'idle') {
+      void logout();
     }
-    if (status == 'success' || status == 'error') {
+    if (fetching == 'success' || fetching == 'error') {
       storage.removeItem(jwtToken);
       dispatch(deleteSession());
       setIsLoading(false);
     }
-  }, [status]);
+  }, [logout]);
 
   return isLoading ? null : <Redirect to="/auth/login" />;
 };

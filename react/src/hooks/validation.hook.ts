@@ -33,17 +33,18 @@ export const useValidation = (
     if ('validation' in target) {
       const { validation } = target;
 
+      // password strength
+      if ('strongPassword' in validation) {
+        ///^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/
+        if (!/^(?=.*[a-zA-Z0-9!@#$&*]).{6,}$/.test(value)) {
+          errorMessage += 'Not match requirement. ';
+        }
+      }
+
       // password confirm
       if ('confirmPassword' in validation) {
         if (value != validation.confirmPassword) {
           errorMessage += 'Confirm password not match. ';
-        }
-      }
-
-      // password strength
-      if ('strongPassword' in validation) {
-        if (!/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/.test(value)) {
-          errorMessage += 'Not match requirement. ';
         }
       }
     }

@@ -8,14 +8,14 @@ export const normalizeData = (form: any): FormType => {
   let list: any[] = [];
 
   [...data, ...fields].forEach((item) => {
-    let { data, options } = item;
+    let { data, option } = item;
 
     if (typeof data === 'string') {
       item.data = JSON.parse(data);
     }
 
-    if (typeof options === 'string') {
-      item.options = JSON.parse(options);
+    if (typeof option === 'string') {
+      item.option = JSON.parse(option);
     }
 
     return mapToParent(list, item);

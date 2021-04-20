@@ -1,0 +1,39 @@
+// ADMIN
+.admin-login {
+  display: grid;
+  grid-template: 'aside main';
+  grid-template-columns: 40% 1fr;
+  grid-template-rows: 1fr;
+  overflow: hidden;
+  //
+  > aside {
+    grid-area: 'aside';
+    background: $light;
+  }
+  //
+  > main {
+    grid-area: 'main';
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: auto;
+    //
+    .container {
+      max-width: 416px;
+    }
+  }
+}
+
+.wrapper {
+  height: 100%;
+  display: grid;
+  overflow: hidden;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}

@@ -15,7 +15,20 @@
       "dataType": "button",
       "dataRole": "element",
       "options": "{}",
-      "value": "Submit",
+      "value": "Login",
+      "data": "[]",
+      "position": 0,
+      "parentPosition": null
+    },
+    {
+      "id": 12,
+      "classId": null,
+      "name": "signup",
+      "type": "link",
+      "dataType": "button",
+      "dataRole": "element",
+      "options": "{}",
+      "value": "Create new org?",
       "data": "[]",
       "position": 0,
       "parentPosition": null

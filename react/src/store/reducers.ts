@@ -4,12 +4,14 @@ import { PersistPartial } from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
 
 import { sessionReducer } from './session/session.reducer';
+import { layoutReducer } from './layout/layout.reducer';
 
 export type AppState = ReturnType<typeof appReducer>;
 type RootReducer = ReturnType<typeof rootReducer>;
 
 export const appReducer = combineReducers({
   session: sessionReducer,
+  layout: layoutReducer,
 });
 
 const rootReducer = (state: AppState | undefined, action: AnyAction): AppState => {

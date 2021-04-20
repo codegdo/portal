@@ -3,11 +3,16 @@
 :before {
   box-sizing: border-box;
 }
-
+html {
+  height: 100%;
+}
 body {
-  color: $baseFontColor;
-  font-family: $baseFontFamily;
-  font-size: $baseFontSize;
+  color: $base-font-color;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  background: $white;
+  padding: 0;
+  margin: 0;
 }
 
 button,

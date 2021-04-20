@@ -32,7 +32,7 @@ export const Field: React.FC<FieldProps> & FieldExtends = ({ data, value, error,
   }
 
   return (
-    <div className={error ? 'field _error' : 'field'} ref={divRef}>
+    <div className={error ? 'field -error' : 'field'} ref={divRef}>
       <FieldContext.Provider value={{ data, value, error, onChange, onFocus, onBlur }}>
         {
           children
