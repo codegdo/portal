@@ -33,16 +33,11 @@ export class CreateUserDto {
 
 export class LoginUserDto {
   @IsString()
-  @MinLength(3)
-  @MaxLength(20)
+  @IsNotEmpty()
   username!: string;
 
   @IsString()
-  @MinLength(8)
-  @MaxLength(20)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password too weak',
-  })
+  @IsNotEmpty()
   password!: string;
 }
 
