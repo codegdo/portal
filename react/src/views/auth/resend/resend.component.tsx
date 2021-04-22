@@ -17,22 +17,31 @@ type LocationState = {
 }
 
 const Resend: React.FC = (): JSX.Element => {
-  const { fetching, data, fetchData } = useFetch<FetchOutput>('api/auth/resend');
+  const { search, state } = useLocation<LocationState>();
+
+  const { fetching, response = state.response, data, fetchData } = useFetch<FetchOutput>('api/auth/resend');
   const [form, setForm] = useState<FormType>();
 
-  const location = useLocation<LocationState>();
+
 
   // initial load form
   useEffect(() => {
-    (async () => {
+    void (async () => {
       const json = await import('./resend.form.json');
       const formData = normalizeData(json.default);
 
       //
-      if (location.search) {
-        const parsed = queryString.parse(location.search);
+      if (search) {
+        const parsed = queryString.parse(search);
         formData.fields[0].value = parsed.username;
       }
+
+      //
+      if (state && state.response && state.response.setting) {
+        formData.fields[0].value = state.response.setting.username;
+      }
+
+      console.log(location);
 
       setForm(formData);
     })()
@@ -51,8 +60,8 @@ const Resend: React.FC = (): JSX.Element => {
   return (
     form == undefined ? <div>loading</div> :
       (
-        (fetching == 'success' && data) ? <Redirect to={{ pathname: '/auth/login', state: {} }} /> :
-          <Form data={form} response={data} onSubmit={handleSubmit}>
+        fetching == 'success' ? <Redirect to={{ pathname: '/auth/login', state: {} }} /> :
+          <Form data={form} response={response} onSubmit={handleSubmit}>
             <Form.Message />
             <Form.Header />
             <Form.Main />

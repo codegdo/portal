@@ -25,7 +25,8 @@ const Login: React.FC = (): JSX.Element => {
   const location = useLocation();
   const [form, setForm] = useState<FormType>();
   const { updateSession } = useAction();
-  const { fetching, data, fetchData } = useFetch<FetchOutput>('api/auth/login');
+  const { fetching, response, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/login');
+
 
   // initial load form
   useEffect(() => {
@@ -34,39 +35,43 @@ const Login: React.FC = (): JSX.Element => {
       const formData = normalizeData(json.default);
       setForm(formData);
     })();
-
-    console.log(location);
   }, []);
 
   // api response
   useEffect(() => {
-    if (fetching == 'success' && data) {
-      storage.setItem(jwtToken, data.token);
-      updateSession({ loggedIn: true, user: data.user });
+    if (fetching == 'success') {
+      if (isMounted.current) {
+        storage.setItem(jwtToken, response.data.token);
+        updateSession({ loggedIn: true, user: response.data.user });
+      }
     }
-  }, [fetching, fetchData]);
+  }, [fetching]);
 
   // submit form
   const handleSubmit = (values: { [key: string]: any }) => {
     const [keyFields] = splitObjectKeyId(values);
-    const option = {
-      body: { ...keyFields }
+    const config = {
+      option: { body: { ...keyFields } },
+      setting: { username: keyFields.username }
     };
 
     if (fetching !== 'loading') {
-      void fetchData({ option });
+      void fetchData(config);
     }
   }
 
   return loggedIn ? <Redirect to="/" /> :
     (
-      form == undefined ? <div>loading</div> :
-        <Form data={form} response={data} onSubmit={handleSubmit}>
-          <Form.Message />
-          <Form.Header />
-          <Form.Main />
-          <Form.Footer />
-        </Form>
+      response && !response.ok && response.data.statusCode === 403 ? <Redirect to={{ pathname: '/auth/resend', state: { response } }} /> :
+        (
+          form == undefined ? <div>loading</div> :
+            <Form data={form} response={response} onSubmit={handleSubmit}>
+              <Form.Message />
+              <Form.Header />
+              <Form.Main />
+              <Form.Footer />
+            </Form>
+        )
     );
 };
 

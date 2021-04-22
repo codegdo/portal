@@ -12,17 +12,17 @@ export const FormMessage: React.FC = (): JSX.Element | null => {
   const { response } = context;
 
   if (response) {
-    const { ok, data: { message } } = response;
+    const { ok, data: { message, name } } = response;
 
     console.log('form message', response);
 
     if (ok) {
-      return <Message type={"success"} text={message}>{message}</Message>;
+      return <Message type={"success"} text={message || name}>{message || name}</Message>;
     }
 
     switch (status) {
       default:
-        return <Message type={"error"} text={message}>{message}</Message>;
+        return <Message type={"error"} text={message || name}>{message || name}</Message>;
     }
   }
 

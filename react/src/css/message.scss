@@ -1,0 +1,9 @@
+.message {
+  background-color: $red;
+  padding: 1rem;
+  text-align: center;
+
+  &.-error {
+    color: $white;
+  }
+}
