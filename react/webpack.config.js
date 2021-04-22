@@ -44,7 +44,7 @@ module.exports = (env) => {
     module: {
       rules: [
         {
-          test: /\.(eot|ttf|otf|woff|woff2)$/,
+          test: /\.(eot|ttf|otf|woff|woff2|png|jpe?g|gif)$/,
           use: 'file-loader',
         },
         {
@@ -78,6 +78,10 @@ module.exports = (env) => {
         '.woff',
         '.woff2',
         '.otf',
+        '.png',
+        '.jpg',
+        '.jpeg',
+        '.gif',
       ],
     },
     plugins: [

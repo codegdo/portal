@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useLayoutEffect } from 'react';
 import { Redirect, useRouteMatch } from 'react-router-dom';
 import JsxParser from 'react-jsx-parser';
 
@@ -21,15 +21,25 @@ export const TemplateComponent: React.FC<TemplateComponentProps> = (props): JSX.
   );
 
   const { external, internal, na } = layout;
-  const { path = 'main' } = route;
-  const key = path.replace('/', '');
+  const { path = '/' } = route;
+  const key = path.replace('/', '') || 'main';
   let template = `<Content />`;
 
   if (session.loggedIn) {
-    template = stringTemplateReplace(external.main);
+    template = (session.user.roleType === 'internal') ? (internal[key] || internal['main']) : (external[key] || external['main']);
   } else {
-    template = stringTemplateReplace(na[key] || na['main']);
+    template = na[key] || na['main'];
   }
+
+  template = stringTemplateReplace(template);
+
+  useLayoutEffect(() => {
+    document.body.classList.add((path == '/' ? 'home' : key));
+
+    return function cleanup() {
+      document.body.classList.remove((path == '/' ? 'home' : key));
+    };
+  }, []);
 
   return route.redirectTo ? <Redirect to={urlRedirect} /> : (
     <Suspense fallback={null}>

@@ -39,9 +39,11 @@ export class AuthController {
 
     const { username, email } = user;
     const token = this.jwt.sign({ username });
-    const payload = { user: { username, email }, token };
+    const payload = { user: { username, email, roleType: 'internal' }, token };
 
-    session.user = { username, email };
+    session.user = payload.user;
+
+    console.log('LOGIN', user);
     return payload;
   }
 

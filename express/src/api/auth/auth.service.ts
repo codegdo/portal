@@ -30,20 +30,24 @@ export class AuthService {
   };
 
   loginUser = async (loginUserDto: LoginUserDto): Promise<User> => {
-    try {
-      const user = await this.portal.userRepository.login(loginUserDto);
+    const user = await this.portal.userRepository.login(loginUserDto);
 
-      if (!user) {
-        if (user === null) {
-          throw new ExceptionHttp(404, 'Not Found');
-        }
-        throw new ExceptionHttp(400, 'Invalid credentials');
-      }
-
-      return user;
-    } catch (error) {
-      throw error;
+    // null - not found
+    if (user === null) {
+      throw new ExceptionHttp(404, 'Not Found');
     }
+
+    // undefined - incorrect password
+    if (user === undefined) {
+      throw new ExceptionHttp(400, 'Invalid credentials');
+    }
+
+    // not activated
+    if (user.isActive === false) {
+      throw new ExceptionHttp(403, 'Unactivated account');
+    }
+
+    return user;
   };
 
   recoveryUser = async () => {

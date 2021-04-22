@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useRef } from 'react';
 import { apiUrl, jwtToken } from '../app.config';
 
 import { http, RequestOption } from '../services';
@@ -11,10 +11,11 @@ type FetchConfig = {
 
 type FetchState<T> = {
   fetching: 'idle' | 'loading' | 'error' | 'success';
-  data?: T;
+  response?: T;
 };
 
 type FetchOutput<T> = FetchState<T> & {
+  isMounted: React.MutableRefObject<boolean>;
   fetchData: (configs?: FetchConfig) => Promise<void>;
 };
 
@@ -39,7 +40,7 @@ export const useFetch = <T>(
 
   const initialState: FetchState<T> = {
     fetching: 'idle',
-    data: undefined,
+    response: undefined,
   };
 
   const fetchReducer = <T>(
@@ -50,15 +51,17 @@ export const useFetch = <T>(
       case 'REQUEST':
         return { ...state, fetching: 'loading' };
       case 'SUCCESS':
-        return { ...state, fetching: 'success', data: action.payload };
+        return { ...state, fetching: 'success', response: action.payload };
       case 'FAILURE':
-        return { ...state, fetching: 'error', data: action.payload };
+        return { ...state, fetching: 'error', response: action.payload };
       default:
         return state;
     }
   };
 
   const [state, dispatch] = useReducer(fetchReducer, initialState);
+
+  const isMounted = useRef(false);
 
   const fetchData = useCallback(
     async (config: FetchConfig = { option: {}, setting: {} }): Promise<void> => {
@@ -76,9 +79,9 @@ export const useFetch = <T>(
           ...option,
         });
 
-        dispatch({ type: 'SUCCESS', payload: { ...data, ok: true, ...setting } });
+        dispatch({ type: 'SUCCESS', payload: { ...data, ok: true, setting } });
       } catch (error) {
-        dispatch({ type: 'FAILURE', payload: { ...error, ok: false, ...setting } });
+        dispatch({ type: 'FAILURE', payload: { ...error, ok: false, setting } });
       }
     },
     [endpoint]
@@ -91,5 +94,10 @@ export const useFetch = <T>(
     void fetchData();
   }, [fetchData]);
 
-  return { ...state, fetchData };
+  useEffect((): any => {
+    isMounted.current = true;
+    return () => (isMounted.current = false);
+  }, []);
+
+  return { ...state, isMounted, fetchData };
 };

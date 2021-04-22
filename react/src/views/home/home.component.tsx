@@ -5,19 +5,20 @@ interface HomeOutput {
   message: string;
 }
 const HomeComponent: React.FC = (): JSX.Element => {
-  const { fetching, data, fetchData } = useFetch<HomeOutput>('/api');
+  /**/
+  const { fetching, response, fetchData } = useFetch<HomeOutput>('/api');
 
   // initial load form
   useEffect(() => {
-    (async () => {
-      fetchData();
+    void (async (): Promise<void> => {
+      await fetchData();
     })()
   }, []);
 
   // api response
   useEffect(() => {
-    if (fetching == 'success' && data) {
-      console.log(data);
+    if (fetching == 'success' && response) {
+      console.log(response);
     }
   }, [fetching]);
 
