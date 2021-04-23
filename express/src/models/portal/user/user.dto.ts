@@ -55,6 +55,12 @@ export class SignupUserDto {
   password!: string;
 }
 
+export class ResendUserTokenDto {
+  @IsString()
+  @IsNotEmpty()
+  username!: string;
+}
+
 export class FilterUserDto {
   @IsOptional()
   search!: string;

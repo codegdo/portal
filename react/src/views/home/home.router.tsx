@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { RouteComponent } from '../../components/route/route.component';
-import { RouteComponentData } from '../../components/types';
+import { Routes } from '../../components/route/route.component';
+import { RouteData } from '../../components/types';
 
-const routes: RouteComponentData[] = [
+const routes: RouteData[] = [
   {
     path: '/',
     component: 'home/home.component.tsx',
@@ -11,5 +11,5 @@ const routes: RouteComponentData[] = [
 ];
 
 export const HomeRouter: React.FC = (): JSX.Element => {
-  return <RouteComponent routes={routes} />;
+  return <Routes routes={routes} />;
 };

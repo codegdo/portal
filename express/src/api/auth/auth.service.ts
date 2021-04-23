@@ -1,6 +1,11 @@
 import { Inject, Service } from 'typedi';
 import { ExceptionHttp } from '../../app.exception';
-import { LoginUserDto, SignupUserDto, TokenDto } from '../../models/portal/dtos';
+import {
+  LoginUserDto,
+  ResendUserTokenDto,
+  SignupUserDto,
+  TokenDto,
+} from '../../models/portal/dtos';
 import { Token, TokenData, User } from '../../models/portal/entities';
 import { PortalRepository } from '../../models/portal/repositories';
 
@@ -32,13 +37,13 @@ export class AuthService {
   loginUser = async (loginUserDto: LoginUserDto): Promise<User> => {
     const user = await this.portal.userRepository.login(loginUserDto);
 
-    // null - not found
-    if (user === null) {
+    // undefined - not found
+    if (user === undefined) {
       throw new ExceptionHttp(404, 'Not Found');
     }
 
-    // undefined - incorrect password
-    if (user === undefined) {
+    // null - incorrect password
+    if (user === null) {
       throw new ExceptionHttp(400, 'Invalid credentials');
     }
 
@@ -58,7 +63,16 @@ export class AuthService {
     return 'hello';
   };
 
-  resendToken = async () => {
-    return '';
+  resendToken = async ({
+    username,
+  }: ResendUserTokenDto): Promise<User | undefined> => {
+    const user = await this.portal.userRepository.findOne({ where: [{ username }] });
+
+    // undefined - not found
+    if (user === undefined) {
+      throw new ExceptionHttp(404, 'Not Found');
+    }
+
+    return user;
   };
 }

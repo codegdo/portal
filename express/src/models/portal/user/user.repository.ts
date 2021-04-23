@@ -41,9 +41,9 @@ export class UserRepository extends Repository<User> {
         if (await user.validatePassword(password)) {
           return user;
         }
-        return undefined;
+        return null;
       }
-      return null;
+      return undefined;
     } catch (error) {
       throw new InternalServerError('Internal server error');
     }

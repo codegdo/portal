@@ -1,5 +1,5 @@
-import { RouteComponentData } from '../types';
+import { RouteData } from '../types';
 
-export interface TemplateComponentProps {
-  route: RouteComponentData;
+export interface TemplateProps {
+  route: RouteData;
 }

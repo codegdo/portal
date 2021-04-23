@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { RouteComponent } from '../../components/route/route.component';
-import { RouteComponentData } from '../../components/types';
+import { Routes } from '../../components/route/route.component';
+import { RouteData } from '../../components/types';
 
-const routes: RouteComponentData[] = [
+const routes: RouteData[] = [
   {
     exact: true,
     path: '/',
@@ -26,6 +26,10 @@ const routes: RouteComponentData[] = [
     component: 'auth/signup/signup.component.tsx',
   },
   {
+    path: '/register',
+    component: 'auth/register/register.component.tsx',
+  },
+  {
     path: '/resend',
     component: 'auth/resend/resend.component.tsx',
   },
@@ -36,5 +40,5 @@ const routes: RouteComponentData[] = [
 ];
 
 export const AuthRouter: React.FC = (): JSX.Element => {
-  return <RouteComponent routes={routes} />;
+  return <Routes routes={routes} />;
 };

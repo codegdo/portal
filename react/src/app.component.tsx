@@ -2,55 +2,21 @@ import React from 'react';
 import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom';
 
 import { RouteGuard } from './components/route/route.guard';
-import { AuthRouter } from './views/auth/auth.router';
-import { HomeRouter } from './views/home/home.router';
-import { MarketingRouter } from './views/marketing/marketing.router';
-import { SalesRouter } from './views/sales/sales.router';
-import { RewardsRouter } from './views/rewards/rewards.router';
-import { TemplateComponent } from './components/template/template.component';
-import { registerSchema } from 'class-validator';
+import { Template } from './components/template/template.component';
 
-registerSchema({
-  name: "loginSchema",
-  properties: {
-    username: [
-      {
-        type: "minLength",
-        constraints: [3]
-      }
-    ],
-    password: [
-      {
-        type: "minLength",
-        constraints: [8]
-      }
-    ]
-  }
-});
+import { AuthRouter, HomeRouter, MarketingRouter, SalesRouter, RewardsRouter } from './views';
 
 export const App: React.FC = (): JSX.Element => {
   return (
     <HashRouter hashType="noslash">
       <BrowserRouter>
         <Switch>
-          <RouteGuard exact path="/">
-            <HomeRouter />
-          </RouteGuard>
-          <Route path="/auth">
-            <AuthRouter />
-          </Route>
-          <RouteGuard path="/marketing">
-            <MarketingRouter />
-          </RouteGuard>
-          <RouteGuard path="/sales">
-            <SalesRouter />
-          </RouteGuard>
-          <RouteGuard path="/rewards">
-            <RewardsRouter />
-          </RouteGuard>
-          <Route path="*">
-            <TemplateComponent route={{}} />
-          </Route>
+          <RouteGuard exact path="/" component={HomeRouter} />
+          <Route path="/auth" component={AuthRouter} />
+          <RouteGuard path="/marketing" component={MarketingRouter} />
+          <RouteGuard path="/sales" component={SalesRouter} />
+          <RouteGuard path="/rewards" component={RewardsRouter} />
+          <Route path="*" component={Template} />
         </Switch>
       </BrowserRouter>
     </HashRouter>
