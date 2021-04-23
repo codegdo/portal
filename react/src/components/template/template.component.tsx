@@ -4,16 +4,16 @@ import JsxParser from 'react-jsx-parser';
 
 import { NavMain } from '../nav/nav.partial';
 import { stripTrailingSlash, stringTemplateReplace } from '../../utils';
-import { TemplateComponentProps } from './template.type';
+import { TemplateProps } from './template.type';
 import { AppState } from '../../store/reducers';
 import { useSelector } from 'react-redux';
 
-export const TemplateComponent: React.FC<TemplateComponentProps> = (props): JSX.Element => {
+export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   const { route } = props;
   const { url } = useRouteMatch();
   const { layout, session } = useSelector((state: AppState) => state);
 
-  const { component = 'notfound.component.tsx', redirectTo = '/' } = route;
+  const { component = 'notfound.component.tsx', redirectTo = '/' } = route || {};
   const urlRedirect = stripTrailingSlash(`${url}/${redirectTo}`);
 
   const Content = lazy(

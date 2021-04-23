@@ -17,7 +17,7 @@ type LocationState = {
 }
 
 const Resend: React.FC = (): JSX.Element => {
-  const { search, state } = useLocation<LocationState>();
+  const { search, state = {} } = useLocation<LocationState>();
 
   const { fetching, response = state.response, data, fetchData } = useFetch<FetchOutput>('api/auth/resend');
   const [form, setForm] = useState<FormType>();

@@ -23,12 +23,38 @@
     {
       "id": 12,
       "classId": null,
+      "name": "recovery",
+      "type": "link",
+      "dataType": "button",
+      "dataRole": "element",
+      "options": "{}",
+      "value": "",
+      "data": "[]",
+      "position": 0,
+      "parentPosition": null
+    },
+    {
+      "id": 13,
+      "classId": null,
       "name": "signup",
       "type": "link",
       "dataType": "button",
       "dataRole": "element",
       "options": "{}",
       "value": "Create new org?",
+      "data": "[]",
+      "position": 0,
+      "parentPosition": null
+    },
+    {
+      "id": 14,
+      "classId": null,
+      "name": "register",
+      "type": "link",
+      "dataType": "button",
+      "dataRole": "element",
+      "options": "{}",
+      "value": "Partner new account?",
       "data": "[]",
       "position": 0,
       "parentPosition": null
@@ -53,25 +79,20 @@
     {
       "id": 4,
       "classId": null,
-
       "type": "input",
       "dataType": "text",
       "dataRole": "field",
-
       "options": "{}",
       "data": "[]",
       "value": "",
-
       "position": 4,
       "parentPosition": 2,
       "parentFieldId": null,
       "mapTo": "portal.sec.User",
-
       "name": "Username",
       "label": "Username",
       "description": null,
       "text": null,
-
       "isRequired": true,
       "isReadonly": false,
       "isAdmin": false
@@ -79,28 +100,22 @@
     {
       "id": 5,
       "classId": null,
-
       "type": "input",
       "dataType": "password",
       "dataRole": "field",
-
       "options": "{}",
       "data": "[]",
       "value": "",
-
       "position": 5,
       "parentPosition": 2,
       "parentFieldId": null,
       "mapTo": "portal.sec.User",
-
       "name": "Password",
       "label": "Password",
       "description": null,
       "text": null,
-
       "minLength": null,
       "maxLength": null,
-
       "isRequired": true,
       "isReadonly": false,
       "isAdmin": false

@@ -19,6 +19,19 @@
       "data": "[]",
       "position": 0,
       "parentPosition": null
+    },
+    {
+      "id": 12,
+      "classId": null,
+      "name": "login",
+      "type": "link",
+      "dataType": "button",
+      "dataRole": "element",
+      "options": "{}",
+      "value": "Already confirmed?",
+      "data": "[]",
+      "position": 0,
+      "parentPosition": null
     }
   ],
   "data": [
@@ -40,25 +53,20 @@
     {
       "id": 4,
       "classId": null,
-
       "type": "input",
       "dataType": "text",
       "dataRole": "field",
-
       "options": "{\"setting\":{\"isFocus\":true}}",
       "data": "[]",
       "value": null,
-
       "position": 4,
       "parentPosition": 2,
       "parentFieldId": null,
       "mapTo": "portal.sec.User",
-
       "name": "Username",
       "label": "Username",
       "description": null,
       "text": null,
-
       "isRequired": true,
       "isReadonly": false,
       "isAdmin": false

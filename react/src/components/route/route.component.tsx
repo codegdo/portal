@@ -1,11 +1,11 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
-import { TemplateComponent } from '../template/template.component';
+import { Template } from '../template/template.component';
 import { RouteGuard } from './route.guard';
-import { RouteComponentProps } from './route.type';
+import { RoutesProps } from './route.type';
 
-export const RouteComponent: React.FC<RouteComponentProps> = ({
+export const Routes: React.FC<RoutesProps> = ({
   routes,
 }): JSX.Element => {
   const { url } = useRouteMatch();
@@ -18,14 +18,10 @@ export const RouteComponent: React.FC<RouteComponentProps> = ({
           const urlPath: string = (url + path).replace(/\/\//g, '/');
 
           return restricted ? (
-            <RouteGuard key={path} path={urlPath}>
-              <TemplateComponent route={route} />
-            </RouteGuard>
+            <RouteGuard key={path} path={urlPath} render={props => <Template {...props} route={route} />} />
           ) : (
-              <Route key={path} exact={exact} path={urlPath}>
-                <TemplateComponent route={route} />
-              </Route>
-            );
+            <Route key={path} exact={exact} path={urlPath} render={props => <Template {...props} route={route} />} />
+          );
         }
       )}
     </Switch>

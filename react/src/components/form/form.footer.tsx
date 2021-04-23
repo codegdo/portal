@@ -18,24 +18,29 @@ export const FormFooter: React.FC = () => {
         buttons.map(({ id, type, name, value }) => {
           switch (type) {
             case 'button':
-              return <span key={id}>
+              return <div key={id} className="span -login">
                 <button className="button" type="button" name={name} onClick={() => onClick && onClick(name)}>{value}</button>
-              </span>
-              break;
-            case 'link':
-              if (name == 'signup') {
-                return <span key={id}>
-                  Create a new org? <Link to="/auth/signup">Signup</Link>
-                </span>
-              } else if (name == 'login') {
-                return <span key={id}>
-                  Already has an account? <Link to="/auth/login">Login</Link>
-                </span>
-              }
-
-              break;
+              </div>
             default:
-              return null;
+              if (name == 'signup') {
+                return <div key={id} className="item -signup">
+                  <span>{value} <Link to="/auth/signup">Signup</Link></span>
+                </div>
+              } else if (name == 'register') {
+                return <div key={id} className="item -register">
+                  <span>{value} <Link to="/auth/register">Register</Link></span>
+                </div>
+              } else if (name == 'login') {
+                return <div key={id} className="item -login">
+                  <span>{value} <Link to="/auth/login">Login</Link></span>
+                </div>
+              } else if (name == 'recovery') {
+                return <div key={id} className="item -recovery">
+                  <span>{value} <Link to="/auth/recovery">Forgot password?</Link></span>
+                </div>
+              } else {
+                return null;
+              }
           }
         })
       }

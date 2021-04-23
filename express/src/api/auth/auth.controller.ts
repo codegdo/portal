@@ -1,7 +1,11 @@
 import { Body, Get, JsonController, Post, Res, Session } from 'routing-controllers';
 import { Inject } from 'typedi';
 
-import { LoginUserDto, SignupUserDto } from '../../models/portal/dtos';
+import {
+  LoginUserDto,
+  ResendUserTokenDto,
+  SignupUserDto,
+} from '../../models/portal/dtos';
 import { JwtService } from '../../services';
 import { LoginOutput } from '../../types';
 import { AuthService } from './auth.service';
@@ -25,9 +29,10 @@ export class AuthController {
   async confirmToken() {}
 
   @Post('/resend')
-  async resendToken() {
-    throw new Error();
-    //return { message: 'successful' };
+  async resendToken(@Body() resendInput: ResendUserTokenDto): Promise<any> {
+    const user = await this.authService.resendToken(resendInput);
+
+    return user;
   }
 
   @Post('/login')

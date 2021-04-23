@@ -4,18 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { AppState } from '../../store/reducers';
 
-export const RouteGuard: React.FC<RouteProps> = ({
-  children,
-  ...rest
-}): JSX.Element => {
+export const RouteGuard: React.FC<RouteProps> = (props): JSX.Element => {
   const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
-
-  return (
-    <Route
-      {...rest}
-      render={() => {
-        return loggedIn ? <>{children}</> : <Redirect to="/auth/login" />;
-      }}
-    />
-  );
+  return loggedIn ? <Route {...props} /> : <Redirect to="/auth/login" />;
 };

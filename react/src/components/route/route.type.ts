@@ -1,4 +1,4 @@
-export interface RouteComponentData {
+export interface RouteData {
   path?: string;
   exact?: boolean;
   component?: string;
@@ -7,6 +7,6 @@ export interface RouteComponentData {
   data?: { x: string };
 }
 
-export interface RouteComponentProps {
-  routes: RouteComponentData[];
+export interface RoutesProps {
+  routes: RouteData[];
 }

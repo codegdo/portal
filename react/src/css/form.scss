@@ -4,7 +4,22 @@
 .form-main {
   margin: 1.5rem 0;
 }
-//.form-footer {}
+.form-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+
+  .item {
+    span {
+      text-align: center;
+      display: block;
+      height: 40px;
+      padding: 8px 16px;
+      text-align: center;
+    }
+  }
+}
 
 // MODIFIER
 .form {
