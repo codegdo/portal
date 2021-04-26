@@ -12,13 +12,14 @@
 
   header {
     padding: 64px;
+    color: $light;
   }
 
   main {
     flex-grow: 1;
   }
 
-  background-color: steelblue;
+  background-color: $purple;
   //background: url('../assets/image/portal-yellow.jpg') $light;
   //background-position: center;
   //background-repeat: no-repeat;

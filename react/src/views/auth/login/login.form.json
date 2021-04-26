@@ -36,19 +36,6 @@
     {
       "id": 13,
       "classId": null,
-      "name": "signup",
-      "type": "link",
-      "dataType": "button",
-      "dataRole": "element",
-      "options": "{}",
-      "value": "Create new org?",
-      "data": "[]",
-      "position": 0,
-      "parentPosition": null
-    },
-    {
-      "id": 14,
-      "classId": null,
       "name": "register",
       "type": "link",
       "dataType": "button",

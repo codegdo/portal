@@ -34,6 +34,10 @@ const routes: RouteData[] = [
     component: 'auth/resend/resend.component.tsx',
   },
   {
+    path: '/verify/:token',
+    component: 'auth/verify/verify.component.tsx',
+  },
+  {
     path: '*',
     component: 'notfound.component.tsx',
   },

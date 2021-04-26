@@ -1,4 +1,12 @@
-import { Body, Get, JsonController, Post, Res, Session } from 'routing-controllers';
+import {
+  Body,
+  Get,
+  JsonController,
+  Param,
+  Post,
+  Res,
+  Session,
+} from 'routing-controllers';
 import { Inject } from 'typedi';
 
 import {
@@ -28,13 +36,6 @@ export class AuthController {
   @Get('/confirm/:token')
   async confirmToken() {}
 
-  @Post('/resend')
-  async resendToken(@Body() resendInput: ResendUserTokenDto): Promise<any> {
-    const user = await this.authService.resendToken(resendInput);
-
-    return user;
-  }
-
   @Post('/login')
   async loginUser(
     @Session() session: any,
@@ -55,11 +56,24 @@ export class AuthController {
   @Get('/logout')
   async logoutUser(@Session() session: any, @Res() res: any) {
     session.destroy((error: any) => console.log(error));
-    return res.clearCookie('connect.sid', { path: '/' }).status(200).send('ok.');
+    return res.clearCookie('connect.sid', { path: '/' }).status(200);
+  }
+
+  @Post('/resend')
+  async resendToken(@Body() resendInput: ResendUserTokenDto): Promise<any> {
+    const user = await this.authService.resendToken(resendInput);
+
+    return user;
   }
 
   @Post('/recovery')
   async recoveryUser() {}
+
+  @Get('/verify/:token')
+  async verifyUser(@Param('token') token: string) {
+    console.log(token);
+    return token;
+  }
 }
 
 //activation

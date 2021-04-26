@@ -15,9 +15,16 @@
       text-align: center;
       display: block;
       height: 40px;
-      padding: 8px 16px;
+      padding: 8px 0;
       text-align: center;
     }
+  }
+  .item_submit .button {
+    padding: 8px 80px;
+  }
+  .item_register {
+    width: 100%;
+    margin: 1.5rem 0;
   }
 }
 
