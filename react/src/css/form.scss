@@ -12,17 +12,20 @@
 
   .item {
     span {
-      text-align: center;
       display: block;
       height: 40px;
       padding: 8px 0;
-      text-align: center;
     }
+  }
+  .item_submit {
+    width: 100%;
   }
   .item_submit .button {
     padding: 8px 80px;
+    width: 100%;
   }
-  .item_register {
+  .item_register,
+  .item_login {
     width: 100%;
     margin: 1.5rem 0;
   }

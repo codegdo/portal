@@ -11,7 +11,7 @@ type RootReducer = ReturnType<typeof rootReducer>;
 
 export const appReducer = combineReducers({
   session: sessionReducer,
-  layout: layoutReducer,
+  layouts: layoutReducer,
 });
 
 const rootReducer = (state: AppState | undefined, action: AnyAction): AppState => {

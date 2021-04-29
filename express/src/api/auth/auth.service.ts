@@ -18,7 +18,7 @@ export class AuthService {
   private token!: Token;
 
   signupUser = async (signupUserDto: SignupUserDto): Promise<User> => {
-    const user = await this.portal.userRepository.signup(signupUserDto);
+    const user = await this.portal.userRepository.signupUser(signupUserDto);
 
     // generate token
     const tokenData: TokenData = {
@@ -35,7 +35,7 @@ export class AuthService {
   };
 
   loginUser = async (loginUserDto: LoginUserDto): Promise<User> => {
-    const user = await this.portal.userRepository.login(loginUserDto);
+    const user = await this.portal.userRepository.loginUser(loginUserDto);
 
     // undefined - not found
     if (user === undefined) {

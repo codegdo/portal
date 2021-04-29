@@ -5,7 +5,7 @@ import { BadRequestError, InternalServerError } from 'routing-controllers';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  async signup(signupUserDto: SignupUserDto): Promise<User> {
+  async signupUser(signupUserDto: SignupUserDto): Promise<User> {
     const { email, username, password } = signupUserDto;
     const user = new User();
 
@@ -25,7 +25,7 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  async login(loginUserDto: LoginUserDto): Promise<User | null | undefined> {
+  async loginUser(loginUserDto: LoginUserDto): Promise<User | null | undefined> {
     const { username, password } = loginUserDto;
     const query = this.createQueryBuilder('user');
 

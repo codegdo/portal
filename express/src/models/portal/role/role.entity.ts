@@ -8,9 +8,9 @@ import {
 } from 'typeorm';
 
 export enum RoleTypeEnum {
-  INTERNAL = 'INTERNAL',
-  EXTERNAL = 'EXTERNAL',
-  SYSTEM = 'SYSTEM',
+  SYSTEM = 'system',
+  INTERNAL = 'internal',
+  EXTERNAL = 'external',
 }
 
 @Entity({ database: 'portal', schema: 'dbo', name: 'RoleType' })
@@ -47,12 +47,3 @@ export class Role extends BaseEntity {
   @Column({ name: 'OrgId', nullable: true })
   orgId!: number;
 }
-
-/*
-INSERT
-INTO dbo."RoleType"
-VALUES
-('1', 'INTERNAL'),
-('2', 'EXTERNAL'),
-('3', 'SYSTEM');
-*/

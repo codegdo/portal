@@ -1,6 +1,7 @@
 // dbo
 
 // org
+export * from './template/template.dto';
 
 // sec
 export * from './organization/organization.dto';
