@@ -1,28 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom';
 
 import { RouteGuard } from './components/route/route.guard';
 import { Template } from './components/template/template.component';
 import { mapTemplateToLayout } from './helpers';
 import { useAction, useFetch } from './hooks';
+import { storage } from './services';
 
 import { AuthRouter, HomeRouter, MarketingRouter, SalesRouter, RewardsRouter } from './views';
 
 export const App: React.FC = (): JSX.Element | null => {
-  const subdomain = location.hostname.split('.')[1] ? window.location.host.split('.')[0] : 'partnerportal';
-  const { updateLayouts } = useAction();
-  const { fetching, response, isMounted, fetchData } = useFetch(`/api/app/start?subdomain=${subdomain}`, { init: true });
+  const subdomain = location.hostname.split('.')[1] ? window.location.host.split('.')[0] : false;
+  const { fetching, response, isMounted, fetchData } = useFetch(`/api/preload/start?subdomain=${subdomain}`);
+  const user = useSelector((state: AppState) => state.session.user);
+
+  const { updateLayout } = useAction();
 
   useEffect(() => {
     void fetchData();
-  }, [subdomain])
+  }, [user])
 
   useEffect(() => {
     if (fetching == 'success') {
-
       if (isMounted.current) {
-        const layouts = mapTemplateToLayout(response.data.templates);
-        updateLayouts({ ...response.data.layouts });
+        const { data: { orgId, templates } } = response;
+
+        if (orgId) {
+          const layout = mapTemplateToLayout(templates);
+          updateLayout({ ...layout });
+        }
+
       }
     }
   }, [fetching]);

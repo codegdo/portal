@@ -3,7 +3,7 @@ import { Template } from '../../models/portal/entities';
 import { PortalRepository } from '../../models/portal/repositories';
 
 @Service()
-export class AppService {
+export class PreloadService {
   @Inject()
   private portal!: PortalRepository;
 

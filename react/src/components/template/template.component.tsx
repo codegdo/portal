@@ -12,7 +12,7 @@ import { mainExternal, mainInternal, mainNA } from '../../layouts';
 export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   const { route } = props;
   const { url } = useRouteMatch();
-  const { layouts, session: { loggedIn, user } } = useSelector((state: AppState) => state);
+  const { layout, session: { user } } = useSelector((state: AppState) => state);
 
   const { component = 'notfound.component.tsx', redirectTo = '/' } = route || {};
   const urlRedirect = stripTrailingSlash(`${url}/${redirectTo}`);
@@ -21,12 +21,12 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
     () => import(`../../views/${component}`)
   );
 
-  const { external, internal, na } = layouts;
+  const { external, internal, na } = layout;
   const { path = '/' } = route;
   const key = path.replace('/', '') || 'main';
   let template = `<Content />`;
 
-  if (loggedIn) {
+  if (user) {
     template = (user && user.roleType === 'internal') ? (internal[key] || internal['main'] || mainInternal) : (external[key] || external['main'] || mainExternal);
   } else {
     template = na[key] || na['main'] || mainNA;

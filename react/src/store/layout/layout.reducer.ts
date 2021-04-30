@@ -1,24 +1,16 @@
 import { AnyAction } from 'redux';
 import {
   LayoutState,
-  UPDATE_EXTERNAL,
-  UPDATE_INTERNAL,
-  UPDATE_NA,
-  UPDATE_LAYOUTS,
+  UPDATE_LAYOUT_EXTERNAL,
+  UPDATE_LAYOUT_INTERNAL,
+  UPDATE_LAYOUT_NA,
+  UPDATE_LAYOUT,
 } from './layout.type';
 
-import { mainExternal, mainInternal, mainNA } from '../../layouts';
-
 const initialState: LayoutState = {
-  external: {
-    main: mainExternal,
-  },
-  internal: {
-    main: mainInternal,
-  },
-  na: {
-    main: mainNA,
-  },
+  internal: {},
+  external: {},
+  na: {},
 };
 
 export const layoutReducer = (
@@ -26,26 +18,25 @@ export const layoutReducer = (
   action: AnyAction
 ): LayoutState => {
   switch (action.type) {
-    case UPDATE_EXTERNAL: {
+    case UPDATE_LAYOUT_INTERNAL: {
       return {
         ...state,
-        external: { ...action.payload.external },
+        internal: { ...state.internal, ...action.payload },
       };
     }
-    case UPDATE_INTERNAL: {
+    case UPDATE_LAYOUT_EXTERNAL: {
       return {
         ...state,
-        internal: { ...action.payload.internal },
+        external: { ...state.external, ...action.payload },
       };
     }
-    case UPDATE_NA: {
-      console.log(state);
+    case UPDATE_LAYOUT_NA: {
       return {
         ...state,
         na: { ...state.na, ...action.payload },
       };
     }
-    case UPDATE_LAYOUTS: {
+    case UPDATE_LAYOUT: {
       return {
         ...state,
         ...action.payload,
