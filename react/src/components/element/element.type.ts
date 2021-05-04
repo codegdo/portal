@@ -34,3 +34,7 @@ export interface MessageProps {
   text: string;
   type: string;
 }
+
+export interface DisplayProps {
+  type: string;
+}

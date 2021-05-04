@@ -1,5 +1,8 @@
 // FORM COMPONENT
-//.form {}
+.form {
+  margin: 0;
+  padding: 0;
+}
 //.form-header {}
 .form-main {
   margin: 1.5rem 0;
@@ -17,9 +20,7 @@
       padding: 8px 0;
     }
   }
-  .item_submit {
-    width: 100%;
-  }
+
   .item_submit .button {
     padding: 8px 80px;
     width: 100%;
@@ -27,7 +28,7 @@
   .item_register,
   .item_login {
     width: 100%;
-    margin: 1.5rem 0;
+    margin-top: 1.5rem;
   }
 }
 

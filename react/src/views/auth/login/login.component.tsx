@@ -16,13 +16,13 @@ export class LoginDto {
 }
 
 interface FetchOutput {
-  user: { [x: string]: string | number | boolean } | null;
+  user: {};
   token: string;
 }
 
 const Login: React.FC = (): JSX.Element => {
-  const user = useSelector((state: AppState) => state.session.user);
-  const location = useLocation();
+  const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
+  //const location = useLocation();
   const [form, setForm] = useState<FormType>();
   const { updateSession } = useAction();
   const { fetching, response, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/login');
@@ -42,7 +42,7 @@ const Login: React.FC = (): JSX.Element => {
     if (fetching == 'success') {
       if (isMounted.current) {
         storage.setItem(jwtToken, response.data.token);
-        updateSession({ user: response.data.user });
+        updateSession({ loggedIn: true, user: response.data.user });
       }
     }
   }, [fetching]);
@@ -60,7 +60,7 @@ const Login: React.FC = (): JSX.Element => {
     }
   }
 
-  return user ? <Redirect to="/" /> :
+  return loggedIn ? <Redirect to="/" /> :
     (
       response && !response.ok && response.data.statusCode === 403 ? <Redirect to={{ pathname: '/auth/resend', state: { response } }} /> :
         (

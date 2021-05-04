@@ -35,11 +35,12 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   template = stringTemplateReplace(template);
 
   useLayoutEffect(() => {
-    document.body.classList.add((path == '/' ? 'home' : key));
+    //document.body.classList.add((path == '/' ? 'home' : key));
+    document.body.setAttribute('data-page', (path == '/' ? 'home' : key));
 
-    return function cleanup() {
-      document.body.classList.remove((path == '/' ? 'home' : key));
-    };
+    //return () => {
+    //document.body.classList.remove((path == '/' ? 'home' : key));
+    //};
   }, []);
 
   return route.redirectTo ? <Redirect to={urlRedirect} /> : (
