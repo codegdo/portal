@@ -67,8 +67,6 @@ export const Form: React.FC<FormProps> & FormExtends = ({ data, response, onSubm
     }
   }
 
-  console.log(status);
-
   return (
     <form className={errorRef.current ? 'form -error' : 'form'}>
       <FormContext.Provider value={{ data, values, errors, formValidationSchema, response, status, onClick }}>

@@ -11,7 +11,7 @@ interface FetchOutput {
 }
 
 const Signup: React.FC = (): JSX.Element => {
-  const { fetching, data, fetchData } = useFetch<FetchOutput>('api/auth/signup');
+  const { fetching, response, fetchData } = useFetch<FetchOutput>('api/auth/signup');
   const [form, setForm] = useState<FormType>();
 
   // initial load form
@@ -36,8 +36,8 @@ const Signup: React.FC = (): JSX.Element => {
   return (
     form == undefined ? <div>loading</div> :
       (
-        (fetching == 'success' && data) ? <SignupSuccess data={data} /> :
-          <Form data={form} response={data} onSubmit={handleSubmit}>
+        (fetching == 'success' && response) ? <SignupSuccess data={response.data} /> :
+          <Form data={form} response={response} onSubmit={handleSubmit}>
             <Form.Message />
             <Form.Header />
             <Form.Main />

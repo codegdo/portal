@@ -7,52 +7,43 @@ import {
   ManyToOne,
 } from 'typeorm';
 
-export enum RoleTypeEnum {
+export enum RoleTypeName {
+  SYSTEM = 'SYSTEM',
   INTERNAL = 'INTERNAL',
   EXTERNAL = 'EXTERNAL',
-  SYSTEM = 'SYSTEM',
 }
 
-@Entity({ database: 'portal', schema: 'dbo', name: 'RoleType' })
+@Entity({ database: 'portal', schema: 'dbo', name: 'roletype' })
 export class RoleType extends BaseEntity {
-  @PrimaryGeneratedColumn({ name: 'RoleTypeId' })
+  @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
   @Column({
+    name: 'name',
     type: 'enum',
-    enum: RoleTypeEnum,
-    name: 'RoleType',
+    enum: RoleTypeName,
   })
-  roleType!: RoleTypeEnum;
+  name!: RoleTypeName;
 }
 
-@Entity({ database: 'portal', schema: 'sec', name: 'Role' })
+@Entity({ database: 'portal', schema: 'sec', name: 'role' })
 export class Role extends BaseEntity {
-  @PrimaryGeneratedColumn({ name: 'RoleId' })
+  @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
-  @Column({ name: 'Name', nullable: true })
+  @Column({ name: 'name', nullable: true })
   name!: string;
 
-  @Column({ name: 'Description', nullable: true })
+  @Column({ name: 'description', nullable: true })
   description!: string;
 
-  @Column({ name: 'IsOwner', default: false })
+  @Column({ name: 'is_owner', default: false })
   isOwner!: boolean;
 
-  @ManyToOne((_type) => RoleType)
-  @JoinColumn({ name: 'RoleTypeId' })
+  @ManyToOne(() => RoleType, (roletype) => roletype.id)
+  @JoinColumn({ name: 'roletype_id' })
   roleType!: RoleType;
 
-  @Column({ name: 'OrgId', nullable: true })
+  @Column({ name: 'org_id', nullable: true })
   orgId!: number;
 }
-
-/*
-INSERT
-INTO dbo."RoleType"
-VALUES
-('1', 'INTERNAL'),
-('2', 'EXTERNAL'),
-('3', 'SYSTEM');
-*/

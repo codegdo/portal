@@ -22,7 +22,7 @@ interface FetchOutput {
 
 const Login: React.FC = (): JSX.Element => {
   const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
-  const location = useLocation();
+  //const location = useLocation();
   const [form, setForm] = useState<FormType>();
   const { updateSession } = useAction();
   const { fetching, response, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/login');

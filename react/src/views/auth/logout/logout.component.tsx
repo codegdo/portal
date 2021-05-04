@@ -28,6 +28,7 @@ const Logout: React.FC = (): JSX.Element | null => {
       setIsLoading(false);
     }
   }, [fetching]);
+
   return isLoading ? null : <Redirect to="/auth/login" />;
 };
 

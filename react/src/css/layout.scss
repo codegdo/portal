@@ -1,9 +1,9 @@
-// ADMIN
-.admin-login {
+// NA
+.na {
   display: grid;
   overflow: hidden;
 }
-.login-aside {
+.na-aside {
   .container {
     display: flex;
     flex-direction: column;
@@ -12,20 +12,25 @@
 
   header {
     padding: 64px;
+    color: $light;
+
+    & h1 {
+      max-width: 200px;
+    }
   }
 
   main {
     flex-grow: 1;
   }
 
-  background-color: steelblue;
+  background-color: $purple;
   //background: url('../assets/image/portal-yellow.jpg') $light;
   //background-position: center;
   //background-repeat: no-repeat;
   //background-size: cover;
   display: none;
 }
-.login-main {
+.na-main {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,19 +56,19 @@
 
 // MEDIA
 @media (min-width: 960px) {
-  // ADMIN LOGIN
-  .admin-login {
+  // NA
+  .na {
     display: grid;
     grid-template: 'aside main';
     grid-template-columns: 30% 1fr;
     grid-template-rows: 1fr;
     overflow: hidden;
   }
-  .login-aside {
+  .na-aside {
     grid-area: 'aside';
     display: block;
   }
-  .login-main {
+  .na-main {
     grid-area: 'main';
   }
 }

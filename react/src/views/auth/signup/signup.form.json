@@ -2,7 +2,7 @@
   "id": 2,
   "classId": "form",
   "name": "Signup",
-  "title": "Signup",
+  "title": "Signup new organization",
   "description": "",
   "css": {},
   "styles": "",
@@ -15,7 +15,7 @@
       "dataType": "button",
       "dataRole": "element",
       "option": "{}",
-      "value": "Signup",
+      "value": "Create Account",
       "data": "[]",
       "position": 0,
       "parentPosition": null

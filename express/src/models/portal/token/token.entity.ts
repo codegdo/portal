@@ -7,15 +7,15 @@ export interface TokenData {
   data?: string;
 }
 
-@Entity({ database: 'portal', schema: 'sec', name: 'Token' })
+@Entity({ database: 'portal', schema: 'sec', name: 'token' })
 export class Token extends BaseEntity {
-  @PrimaryColumn({ name: 'TokenId' })
+  @PrimaryColumn({ name: 'id' })
   id!: string;
 
-  @Column({ name: 'ExpiresAt' })
+  @Column({ name: 'expires_at' })
   expiresAt!: number;
 
-  @Column({ name: 'TokenData' })
+  @Column({ name: 'token_data' })
   data!: string;
 
   create({ data = '{}', maxAge = 86400 }: TokenData) {
@@ -28,15 +28,15 @@ export class Token extends BaseEntity {
     return token;
   }
 
-  validate() {}
+  //validate() {}
 
-  hash() {}
+  //hash() {}
 
-  encypt() {}
+  //encypt() {}
 
-  decrypt() {}
+  //decrypt() {}
 
-  encode() {}
+  //encode() {}
 
-  decode() {}
+  //decode() {}
 }

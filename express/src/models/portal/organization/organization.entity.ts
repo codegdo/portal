@@ -8,42 +8,42 @@ import {
 } from 'typeorm';
 import { User } from '../user/user.entity';
 
-@Entity({ database: 'portal', schema: 'sec', name: 'Organization' })
+@Entity({ database: 'portal', schema: 'sec', name: 'organization' })
 export class Organization extends BaseEntity {
-  @PrimaryGeneratedColumn({ name: 'OrgId' })
+  @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
-  @Column({ name: 'Name', nullable: true })
+  @Column({ name: 'name', nullable: true })
   name!: string;
 
-  @Column({ name: 'StreetAddress', nullable: true })
+  @Column({ name: 'street_address', nullable: true })
   streetAddress!: string;
 
-  @Column({ name: 'City', nullable: true })
+  @Column({ name: 'city', nullable: true })
   city!: string;
 
-  @Column({ name: 'State', nullable: true })
+  @Column({ name: 'state', nullable: true })
   state!: string;
 
-  @Column({ name: 'TerritoryId', nullable: true })
+  @Column({ name: 'territory_id', nullable: true })
   territoryId!: string;
 
-  @Column({ name: 'PostalCode', nullable: true })
+  @Column({ name: 'postal_code', nullable: true })
   postalCode!: number;
 
-  @Column({ name: 'Website', nullable: true })
+  @Column({ name: 'website', nullable: true })
   website!: string;
 
-  @Column({ name: 'Phone', nullable: true })
+  @Column({ name: 'phone', nullable: true })
   phone!: number;
 
-  @Column({ name: 'Fax', nullable: true })
+  @Column({ name: 'fax', nullable: true })
   fax!: number;
 
-  @Column({ name: 'IsActive', default: true })
+  @Column({ name: 'is_active', default: true })
   isActive!: boolean;
 
-  @OneToOne((_type) => User)
-  @JoinColumn({ name: 'OwnerId' })
+  @OneToOne(() => User, (user) => user.id)
+  @JoinColumn({ name: 'owner_id' })
   owner!: User;
 }

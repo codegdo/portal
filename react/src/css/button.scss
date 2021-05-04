@@ -9,7 +9,7 @@
   box-sizing: border-box;
   text-align: center;
 
-  background: $darkgray;
+  background: $blue;
   color: $white;
   border-radius: $button-border-radius;
   height: $button-height;
@@ -18,9 +18,9 @@
   @include transition();
 
   &:hover {
-    background: darken($darkgray, 20);
+    background: darken($blue, 20);
   }
   &:active {
-    background: $darkgray;
+    background: $blue;
   }
 }

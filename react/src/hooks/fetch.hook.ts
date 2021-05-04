@@ -81,7 +81,14 @@ export const useFetch = <T>(
 
         dispatch({ type: 'SUCCESS', payload: { ...data, ok: true, setting } });
       } catch (error) {
-        dispatch({ type: 'FAILURE', payload: { ...error, ok: false, setting } });
+        if (error.message === 'Failed to fetch') {
+          dispatch({
+            type: 'FAILURE',
+            payload: { data: { message: 'Failed to fetch' }, ok: false, setting },
+          });
+        } else {
+          dispatch({ type: 'FAILURE', payload: { ...error, ok: false, setting } });
+        }
       }
     },
     [endpoint]

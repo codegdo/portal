@@ -1,3 +1,4 @@
+import { InternalServerError } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
 import { ExceptionHttp } from '../../app.exception';
 import {
@@ -18,7 +19,7 @@ export class AuthService {
   private token!: Token;
 
   signupUser = async (signupUserDto: SignupUserDto): Promise<User> => {
-    const user = await this.portal.userRepository.signup(signupUserDto);
+    const user = await this.portal.userRepository.signupUser(signupUserDto);
 
     // generate token
     const tokenData: TokenData = {
@@ -35,7 +36,7 @@ export class AuthService {
   };
 
   loginUser = async (loginUserDto: LoginUserDto): Promise<User> => {
-    const user = await this.portal.userRepository.login(loginUserDto);
+    const user = await this.portal.userRepository.loginUser(loginUserDto);
 
     // undefined - not found
     if (user === undefined) {
@@ -74,5 +75,49 @@ export class AuthService {
     }
 
     return user;
+  };
+
+  verifyToken = async (tokenId: string): Promise<boolean> => {
+    const token = await this.portal.tokenRepository.findOne({
+      where: [{ id: tokenId }],
+    });
+
+    // undefined - not found
+    if (token === undefined) {
+      throw new ExceptionHttp(404, 'Token Not Found');
+    }
+
+    const dateNow = new Date();
+
+    // token expired
+    if (token.expiresAt < Math.round(dateNow.getTime() / 1000)) {
+      throw new ExceptionHttp(404, 'User Not Found');
+    }
+
+    const { username } = JSON.parse(token.data);
+    const user = await this.portal.userRepository.findOne({ where: [{ username }] });
+
+    // undefined - not found
+    if (user === undefined) {
+      throw new ExceptionHttp(404, 'User Not Found');
+    }
+
+    if (user.isActive) {
+      return false;
+    } else {
+      user.isActive = true;
+
+      await this.portal.connection
+        .transaction(async (transactionalEntityManager) => {
+          await transactionalEntityManager.save(user);
+          await this.portal.tokenRepository.delete(tokenId);
+        })
+        .catch((error) => {
+          console.log(error);
+          throw new InternalServerError('Internal server error');
+        });
+
+      return true;
+    }
   };
 }

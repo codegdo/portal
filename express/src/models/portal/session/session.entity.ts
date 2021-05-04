@@ -2,14 +2,14 @@ import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 import { SessionEntity } from 'typeorm-store';
 
-@Entity({ database: 'portal', schema: 'sec', name: 'Session' })
+@Entity({ database: 'portal', schema: 'sec', name: 'session' })
 export class Session implements SessionEntity {
-  @PrimaryColumn({ name: 'SessionId' })
+  @PrimaryColumn({ name: 'id' })
   id!: string;
 
-  @Column({ name: 'ExpiresAt' })
+  @Column({ name: 'expires_at' })
   expiresAt!: number;
 
-  @Column({ name: 'SessionData' })
+  @Column({ name: 'session_data' })
   data!: string;
 }
