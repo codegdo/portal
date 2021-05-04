@@ -1,13 +1,13 @@
 import { BaseEntity, Entity, Column, PrimaryColumn } from 'typeorm';
 
-@Entity({ database: 'portal', schema: 'org', name: 'Subscription' })
+@Entity({ database: 'portal', schema: 'org', name: 'subscription' })
 export class Subscription extends BaseEntity {
-  @PrimaryColumn({ name: 'ModuleId' })
+  @PrimaryColumn({ name: 'module_id' })
   moduleId!: number;
 
-  @PrimaryColumn({ name: 'OrgId' })
+  @PrimaryColumn({ name: 'org_id' })
   orgId!: number;
 
-  @Column({ name: 'IsActive', default: true })
+  @Column({ name: 'is_active', default: true })
   isActive!: boolean;
 }

@@ -16,46 +16,46 @@ import * as bcrypt from 'bcrypt';
 import { Role } from '../entities';
 import { ExceptionHttp } from '../../../app.exception';
 
-@Entity({ database: 'portal', schema: 'sec', name: 'User' })
+@Entity({ database: 'portal', schema: 'sec', name: 'user' })
 @Unique(['username'])
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn({ name: 'UserId' })
+  @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
-  @Column({ name: 'Email' })
+  @Column({ name: 'email' })
   email!: string;
 
-  @Column({ name: 'Username' })
+  @Column({ name: 'username' })
   username!: string;
 
-  @Column({ name: 'Password', select: false })
+  @Column({ name: 'password', select: false })
   password!: string;
 
-  @Column({ name: 'DataColumn', nullable: true })
+  @Column({ name: 'data_column', nullable: true })
   dataColumn!: string;
 
-  @Column({ name: 'IsActive', default: false })
+  @Column({ name: 'is_active', default: false })
   isActive!: boolean;
 
-  @Column({ name: 'Salt', select: false })
+  @Column({ name: 'salt', select: false })
   salt!: string;
 
   @OneToOne((_type) => Role)
-  @JoinColumn({ name: 'RoleId' })
+  @JoinColumn({ name: 'role_id' })
   role!: Role;
 
-  @Column({ name: 'OrgId', nullable: true })
+  @Column({ name: 'org_id', nullable: true })
   orgId!: number;
 
   @CreateDateColumn({
-    name: 'CreatedAt',
+    name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt!: Date;
 
   @UpdateDateColumn({
-    name: 'UpdatedAt',
+    name: 'updated_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
     onUpdate: 'CURRENT_TIMESTAMP(6)',

@@ -70,9 +70,10 @@ export class AuthController {
   async recoveryUser() {}
 
   @Get('/verify/:token')
-  async verifyUser(@Param('token') token: string) {
-    console.log(token);
-    return token;
+  async verifyToken(@Param('token') token: string) {
+    await this.authService.verifyToken(token);
+
+    return { message: 'Verify successful' };
   }
 }
 

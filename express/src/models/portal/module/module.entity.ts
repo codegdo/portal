@@ -7,38 +7,38 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ database: 'portal', schema: 'dbo', name: 'Module' })
+@Entity({ database: 'portal', schema: 'dbo', name: 'module' })
 export class Module extends BaseEntity {
-  @PrimaryGeneratedColumn({ name: 'ModuleId' })
+  @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
-  @Column({ name: 'Name', nullable: false })
+  @Column({ name: 'name', nullable: false })
   name!: string;
 
-  @Column({ name: 'SortOrder', default: 0 })
+  @Column({ name: 'sort_order', default: 0 })
   sortOrder!: number;
 
-  @Column({ name: 'IsExternal', default: false })
+  @Column({ name: 'is_external', default: false })
   isExternal!: boolean;
 
-  @Column({ name: 'IsInternal', default: false })
+  @Column({ name: 'is_internal', default: false })
   isInternal!: boolean;
 
-  @Column({ name: 'IsSubscriptionRequired', default: false })
+  @Column({ name: 'is_subscription_required', default: false })
   isSubscriptionRequired!: boolean;
 
-  @Column({ name: 'IsActive', default: true })
+  @Column({ name: 'is_active', default: true })
   isActive!: boolean;
 
   @CreateDateColumn({
-    name: 'CreatedAt',
+    name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt!: Date;
 
   @UpdateDateColumn({
-    name: 'UpdatedAt',
+    name: 'updated_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
     onUpdate: 'CURRENT_TIMESTAMP(6)',

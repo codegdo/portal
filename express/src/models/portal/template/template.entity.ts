@@ -1,28 +1,28 @@
 import { BaseEntity, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ database: 'portal', schema: 'org', name: 'Template' })
+@Entity({ database: 'portal', schema: 'org', name: 'template' })
 export class Template extends BaseEntity {
-  @PrimaryGeneratedColumn({ name: 'TemplateId' })
+  @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
-  @Column({ name: 'Name', nullable: true })
+  @Column({ name: 'name', nullable: true })
   name!: string;
 
-  @Column({ name: 'Type', nullable: true })
+  @Column({ name: 'type', nullable: true })
   type!: string;
 
-  @Column({ name: 'Html', nullable: true })
+  @Column({ name: 'html', nullable: true })
   html!: string;
 
-  @Column({ name: 'Style', nullable: true })
+  @Column({ name: 'style', nullable: true })
   style!: string;
 
-  @Column({ name: 'Data', nullable: true })
+  @Column({ name: 'data', nullable: true })
   data!: string;
 
-  @Column({ name: 'OrgId', nullable: true })
+  @Column({ name: 'org_id', nullable: true })
   orgId!: number;
 
-  @Column({ name: 'IsActive', default: true })
+  @Column({ name: 'is_active', default: true })
   isActive!: boolean;
 }

@@ -7,35 +7,35 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ database: 'portal', schema: 'sec', name: 'Policy' })
+@Entity({ database: 'portal', schema: 'sec', name: 'policy' })
 export class Policy extends BaseEntity {
-  @PrimaryGeneratedColumn({ name: 'PolicyId' })
+  @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
-  @Column({ name: 'Name', nullable: true })
+  @Column({ name: 'name', nullable: true })
   name!: string;
 
-  @Column({ name: 'Description', nullable: true })
+  @Column({ name: 'description', nullable: true })
   description!: string;
 
-  @Column({ name: 'DataPolicy', nullable: true })
+  @Column({ name: 'data_policy', nullable: true })
   dataPolicy!: string;
 
-  @Column({ name: 'IsActive', default: false })
+  @Column({ name: 'is_active', default: false })
   isActive!: boolean;
 
-  @Column({ name: 'OrgId', nullable: true })
+  @Column({ name: 'org_id', nullable: true })
   orgId!: number;
 
   @CreateDateColumn({
-    name: 'CreatedAt',
+    name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt!: Date;
 
   @UpdateDateColumn({
-    name: 'UpdatedAt',
+    name: 'updated_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
     onUpdate: 'CURRENT_TIMESTAMP(6)',
