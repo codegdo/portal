@@ -3,14 +3,14 @@ import {
   LayoutState,
   UPDATE_LAYOUT_EXTERNAL,
   UPDATE_LAYOUT_INTERNAL,
-  UPDATE_LAYOUT_NA,
+  UPDATE_LAYOUT_GENERAL,
   UPDATE_LAYOUT,
 } from './layout.type';
 
 const initialState: LayoutState = {
   internal: {},
   external: {},
-  na: {},
+  general: {},
 };
 
 export const layoutReducer = (
@@ -30,10 +30,10 @@ export const layoutReducer = (
         external: { ...state.external, ...action.payload },
       };
     }
-    case UPDATE_LAYOUT_NA: {
+    case UPDATE_LAYOUT_GENERAL: {
       return {
         ...state,
-        na: { ...state.na, ...action.payload },
+        general: { ...state.general, ...action.payload },
       };
     }
     case UPDATE_LAYOUT: {

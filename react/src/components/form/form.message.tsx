@@ -13,10 +13,11 @@ export const FormMessage: React.FC = (): JSX.Element | null => {
 
   if (response) {
     console.log('form message', response);
+
     const { ok, data: { message, name } } = response;
 
     if (ok) {
-      return <Message type={"success"} text={message || name}>{message || name}</Message>;
+      return message ? <Message type={"success"} text={message}>{message}</Message> : null;
     }
 
     switch (status) {

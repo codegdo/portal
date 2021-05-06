@@ -5,10 +5,12 @@ import {
   Column,
   OneToOne,
   JoinColumn,
+  Unique,
 } from 'typeorm';
 import { User } from '../user/user.entity';
 
 @Entity({ database: 'portal', schema: 'sec', name: 'organization' })
+@Unique(['domain'])
 export class Organization extends BaseEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
@@ -39,6 +41,9 @@ export class Organization extends BaseEntity {
 
   @Column({ name: 'fax', nullable: true })
   fax!: number;
+
+  @Column({ name: 'domain', nullable: false })
+  domain!: string;
 
   @Column({ name: 'is_active', default: true })
   isActive!: boolean;

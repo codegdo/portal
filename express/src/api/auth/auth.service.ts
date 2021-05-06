@@ -35,6 +35,18 @@ export class AuthService {
     return user;
   };
 
+  configureUser = async (): Promise<null> => {
+    // create org
+
+    // create subscription
+
+    // create role
+
+    //
+
+    return null;
+  };
+
   loginUser = async (loginUserDto: LoginUserDto): Promise<User> => {
     const user = await this.portal.userRepository.loginUser(loginUserDto);
 

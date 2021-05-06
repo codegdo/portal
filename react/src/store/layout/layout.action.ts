@@ -3,7 +3,7 @@ import {
   LayoutState,
   UPDATE_LAYOUT_EXTERNAL,
   UPDATE_LAYOUT_INTERNAL,
-  UPDATE_LAYOUT_NA,
+  UPDATE_LAYOUT_GENERAL,
   UPDATE_LAYOUT,
 } from './layout.type';
 
@@ -21,9 +21,9 @@ export function updateInternal(layouts: LayoutState): AnyAction {
   };
 }
 
-export function updateNA(na: { [x: string]: string }): AnyAction {
+export function updateGeneral(na: { [x: string]: string }): AnyAction {
   return {
-    type: UPDATE_LAYOUT_NA,
+    type: UPDATE_LAYOUT_GENERAL,
     payload: na,
   };
 }

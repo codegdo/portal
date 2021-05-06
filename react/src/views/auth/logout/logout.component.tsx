@@ -18,10 +18,10 @@ const Logout: React.FC = (): JSX.Element | null => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (fetching == 'idle') {
-      void fetchData();
-    }
+    void fetchData();
+  }, []);
 
+  useEffect(() => {
     if (fetching == 'success' || fetching == 'error') {
       storage.removeItem(jwtToken);
       loggedIn && dispatch(deleteSession());

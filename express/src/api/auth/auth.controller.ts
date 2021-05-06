@@ -33,6 +33,19 @@ export class AuthController {
     return { username: user.username };
   }
 
+  @Get('/verify/:token')
+  async verifyToken(@Param('token') token: string) {
+    await this.authService.verifyToken(token);
+
+    return { message: 'Verify successful' };
+  }
+
+  @Post('/configure')
+  async configureUser() {
+    await this.authService.configureUser();
+    return { orgId: 1 };
+  }
+
   @Get('/confirm/:token')
   async confirmToken() {}
 
@@ -68,13 +81,6 @@ export class AuthController {
 
   @Post('/recovery')
   async recoveryUser() {}
-
-  @Get('/verify/:token')
-  async verifyToken(@Param('token') token: string) {
-    await this.authService.verifyToken(token);
-
-    return { message: 'Verify successful' };
-  }
 }
 
 //activation

@@ -1,4 +1,4 @@
-export const mainNA = `
+export const mainGeneral = `
 <div class="na">
   <aside class="na-aside">
     <div class="container">

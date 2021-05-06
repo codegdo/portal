@@ -5,7 +5,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
 } from 'typeorm';
+import { Role } from '../entities';
 
 @Entity({ database: 'portal', schema: 'sec', name: 'policy' })
 export class Policy extends BaseEntity {
@@ -26,6 +28,9 @@ export class Policy extends BaseEntity {
 
   @Column({ name: 'org_id', nullable: true })
   orgId!: number;
+
+  @ManyToMany(() => Role, (role: Role) => role.policies)
+  roles!: Role[];
 
   @CreateDateColumn({
     name: 'created_at',

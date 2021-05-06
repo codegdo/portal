@@ -40,8 +40,11 @@ export class User extends BaseEntity {
   @Column({ name: 'salt', select: false })
   salt!: string;
 
-  @OneToOne((_type) => Role)
-  @JoinColumn({ name: 'role_id' })
+  @OneToOne(() => Role, (role: Role) => role.id, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({ name: 'role' })
   role!: Role;
 
   @Column({ name: 'org_id', nullable: true })

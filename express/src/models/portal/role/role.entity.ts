@@ -5,7 +5,10 @@ import {
   Column,
   JoinColumn,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { Policy } from '../policy/policy.entity';
 
 export enum RoleTypeName {
   SYSTEM = 'SYSTEM',
@@ -43,6 +46,20 @@ export class Role extends BaseEntity {
   @ManyToOne(() => RoleType, (roletype) => roletype.id)
   @JoinColumn({ name: 'roletype_id' })
   roleType!: RoleType;
+
+  @ManyToMany(() => Policy, (policy: Policy) => policy.roles)
+  @JoinTable({
+    name: 'role_policy',
+    joinColumn: {
+      name: 'role_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'policy_id',
+      referencedColumnName: 'id',
+    },
+  })
+  policies!: Policy[];
 
   @Column({ name: 'org_id', nullable: true })
   orgId!: number;

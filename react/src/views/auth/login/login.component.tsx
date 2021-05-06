@@ -21,7 +21,7 @@ interface FetchOutput {
 }
 
 const Login: React.FC = (): JSX.Element => {
-  const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
+  const { loggedIn, orgId } = useSelector((state: AppState) => state.session);
   //const location = useLocation();
   const [form, setForm] = useState<FormType>();
   const { updateSession } = useAction();
@@ -60,7 +60,7 @@ const Login: React.FC = (): JSX.Element => {
     }
   }
 
-  return loggedIn ? <Redirect to="/" /> :
+  return loggedIn ? (orgId ? <Redirect to="/" /> : <Redirect to="/auth/configure" />) :
     (
       response && !response.ok && response.data.statusCode === 403 ? <Redirect to={{ pathname: '/auth/resend', state: { response } }} /> :
         (

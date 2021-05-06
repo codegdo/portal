@@ -7,29 +7,29 @@ import { NavMain } from '../nav/nav.partial';
 import { stripTrailingSlash, stringTemplateReplace } from '../../utils';
 import { TemplateProps } from './template.type';
 import { AppState } from '../../store/reducers';
-import { mainExternal, mainInternal, mainNA } from '../../layouts';
+import { mainExternal, mainGeneral, mainInternal } from '../../layouts';
 
 export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   const { route } = props;
   const { url } = useRouteMatch();
-  const { layout, session: { user } } = useSelector((state: AppState) => state);
+  const { layout, session: { loggedIn, user, orgId } } = useSelector((state: AppState) => state);
 
-  const { component = 'notfound.component.tsx', redirectTo = '/' } = route || {};
+  const { component = 'notfound.component.tsx', redirectTo = '/', restricted } = route || {};
   const urlRedirect = stripTrailingSlash(`${url}/${redirectTo}`);
 
   const Content = lazy(
     () => import(`../../views/${component}`)
   );
 
-  const { external, internal, na } = layout;
+  const { external, internal, general } = layout;
   const { path = '/' } = route;
   const key = path.replace('/', '') || 'main';
   let template = `<Content />`;
 
-  if (user) {
+  if (loggedIn && restricted) {
     template = (user && user.roleType === 'internal') ? (internal[key] || internal['main'] || mainInternal) : (external[key] || external['main'] || mainExternal);
   } else {
-    template = na[key] || na['main'] || mainNA;
+    template = general[key] || general['main'] || mainGeneral;
   }
 
   template = stringTemplateReplace(template);
