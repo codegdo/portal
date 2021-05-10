@@ -10,10 +10,10 @@ import {
 } from 'typeorm';
 import { Policy } from '../policy/policy.entity';
 
-export enum RoleTypeName {
-  SYSTEM = 'SYSTEM',
-  INTERNAL = 'INTERNAL',
-  EXTERNAL = 'EXTERNAL',
+export enum RoleTypeEnum {
+  SYSTEM = 'system',
+  INTERNAL = 'internal',
+  EXTERNAL = 'external',
 }
 
 @Entity({ database: 'portal', schema: 'dbo', name: 'roletype' })
@@ -24,9 +24,9 @@ export class RoleType extends BaseEntity {
   @Column({
     name: 'name',
     type: 'enum',
-    enum: RoleTypeName,
+    enum: RoleTypeEnum,
   })
-  name!: RoleTypeName;
+  name!: RoleTypeEnum;
 }
 
 @Entity({ database: 'portal', schema: 'sec', name: 'role' })

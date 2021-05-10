@@ -20,8 +20,8 @@ export class Policy extends BaseEntity {
   @Column({ name: 'description', nullable: true })
   description!: string;
 
-  @Column({ name: 'data_policy', nullable: true })
-  dataPolicy!: string;
+  @Column({ name: 'data', nullable: true })
+  data!: string;
 
   @Column({ name: 'is_active', default: false })
   isActive!: boolean;

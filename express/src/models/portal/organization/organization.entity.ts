@@ -10,7 +10,7 @@ import {
 import { User } from '../user/user.entity';
 
 @Entity({ database: 'portal', schema: 'sec', name: 'organization' })
-@Unique(['domain'])
+@Unique(['hostname'])
 export class Organization extends BaseEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
@@ -24,11 +24,8 @@ export class Organization extends BaseEntity {
   @Column({ name: 'city', nullable: true })
   city!: string;
 
-  @Column({ name: 'state', nullable: true })
-  state!: string;
-
   @Column({ name: 'territory_id', nullable: true })
-  territoryId!: string;
+  territoryId!: number;
 
   @Column({ name: 'postal_code', nullable: true })
   postalCode!: number;
@@ -42,8 +39,8 @@ export class Organization extends BaseEntity {
   @Column({ name: 'fax', nullable: true })
   fax!: number;
 
-  @Column({ name: 'domain', nullable: false })
-  domain!: string;
+  @Column({ name: 'hostname', nullable: false })
+  hostname!: string;
 
   @Column({ name: 'is_active', default: true })
   isActive!: boolean;

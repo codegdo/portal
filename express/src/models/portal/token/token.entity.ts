@@ -15,7 +15,7 @@ export class Token extends BaseEntity {
   @Column({ name: 'expires_at' })
   expiresAt!: number;
 
-  @Column({ name: 'token_data' })
+  @Column({ name: 'data' })
   data!: string;
 
   create({ data = '{}', maxAge = 86400 }: TokenData) {

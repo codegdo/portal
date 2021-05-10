@@ -24,8 +24,8 @@ export class Module extends BaseEntity {
   @Column({ name: 'is_internal', default: false })
   isInternal!: boolean;
 
-  @Column({ name: 'is_subscription_required', default: false })
-  isSubscriptionRequired!: boolean;
+  @Column({ name: 'is_subscription', default: false })
+  isSubscription!: boolean;
 
   @Column({ name: 'is_active', default: true })
   isActive!: boolean;

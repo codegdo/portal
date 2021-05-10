@@ -31,20 +31,19 @@ export class User extends BaseEntity {
   @Column({ name: 'password', select: false })
   password!: string;
 
-  @Column({ name: 'data_column', nullable: true })
+  @Column({ name: 'salt', select: false })
+  salt!: string;
+
+  @Column({ name: 'data', nullable: true })
   dataColumn!: string;
 
   @Column({ name: 'is_active', default: false })
   isActive!: boolean;
 
-  @Column({ name: 'salt', select: false })
-  salt!: string;
-
   @OneToOne(() => Role, (role: Role) => role.id, {
-    cascade: true,
-    eager: true,
+    nullable: true,
   })
-  @JoinColumn({ name: 'role' })
+  @JoinColumn({ name: 'role_id' })
   role!: Role;
 
   @Column({ name: 'org_id', nullable: true })

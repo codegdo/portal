@@ -7,9 +7,9 @@ export class Session implements SessionEntity {
   @PrimaryColumn({ name: 'id' })
   id!: string;
 
+  @Column({ name: 'data' })
+  data!: string;
+
   @Column({ name: 'expires_at' })
   expiresAt!: number;
-
-  @Column({ name: 'session_data' })
-  data!: string;
 }
