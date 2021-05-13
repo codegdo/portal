@@ -7,7 +7,7 @@ import {
   SignupUserDto,
   TokenDto,
 } from '../../models/portal/dtos';
-import { Token, TokenData, User } from '../../models/portal/entities';
+import { Organization, Token, TokenData, User } from '../../models/portal/entities';
 import { PortalRepository } from '../../models/portal/repositories';
 
 @Service()
@@ -19,14 +19,23 @@ export class AuthService {
   private token!: Token;
 
   signupUser = async (signupUserDto: SignupUserDto): Promise<User> => {
-    const user = await this.portal.userRepository.signupUser(signupUserDto);
+    const role = await this.portal.roleRepository.findOne(2);
+
+    console.log(role);
+
+    // undefined - not found
+    if (role === undefined) {
+      throw new ExceptionHttp(404, 'Not Found');
+    }
+
+    const user = await this.portal.userRepository.signupUser(signupUserDto, role);
 
     // generate token
     const tokenData: TokenData = {
       maxAge: 60 * 1000,
       data: JSON.stringify({ username: user.username }),
     };
-    const tokenDto: TokenDto = await this.token.create(tokenData);
+    const tokenDto: TokenDto = this.token.create(tokenData);
 
     await this.portal.tokenRepository.createToken(tokenDto);
 
@@ -35,14 +44,41 @@ export class AuthService {
     return user;
   };
 
-  configureUser = async (): Promise<null> => {
+  configureUser = async (configureUserDto: {
+    [key: string]: string;
+  }): Promise<null> => {
+    const { name, hostname, username } = configureUserDto;
+    const owner = await this.portal.userRepository.findOne({
+      where: [{ username }],
+    });
+
+    // not found
+    if (!owner) return null;
+
     // create org
+    const org = new Organization();
+    org.name = name;
+    org.hostname = hostname;
+    org.owner = owner;
 
-    // create subscription
-
-    // create role
+    // assign role to owner
+    const role = await this.portal.roleRepository.findOne(2);
 
     //
+    await this.portal.connection
+      .transaction(async (transactionalEntityManager) => {
+        const savedOrg = await transactionalEntityManager.save(org);
+
+        owner.orgId = savedOrg.id;
+
+        if (role) owner.role = role;
+
+        await transactionalEntityManager.save(owner);
+      })
+      .catch((error) => {
+        console.log(error);
+        throw new InternalServerError('Internal server error');
+      });
 
     return null;
   };
@@ -122,7 +158,7 @@ export class AuthService {
       await this.portal.connection
         .transaction(async (transactionalEntityManager) => {
           await transactionalEntityManager.save(user);
-          await this.portal.tokenRepository.delete(tokenId);
+          await transactionalEntityManager.remove(token);
         })
         .catch((error) => {
           console.log(error);

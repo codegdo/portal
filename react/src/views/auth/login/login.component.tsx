@@ -41,8 +41,9 @@ const Login: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (fetching == 'success') {
       if (isMounted.current) {
-        storage.setItem(jwtToken, response.data.token);
-        updateSession({ loggedIn: true, user: response.data.user });
+        const { user, orgId, token } = response.data || {};
+        storage.setItem(jwtToken, token);
+        updateSession({ loggedIn: true, user, orgId });
       }
     }
   }, [fetching]);

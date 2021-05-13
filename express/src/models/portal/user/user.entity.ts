@@ -35,14 +35,12 @@ export class User extends BaseEntity {
   salt!: string;
 
   @Column({ name: 'data', nullable: true })
-  dataColumn!: string;
+  data!: string;
 
   @Column({ name: 'is_active', default: false })
   isActive!: boolean;
 
-  @OneToOne(() => Role, (role: Role) => role.id, {
-    nullable: true,
-  })
+  @OneToOne(() => Role, (role) => role.id)
   @JoinColumn({ name: 'role_id' })
   role!: Role;
 

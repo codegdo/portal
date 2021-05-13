@@ -45,7 +45,7 @@ export class Role extends BaseEntity {
 
   @ManyToOne(() => RoleType, (roletype) => roletype.id)
   @JoinColumn({ name: 'roletype_id' })
-  roleType!: RoleType;
+  roletype!: RoleType;
 
   @ManyToMany(() => Policy, (policy: Policy) => policy.roles)
   @JoinTable({

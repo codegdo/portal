@@ -16,6 +16,7 @@ export default async (): Promise<Application> => {
     appMiddleware(app);
     useExpressServer(app, {
       authorizationChecker: async () => {
+        console.log('test');
         return true;
       },
       currentUserChecker: async (action: Action) => {

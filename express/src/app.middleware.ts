@@ -17,11 +17,6 @@ export const appMiddleware = (app: Application): void => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
-  app.use((req, _res, next) => {
-    console.log('req.session', req.session);
-    next();
-  });
-
   app.use(
     cors((_req: Request, callback) => {
       callback(null, {
@@ -40,7 +35,7 @@ export const appMiddleware = (app: Application): void => {
       saveUninitialized: false,
       cookie: {
         secure: false,
-        maxAge: 60 * 1000,
+        //maxAge: 60 * 1000,
       },
       store: new TypeormStore({
         repository: getConnection('default').getRepository(Session),

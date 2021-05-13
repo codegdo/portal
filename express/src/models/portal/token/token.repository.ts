@@ -19,5 +19,5 @@ export class TokenRepository extends Repository<Token> {
     }
   }
 
-  async deleteToken() {}
+  // async deleteToken() {}
 }

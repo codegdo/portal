@@ -27,8 +27,8 @@ export class AuthController {
   private jwt!: JwtService;
 
   @Post('/signup')
-  async signupUser(@Body() input: SignupUserDto): Promise<any> {
-    const user = await this.authService.signupUser(input);
+  async signupUser(@Body() signupUserDto: SignupUserDto): Promise<any> {
+    const user = await this.authService.signupUser(signupUserDto);
 
     return { username: user.username };
   }
@@ -41,8 +41,15 @@ export class AuthController {
   }
 
   @Post('/configure')
-  async configureUser() {
-    await this.authService.configureUser();
+  async configureUser(
+    @Session() session: any,
+    @Body() configureUserDto: { [key: string]: string }
+  ): Promise<any> {
+    await this.authService.configureUser({
+      ...configureUserDto,
+      username: session.user.username,
+    });
+
     return { orgId: 1 };
   }
 
@@ -56,13 +63,16 @@ export class AuthController {
   ): Promise<LoginOutput> {
     const user = await this.authService.loginUser(loginInput);
 
-    const { username, email } = user;
+    const { username, email, orgId, role } = user;
     const token = this.jwt.sign({ username });
-    const payload = { user: { username, email, roleType: 'internal' }, token };
+    const payload = {
+      user: { username, email, roletype: role.roletype.name, isOwner: role.isOwner },
+      orgId,
+      token,
+    };
 
-    session.user = payload.user;
+    session.user = { ...payload.user, roleId: role.id };
 
-    console.log('LOGIN', user);
     return payload;
   }
 

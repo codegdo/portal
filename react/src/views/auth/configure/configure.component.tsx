@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router';
 import { Form } from '../../../components/form/form.component';
 import { FormType } from '../../../components/types';
 import { normalizeData } from '../../../helpers';
-import { useFetch } from '../../../hooks';
+import { useAction, useFetch } from '../../../hooks';
+import { AppState } from '../../../store/reducers';
 import { splitObjectKeyId } from '../../../utils';
 
 interface FetchOutput {
@@ -10,7 +13,9 @@ interface FetchOutput {
 }
 
 const Configure: React.FC = (): JSX.Element => {
-  const { fetching, response, fetchData } = useFetch<FetchOutput>('api/auth/signup');
+  const { loggedIn, orgId } = useSelector((state: AppState) => state.session);
+  const { updateSession } = useAction();
+  const { fetching, response, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/configure');
   const [form, setForm] = useState<FormType>();
 
   // initial load form
@@ -21,6 +26,15 @@ const Configure: React.FC = (): JSX.Element => {
       setForm(formData);
     })()
   }, []);
+
+  // api response
+  useEffect(() => {
+    if (fetching == 'success') {
+      if (isMounted.current) {
+        updateSession({ orgId: 1 });
+      }
+    }
+  }, [fetching]);
 
   // submit form
   const handleSubmit = (values: { [key: string]: any }) => {
@@ -35,7 +49,7 @@ const Configure: React.FC = (): JSX.Element => {
   return (
     form == undefined ? <div>loading</div> :
       (
-        (fetching == 'success' && response) ? <div>Success</div> :
+        (loggedIn && orgId) ? <Redirect to="/" /> :
           <Form data={form} response={response} onSubmit={handleSubmit}>
             <Form.Message />
             <Form.Header />

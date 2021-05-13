@@ -14,7 +14,7 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   const { url } = useRouteMatch();
   const { layout, session: { loggedIn, user, orgId } } = useSelector((state: AppState) => state);
 
-  const { component = 'notfound.component.tsx', redirectTo = '/', restricted } = route || {};
+  const { component = 'notfound.component.tsx', redirectTo = '/' } = route || {};
   const urlRedirect = stripTrailingSlash(`${url}/${redirectTo}`);
 
   const Content = lazy(
@@ -26,8 +26,8 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   const key = path.replace('/', '') || 'main';
   let template = `<Content />`;
 
-  if (loggedIn && restricted) {
-    template = (user && user.roleType === 'internal') ? (internal[key] || internal['main'] || mainInternal) : (external[key] || external['main'] || mainExternal);
+  if (loggedIn && orgId) {
+    template = (user && user.roletype === 'internal') ? (internal[key] || internal['main'] || mainInternal) : (external[key] || external['main'] || mainExternal);
   } else {
     template = general[key] || general['main'] || mainGeneral;
   }
