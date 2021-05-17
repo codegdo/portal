@@ -27,17 +27,15 @@ export class AuthController {
   private jwt!: JwtService;
 
   @Post('/signup')
-  async signupUser(@Body() signupUserDto: SignupUserDto): Promise<any> {
-    const user = await this.authService.signupUser(signupUserDto);
-
-    return { username: user.username };
+  async signupUser(@Body() signupUserDto: SignupUserDto): Promise<unknown> {
+    return this.authService.signupUser(signupUserDto);
   }
 
   @Get('/verify/:token')
-  async verifyToken(@Param('token') token: string) {
+  async verifyToken(@Param('token') token: string): Promise<{ message: string }> {
     await this.authService.verifyToken(token);
 
-    return { message: 'Verify successful' };
+    return { message: 'SUCCESS' };
   }
 
   @Post('/configure')
@@ -52,9 +50,6 @@ export class AuthController {
 
     return { orgId: 1 };
   }
-
-  @Get('/confirm/:token')
-  async confirmToken() {}
 
   @Post('/login')
   async loginUser(
@@ -71,14 +66,18 @@ export class AuthController {
       token,
     };
 
+    console.log('login session', session.id);
+
     session.user = { ...payload.user, roleId: role.id };
 
     return payload;
   }
 
   @Get('/logout')
-  async logoutUser(@Session() session: any, @Res() res: any) {
-    session.destroy((error: any) => console.log(error));
+  async logoutUser(@Session() session: any, @Res() res: any): Promise<any> {
+    console.log(session.id);
+    //session.destroy((error: unknown) => console.log(error));
+    await this.authService.logoutUser(session.id);
     return res.clearCookie('connect.sid', { path: '/' }).status(200);
   }
 

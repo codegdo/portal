@@ -26,16 +26,16 @@ CREATE TABLE IF NOT EXISTS dbo.page (
 
 CREATE TABLE IF NOT EXISTS sec.session (
   id TEXT NOT NULL,
-  data TEXT,
-  expires_at INT,
+  json TEXT,
+  expired_at BIGINT,
   --
   PRIMARY KEY(id)
 );
 
 CREATE TABLE IF NOT EXISTS sec.token (
   id TEXT NOT NULL,
-  data TEXT,
-  expires_at INT,
+  json TEXT,
+  expired_at BIGINT,
   --
   PRIMARY KEY(id)
 );

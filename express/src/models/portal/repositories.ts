@@ -1,6 +1,7 @@
 import { Service } from 'typedi';
 import { Connection, getConnection } from 'typeorm';
 import { UserRepository } from './user/user.repository';
+import { SessionRepository } from './session/session.repository';
 import { TokenRepository } from './token/token.repository';
 import { TemplateRepository } from './template/template.repository';
 import { OrganizationRepository } from './organization/organization.repository';
@@ -28,6 +29,10 @@ export class PortalRepository {
 
   get policyRepository(): PolicyRepository {
     return this.connection.getCustomRepository(PolicyRepository);
+  }
+
+  get sessionRepository(): SessionRepository {
+    return this.connection.getCustomRepository(SessionRepository);
   }
 
   get tokenRepository(): TokenRepository {

@@ -7,7 +7,7 @@ import {
   SignupUserDto,
   TokenDto,
 } from '../../models/portal/dtos';
-import { Organization, Token, TokenData, User } from '../../models/portal/entities';
+import { Organization, Role, Token, User } from '../../models/portal/entities';
 import { PortalRepository } from '../../models/portal/repositories';
 
 @Service()
@@ -18,30 +18,31 @@ export class AuthService {
   @Inject()
   private token!: Token;
 
-  signupUser = async (signupUserDto: SignupUserDto): Promise<User> => {
-    const role = await this.portal.roleRepository.findOne(2);
-
-    console.log(role);
-
-    // undefined - not found
-    if (role === undefined) {
-      throw new ExceptionHttp(404, 'Not Found');
-    }
-
-    const user = await this.portal.userRepository.signupUser(signupUserDto, role);
+  signupUser = async (
+    signupUserDto: SignupUserDto
+  ): Promise<{ username: string }> => {
+    const { username } = signupUserDto;
+    const user = this.portal.userRepository.getUser(signupUserDto);
 
     // generate token
-    const tokenData: TokenData = {
+    const tokenDto: TokenDto = this.token.create({
       maxAge: 60 * 1000,
-      data: JSON.stringify({ username: user.username }),
-    };
-    const tokenDto: TokenDto = this.token.create(tokenData);
+      json: JSON.stringify({ username }),
+    });
 
-    await this.portal.tokenRepository.createToken(tokenDto);
+    const token = this.portal.tokenRepository.getToken(tokenDto);
 
-    // send mail
+    await this.portal.connection
+      .transaction(async (manager) => {
+        await manager.save(user);
+        await manager.save(token);
+      })
+      .catch((error) => {
+        console.log(error);
+        throw new InternalServerError('Internal server error');
+      });
 
-    return user;
+    return { username };
   };
 
   configureUser = async (configureUserDto: {
@@ -62,18 +63,18 @@ export class AuthService {
     org.owner = owner;
 
     // assign role to owner
-    const role = await this.portal.roleRepository.findOne(2);
+    const role = new Role();
+    role.id = 2;
 
     //
     await this.portal.connection
-      .transaction(async (transactionalEntityManager) => {
-        const savedOrg = await transactionalEntityManager.save(org);
+      .transaction(async (manager) => {
+        const savedOrg = await manager.save(org);
 
         owner.orgId = savedOrg.id;
+        owner.role = role;
 
-        if (role) owner.role = role;
-
-        await transactionalEntityManager.save(owner);
+        await manager.save(owner);
       })
       .catch((error) => {
         console.log(error);
@@ -104,6 +105,10 @@ export class AuthService {
     return user;
   };
 
+  logoutUser = async (id: string): Promise<void> => {
+    await this.portal.sessionRepository.clearSession(id);
+  };
+
   recoveryUser = async () => {
     return 'hello';
   };
@@ -125,47 +130,51 @@ export class AuthService {
     return user;
   };
 
-  verifyToken = async (tokenId: string): Promise<boolean> => {
+  verifyToken = async (tokenId: string): Promise<void> => {
     const token = await this.portal.tokenRepository.findOne({
       where: [{ id: tokenId }],
     });
 
-    // undefined - not found
+    // token - not found
     if (token === undefined) {
       throw new ExceptionHttp(404, 'Token Not Found');
     }
 
-    const dateNow = new Date();
+    const date = new Date();
+    const dateNow = Math.round(date.getTime() / 1000);
 
-    // token expired
-    if (token.expiresAt < Math.round(dateNow.getTime() / 1000)) {
-      throw new ExceptionHttp(404, 'User Not Found');
+    // token - expired
+    if (token.expiredAt < dateNow) {
+      throw new ExceptionHttp(404, 'Token Expired');
     }
 
-    const { username } = JSON.parse(token.data);
+    const { username } = JSON.parse(token.json);
     const user = await this.portal.userRepository.findOne({ where: [{ username }] });
 
-    // undefined - not found
+    // user - not found
     if (user === undefined) {
       throw new ExceptionHttp(404, 'User Not Found');
     }
 
+    // check - is user active
     if (user.isActive) {
-      return false;
+      throw new ExceptionHttp(404, 'Token Activated');
     } else {
       user.isActive = true;
 
       await this.portal.connection
-        .transaction(async (transactionalEntityManager) => {
-          await transactionalEntityManager.save(user);
-          await transactionalEntityManager.remove(token);
+        .transaction(async (manager) => {
+          await manager.save(user);
+          // clean up tokens
+          await manager.query(
+            `DELETE FROM sec.token WHERE id = $1 OR expired_at < $2`,
+            [token.id, dateNow]
+          );
         })
         .catch((error) => {
           console.log(error);
           throw new InternalServerError('Internal server error');
         });
-
-      return true;
     }
   };
 }

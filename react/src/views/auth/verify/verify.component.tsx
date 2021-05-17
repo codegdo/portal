@@ -7,7 +7,7 @@ import VerifySuccess from './verify.success';
 const Verify: React.FC = (): JSX.Element => {
 
   const { params: { token } } = useRouteMatch();
-  const { fetching, response, isMounted, fetchData } = useFetch(`/api/auth/verify/${token}`);
+  const { fetching, response, fetchData } = useFetch(`/api/auth/verify/${token}`);
 
   useEffect(() => {
     void fetchData();

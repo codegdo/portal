@@ -1,16 +1,16 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { User } from './user.entity';
-//import { selectUserQuery } from './user.query';
-import { LoginUserDto, SignupUserDto } from './user.dto';
 import { BadRequestError, InternalServerError } from 'routing-controllers';
+import { User } from './user.entity';
 import { Role } from '../role/role.entity';
+import { LoginUserDto, SignupUserDto } from './user.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  async signupUser(signupUserDto: SignupUserDto, role: Role): Promise<User> {
-    const { email, username, password } = signupUserDto;
+  async signupUser({ email, username, password }: SignupUserDto): Promise<User> {
+    const role = new Role();
     const user = new User();
 
+    role.id = 2;
     user.email = email;
     user.username = username;
     user.password = password;
@@ -18,6 +18,14 @@ export class UserRepository extends Repository<User> {
 
     try {
       return user.save();
+
+      /* return await this.manager.query(`SELECT sec_fn_signupuser($1, $2, $3, $4, $5)`, [
+        email,
+        username,
+        password,
+        salt,
+        2,
+      ]); */
     } catch (error) {
       console.log(error);
       if (error.code === '23505') {
@@ -35,7 +43,7 @@ export class UserRepository extends Repository<User> {
     try {
       //await this.manager.query(`${selectUserQuery}`, [username]);
       //await this.manager.query(`CALL my_procedure($1)`, ['giangd@gmail.com']);
-      //await this.manager.query(`SELECT * FROM sec_fn_login_user($1)`, [username]);
+      //await this.manager.query(`SELECT * FROM sec_fn_loginuser($1)`, [username]);
 
       const user = await query
         .addSelect(['user.password', 'user.salt'])
@@ -56,5 +64,18 @@ export class UserRepository extends Repository<User> {
       console.log(error);
       throw new InternalServerError('Internal server error');
     }
+  }
+
+  getUser({ email, username, password }: SignupUserDto): User {
+    const role = new Role();
+    const user = new User();
+
+    role.id = 2;
+    user.email = email;
+    user.username = username;
+    user.password = password;
+    user.role = role;
+
+    return user;
   }
 }

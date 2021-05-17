@@ -1,15 +1,15 @@
 import { Entity, PrimaryColumn, Column } from 'typeorm';
-
-import { SessionEntity } from 'typeorm-store';
+import { ISession } from 'connect-typeorm';
+//import { SessionEntity } from 'typeorm-store';
 
 @Entity({ database: 'portal', schema: 'sec', name: 'session' })
-export class Session implements SessionEntity {
+export class Session implements ISession {
   @PrimaryColumn({ name: 'id' })
   id!: string;
 
-  @Column({ name: 'data' })
-  data!: string;
+  @Column({ name: 'json' })
+  json!: string;
 
-  @Column({ name: 'expires_at' })
-  expiresAt!: number;
+  @Column({ name: 'expired_at' })
+  expiredAt!: number;
 }

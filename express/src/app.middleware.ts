@@ -3,9 +3,10 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
 import { getConnection } from 'typeorm';
-import { TypeormStore } from 'typeorm-store';
+//import { TypeormStore } from 'typeorm-store';
 import { Session } from './models/portal/entities';
 import { sessionSecret } from './configs';
+import { TypeormStore } from 'connect-typeorm/out';
 
 declare module 'express-session' {
   export interface Session {
@@ -35,11 +36,13 @@ export const appMiddleware = (app: Application): void => {
       saveUninitialized: false,
       cookie: {
         secure: false,
-        //maxAge: 60 * 1000,
+        maxAge: 60 * 1000,
       },
       store: new TypeormStore({
-        repository: getConnection('default').getRepository(Session),
-      }),
+        cleanupLimit: 0,
+        limitSubquery: false, // If using MariaDB.
+        ttl: 60,
+      }).connect(getConnection('default').getRepository(Session)),
     })
   );
 };

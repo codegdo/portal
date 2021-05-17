@@ -4,7 +4,7 @@ import { TokenDto } from './token.dto';
 
 export interface TokenData {
   maxAge?: number;
-  data?: string;
+  json?: string;
 }
 
 @Entity({ database: 'portal', schema: 'sec', name: 'token' })
@@ -12,17 +12,17 @@ export class Token extends BaseEntity {
   @PrimaryColumn({ name: 'id' })
   id!: string;
 
-  @Column({ name: 'expires_at' })
-  expiresAt!: number;
+  @Column({ name: 'expired_at' })
+  expiredAt!: number;
 
-  @Column({ name: 'data' })
-  data!: string;
+  @Column({ name: 'json' })
+  json!: string;
 
-  create({ data = '{}', maxAge = 86400 }: TokenData): TokenDto {
+  create({ json = '{}', maxAge = 86400 }: TokenData): TokenDto {
     const token: TokenDto = {
       id: crypto.randomBytes(16).toString('hex'),
-      expiresAt: Math.floor(new Date().getTime() / 1000 + maxAge),
-      data: data,
+      expiredAt: Math.floor(new Date().getTime() / 1000 + maxAge),
+      json: json,
     };
 
     return token;
