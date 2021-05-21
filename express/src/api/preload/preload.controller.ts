@@ -1,5 +1,11 @@
 //import { Request } from 'express';
-import { Authorized, Get, JsonController, QueryParam } from 'routing-controllers';
+import {
+  Session,
+  Authorized,
+  Get,
+  JsonController,
+  QueryParam,
+} from 'routing-controllers';
 import { Inject } from 'typedi';
 import { PreloadService } from './preload.service';
 
@@ -10,9 +16,14 @@ export class PreloadController {
 
   @Authorized()
   @Get('/start')
-  async getStart(@QueryParam('subdomain') subdomain: string) {
+  async getStart(
+    @Session() { user }: any,
+    @QueryParam('subdomain') subdomain: string
+  ) {
     const templates = await this.preloadService.getTemplatesByOrg();
+
     console.log('PRELOAD', subdomain);
-    return { orgId: null, templates };
+
+    return { orgId: null, templates, user };
   }
 }

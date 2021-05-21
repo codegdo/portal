@@ -14,18 +14,17 @@ interface FormExtends {
   Message: typeof FormMessage;
 }
 
-export const FormContext = React.createContext<FormContextValue | undefined>(undefined);
+export const FormContext = React.createContext<FormContextValue<any> | undefined>(undefined);
 
-export const Form: React.FC<FormProps> & FormExtends = ({ data, response, onSubmit, children }) => {
-  const { values: defaultValues, errors, formValidationSchema } = normalizeForm(data);
+export const Form: React.FC<FormProps<any>> & FormExtends = ({ data, response, onSubmit, children }) => {
 
-  let { current: values } = useRef(defaultValues);
-  //let { current: errors } = useRef(defaultErrors);
-  let errorRef = useRef(false);
+  const { values: defaultValues, errors, formSchema } = normalizeForm(data);
+  const { current: values } = useRef(defaultValues);
+  const errorRef = useRef(false);
   const [status, setStatus] = useState<string | undefined>();
 
   useEffect(() => {
-    registerSchema(formValidationSchema);
+    registerSchema(formSchema);
   }, []);
 
   useEffect(() => {
@@ -36,7 +35,7 @@ export const Form: React.FC<FormProps> & FormExtends = ({ data, response, onSubm
       if (Object.keys(errors).length == 0) {
 
         // formValidationSchema
-        validate(`${data.name}${data.id}`, values).then((errs) => {
+        void validate(`${data.name}${data.id}`, values).then((errs) => {
           if (errs.length == 0) {
             //setError(false);
             //refError.current = false;
@@ -59,8 +58,8 @@ export const Form: React.FC<FormProps> & FormExtends = ({ data, response, onSubm
     }
   }, [status]);
 
-  if (response) {
-    if (response.ok) {
+  if (response && response.result) {
+    if (response.result.ok) {
       errorRef.current = false;
     } else {
       errorRef.current = true;
@@ -69,7 +68,7 @@ export const Form: React.FC<FormProps> & FormExtends = ({ data, response, onSubm
 
   return (
     <form className={errorRef.current ? 'form -error' : 'form'}>
-      <FormContext.Provider value={{ data, values, errors, formValidationSchema, response, status, onClick }}>
+      <FormContext.Provider value={{ data, form: { values, errors, status, formSchema }, response, onClick }}>
         {
           children
         }

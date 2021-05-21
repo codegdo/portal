@@ -1,43 +1,23 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { BrowserRouter, HashRouter, Route, Switch } from 'react-router-dom';
+import React from 'react';
+
+import { BrowserRouter, HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Display } from './components/element';
 
 import { RouteGuard } from './components/route/route.guard';
 import { Template } from './components/template/template.component';
-import { mapTemplateToLayout } from './helpers';
-import { useAction, useFetch } from './hooks';
-import { AppState } from './store/reducers';
+import { usePreload } from './hooks/preload.hook';
+
 
 import { AuthRouter, HomeRouter, MarketingRouter, SalesRouter, RewardsRouter } from './views';
 
 export const App: React.FC = (): JSX.Element | null => {
-  const subdomain = location.hostname.split('.')[1] ? window.location.host.split('.')[0] : false;
-  const { fetching, response, isMounted, fetchData } = useFetch(`/api/preload/start?subdomain=${subdomain}`);
-  const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
 
-  const { updateLayout } = useAction();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { preload, sessionTimeout } = usePreload();
 
-  useEffect(() => {
-    void fetchData();
-  }, [loggedIn])
 
-  useEffect(() => {
-    if (fetching == 'success') {
-      if (isMounted.current) {
-        const { data: { orgId, templates } } = response;
-
-        if (orgId) {
-          const layout = mapTemplateToLayout(templates);
-          updateLayout({ ...layout });
-        }
-
-      }
-    }
-  }, [fetching]);
-
-  return response ?
-    (response.ok ?
+  return preload ?
+    (preload.ok ?
       (
         <HashRouter hashType="noslash">
           <BrowserRouter>
@@ -49,6 +29,7 @@ export const App: React.FC = (): JSX.Element | null => {
               <RouteGuard path="/rewards" component={RewardsRouter} />
               <Route path="*" component={Template} />
             </Switch>
+            {sessionTimeout && <Redirect to='/auth/logout' />}
           </BrowserRouter>
         </HashRouter>
       ) : <Display type=""><div>opps... system was down</div></Display>

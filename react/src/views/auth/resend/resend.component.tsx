@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import queryString from 'query-string';
 
 import { Form } from '../../../components/form/form.component';
 import { FormType } from '../../../components/types';
 import { normalizeData } from '../../../helpers';
-import { useFetch } from '../../../hooks';
+import { FetchConfig, useFetch } from '../../../hooks';
 import { splitObjectKeyId } from '../../../utils';
-
-type FetchOutput = {
-  username: string;
-}
 
 type LocationState = {
   username: string;
@@ -19,10 +15,9 @@ type LocationState = {
 const Resend: React.FC = (): JSX.Element => {
   const { search, state = {} } = useLocation<LocationState>();
 
-  const { fetching, response = state.response, data, fetchData } = useFetch<FetchOutput>('api/auth/resend');
+  const { fetching, result = state.result, fetchData } = useFetch('api/auth/resend');
+
   const [form, setForm] = useState<FormType>();
-
-
 
   // initial load form
   useEffect(() => {
@@ -37,8 +32,8 @@ const Resend: React.FC = (): JSX.Element => {
       }
 
       //
-      if (state && state.response && state.response.setting) {
-        formData.fields[0].value = state.response.setting.username;
+      if (state && state.result && state.result.setting) {
+        formData.fields[0].value = state.result.setting.username;
       }
 
       console.log(location);
@@ -47,26 +42,30 @@ const Resend: React.FC = (): JSX.Element => {
     })()
   }, []);
 
+
   // submit form
   const handleSubmit = (values: { [key: string]: any }) => {
     const [keyFields] = splitObjectKeyId(values);
-    const config = {
+    const config: FetchConfig = {
       option: { body: { ...keyFields } },
       setting: { clear: true }
     };
-    fetchData(config);
+
+    void fetchData(config);
   }
+
+  console.log(fetching);
 
   return (
     form == undefined ? <div>loading</div> :
       (
-        fetching == 'success' ? <Redirect to={{ pathname: '/auth/login', state: {} }} /> :
-          <Form data={form} response={response} onSubmit={handleSubmit}>
-            <Form.Message />
-            <Form.Header />
-            <Form.Main />
-            <Form.Footer />
-          </Form>
+        //fetching == 'success' ? <Redirect to={{ pathname: '/auth/login', state: {} }} /> :
+        <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
+          <Form.Message />
+          <Form.Header />
+          <Form.Main />
+          <Form.Footer />
+        </Form>
       )
   )
 }

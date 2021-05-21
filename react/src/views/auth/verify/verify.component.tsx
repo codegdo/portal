@@ -7,15 +7,15 @@ import VerifySuccess from './verify.success';
 const Verify: React.FC = (): JSX.Element => {
 
   const { params: { token } } = useRouteMatch();
-  const { fetching, response, fetchData } = useFetch(`/api/auth/verify/${token}`);
+  const { fetching, result, fetchData } = useFetch(`/api/auth/verify/${token}`);
 
   useEffect(() => {
     void fetchData();
   }, []);
 
   return fetching == 'success' ?
-    <VerifySuccess data={response} /> :
-    (fetching == 'error' ? <VerifyError data={response} /> : <div>loading...</div>);
+    <VerifySuccess data={result} /> :
+    (fetching == 'error' ? <VerifyError data={result} /> : <div>loading...</div>);
 }
 
 export default Verify;

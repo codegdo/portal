@@ -1,20 +1,21 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import { apiUrl, jwtToken } from '../app.config';
 
 import { http, RequestOption } from '../services';
 import { stripTrailingSlash } from '../utils';
 
-type FetchConfig = {
-  option?: { [key: string]: any };
-  setting?: { [key: string]: any };
+export type FetchConfig = {
+  option?: { [key: string]: string | boolean | number | unknown };
+  setting?: { [key: string]: string | boolean | number | unknown };
 };
 
-type FetchState<T> = {
+export type FetchState<T> = {
   fetching: 'idle' | 'loading' | 'error' | 'success';
-  response?: T;
+  result?: T;
 };
 
-type FetchOutput<T> = FetchState<T> & {
+export type FetchOutput<T> = FetchState<T> & {
   isMounted: React.MutableRefObject<boolean>;
   fetchData: (configs?: FetchConfig) => Promise<void>;
 };
@@ -40,7 +41,7 @@ export const useFetch = <T>(
 
   const initialState: FetchState<T> = {
     fetching: 'idle',
-    response: undefined,
+    result: undefined,
   };
 
   const fetchReducer = <T>(
@@ -51,15 +52,17 @@ export const useFetch = <T>(
       case 'REQUEST':
         return { ...state, fetching: 'loading' };
       case 'SUCCESS':
-        return { ...state, fetching: 'success', response: action.payload };
+        return { ...state, fetching: 'success', result: action.payload };
       case 'FAILURE':
-        return { ...state, fetching: 'error', response: action.payload };
+        return { ...state, fetching: 'error', result: action.payload };
       default:
         return state;
     }
   };
 
   const [state, dispatch] = useReducer(fetchReducer, initialState);
+
+  const history = useHistory();
 
   const isMounted = useRef(false);
 
@@ -81,13 +84,26 @@ export const useFetch = <T>(
 
         dispatch({ type: 'SUCCESS', payload: { ...data, ok: true, setting } });
       } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const status: number = error.status;
+
         if (error.message === 'Failed to fetch') {
           dispatch({
             type: 'FAILURE',
-            payload: { data: { message: 'Failed to fetch' }, ok: false, setting },
+            payload: {
+              data: { message: 'Failed to fetch' },
+              ok: false,
+              status,
+              setting,
+            },
           });
+        } else if (error.data.message === 'Session lost') {
+          history.push('/auth/logout');
         } else {
-          dispatch({ type: 'FAILURE', payload: { ...error, ok: false, setting } });
+          dispatch({
+            type: 'FAILURE',
+            payload: { ...error, ok: false, status, setting },
+          });
         }
       }
     },

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { jwtToken } from '../../../app.config';
@@ -14,20 +14,20 @@ interface FetchOutput {
 const Logout: React.FC = (): JSX.Element | null => {
   const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
   const dispatch = useDispatch();
-  const { fetching, fetchData } = useFetch<FetchOutput>('/api/auth/logout');
+  const { fetching, result, isMounted } = useFetch<FetchOutput>('/api/auth/logout', { init: true });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    void fetchData();
-  }, []);
+    console.log('FETCHING', fetching);
 
-  useEffect(() => {
-    if (fetching == 'success' || fetching == 'error') {
-      storage.removeItem(jwtToken);
-      loggedIn && dispatch(deleteSession());
-      setIsLoading(false);
+    if (result) {
+      if (isMounted.current) {
+        storage.removeItem(jwtToken);
+        loggedIn && dispatch(deleteSession());
+        setIsLoading(false);
+      }
     }
-  }, [fetching]);
+  }, [result]);
 
   return isLoading ? null : <Redirect to="/auth/login" />;
 };

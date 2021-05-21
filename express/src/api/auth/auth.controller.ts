@@ -1,5 +1,6 @@
 import {
   Body,
+  CurrentUser,
   Get,
   JsonController,
   Param,
@@ -40,13 +41,16 @@ export class AuthController {
 
   @Post('/configure')
   async configureUser(
-    @Session() session: any,
+    @CurrentUser() user: { [x: string]: string } | undefined,
     @Body() configureUserDto: { [key: string]: string }
   ): Promise<any> {
-    await this.authService.configureUser({
+    console.log('CONFIGURE SESSION USER', user);
+    console.log('CONFIGURE USER DTO', configureUserDto);
+
+    /*await this.authService.configureUser({
       ...configureUserDto,
-      username: session.user.username,
-    });
+      user
+    });*/
 
     return { orgId: 1 };
   }
@@ -74,18 +78,22 @@ export class AuthController {
   }
 
   @Get('/logout')
-  async logoutUser(@Session() session: any, @Res() res: any): Promise<any> {
-    console.log(session.id);
-    //session.destroy((error: unknown) => console.log(error));
-    await this.authService.logoutUser(session.id);
-    return res.clearCookie('connect.sid', { path: '/' }).status(200);
+  async logoutUser(@Session() session: any, @Res() res: any): Promise<unknown> {
+    console.log('LOGOUT SESSION ID', session.id);
+
+    if (session.user) {
+      await this.authService.logoutUser(session.id);
+      res.clearCookie('connect.sid', { path: '/' });
+    }
+
+    return { message: 'SESSION CLEAR' };
   }
 
   @Post('/resend')
-  async resendToken(@Body() resendInput: ResendUserTokenDto): Promise<any> {
-    const user = await this.authService.resendToken(resendInput);
+  async resendToken(@Body() resendInput: ResendUserTokenDto): Promise<unknown> {
+    await this.authService.resendToken(resendInput);
 
-    return user;
+    return { message: 'SUCCESS' };
   }
 
   @Post('/recovery')

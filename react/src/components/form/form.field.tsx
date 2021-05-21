@@ -14,20 +14,21 @@ export const FormField: React.FC<FormFieldProps> = ({ field }): JSX.Element | nu
     return null;
   }
 
-  let { values, errors, response, status, formValidationSchema } = context;
+  const { form: { values, errors, formSchema, status }, response: { result } } = context;
 
-  const keyId = toCamelCase(field.name + field.id);
+  const keyId = toCamelCase(`${field.name}${field.id}`);
+
   const [value, error, setValue, resetValue] = useValidation(values[keyId], errors[keyId]);
 
-  const fieldValidationSchema = {
+  const fieldSchema = {
     name: keyId,
     properties: {
-      [keyId]: [...formValidationSchema.properties[keyId]]
+      [keyId]: [...formSchema.properties[keyId]]
     }
   };
 
   useEffect(() => {
-    registerSchema(fieldValidationSchema);
+    registerSchema(fieldSchema);
   }, []);
 
   useEffect(() => {
@@ -48,13 +49,13 @@ export const FormField: React.FC<FormFieldProps> = ({ field }): JSX.Element | nu
   }, [status]);
 
   useEffect(() => {
-    if (response && response.clear) {
+    if (result && result.setting && result.setting.clear) {
       resetValue(field);
     }
-  }, [response]);
+  }, [result]);
 
   const handleChange = (target: TargetInput): void => {
-    setValue(field, target);
+    void setValue(field, target);
   }
 
   return (

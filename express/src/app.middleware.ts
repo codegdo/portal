@@ -3,7 +3,6 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
 import { getConnection } from 'typeorm';
-//import { TypeormStore } from 'typeorm-store';
 import { Session } from './models/portal/entities';
 import { sessionSecret } from './configs';
 import { TypeormStore } from 'connect-typeorm/out';

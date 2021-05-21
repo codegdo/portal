@@ -134,7 +134,7 @@ export function parseFormValidationSchema(option: FormObject): ValidationSchema 
   }, {});
 
   return {
-    name: name + id,
+    name: `${name}${id}`,
     properties: { ...validations },
   };
 }

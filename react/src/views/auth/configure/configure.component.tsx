@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Form } from '../../../components/form/form.component';
@@ -15,12 +16,12 @@ interface FetchOutput {
 const Configure: React.FC = (): JSX.Element => {
   const { loggedIn, orgId } = useSelector((state: AppState) => state.session);
   const { updateSession } = useAction();
-  const { fetching, response, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/configure');
+  const { fetching, result, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/configure');
   const [form, setForm] = useState<FormType>();
 
   // initial load form
   useEffect(() => {
-    (async () => {
+    void (async () => {
       const json = await import('./configure.form.json');
       const formData = normalizeData(json.default);
       setForm(formData);
@@ -50,12 +51,14 @@ const Configure: React.FC = (): JSX.Element => {
     form == undefined ? <div>loading</div> :
       (
         (loggedIn && orgId) ? <Redirect to="/" /> :
-          <Form data={form} response={response} onSubmit={handleSubmit}>
+          <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
             <Form.Message />
             <Form.Header />
             <Form.Main />
             <Form.Footer />
+            <Link to="/auth/logout">Logout</Link>
           </Form>
+
       )
   );
 };

@@ -1,6 +1,11 @@
 import 'reflect-metadata';
 import express, { Application } from 'express';
-import { useExpressServer, useContainer, Action } from 'routing-controllers';
+import {
+  useExpressServer,
+  useContainer,
+  Action,
+  UnauthorizedError,
+} from 'routing-controllers';
 import { Container } from 'typedi';
 
 import { appConnection } from './app.connection';
@@ -15,15 +20,22 @@ export default async (): Promise<Application> => {
   if (connections) {
     appMiddleware(app);
     useExpressServer(app, {
-      authorizationChecker: async () => {
+      authorizationChecker: async (): Promise<boolean> => {
         console.log('test');
         return true;
       },
-      currentUserChecker: async (action: Action) => {
-        const token = action.request.headers['authorization'];
-        console.log('currentUserCheck', action.request.session);
+      currentUserChecker: async ({ request }: Action): Promise<any> => {
+        const token = await request.headers['authorization'];
+
+        console.log('currentUserCheck', request.session);
         console.log(token);
-        //return getEntityManager().findOneByToken(User, token);
+        // return getEntityManager().findOneByToken(User, token);
+
+        if (!request.session.user) {
+          throw new UnauthorizedError('Session lost');
+        }
+
+        return request.session.user;
       },
       routePrefix: '/api',
       controllers: [__dirname + '/api/**/*.controller.+(js|ts)'],

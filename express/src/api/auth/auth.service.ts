@@ -9,11 +9,15 @@ import {
 } from '../../models/portal/dtos';
 import { Organization, Role, Token, User } from '../../models/portal/entities';
 import { PortalRepository } from '../../models/portal/repositories';
+import { MailService } from '../../services';
 
 @Service()
 export class AuthService {
   @Inject()
   private portal!: PortalRepository;
+
+  @Inject()
+  private mailer!: MailService;
 
   @Inject()
   private token!: Token;
@@ -42,19 +46,33 @@ export class AuthService {
         throw new InternalServerError('Internal server error');
       });
 
+    // send mail
+    await this.mailer.send({
+      from: 'giangd@gmail.com',
+      to: `${user.email}`,
+      subject: 'hello',
+      html: 'hello',
+    });
+
     return { username };
   };
 
-  configureUser = async (configureUserDto: {
-    [key: string]: string;
-  }): Promise<null> => {
-    const { name, hostname, username } = configureUserDto;
+  configureUser = async (configureUserDto: any): Promise<null> => {
+    const { name, hostname, user } = configureUserDto;
+
+    // session user
+    if (!user) {
+      throw new ExceptionHttp(404, 'Not Found');
+    }
+
     const owner = await this.portal.userRepository.findOne({
-      where: [{ username }],
+      where: [{ username: user.username }],
     });
 
     // not found
-    if (!owner) return null;
+    if (owner === undefined) {
+      throw new ExceptionHttp(404, 'Not Found');
+    }
 
     // create org
     const org = new Organization();
@@ -117,17 +135,36 @@ export class AuthService {
     return 'hello';
   };
 
-  resendToken = async ({
-    username,
-  }: ResendUserTokenDto): Promise<User | undefined> => {
+  resendToken = async ({ username }: ResendUserTokenDto): Promise<void> => {
     const user = await this.portal.userRepository.findOne({ where: [{ username }] });
 
-    // undefined - not found
+    // not found
     if (user === undefined) {
       throw new ExceptionHttp(404, 'Not Found');
     }
 
-    return user;
+    // already activated
+    if (user.isActive) {
+      throw new ExceptionHttp(403, 'Already Activated');
+    }
+
+    // generate token
+    const tokenDto: TokenDto = this.token.create({
+      maxAge: 60 * 1000,
+      json: JSON.stringify({ username }),
+    });
+
+    await this.portal.tokenRepository.createToken(tokenDto);
+
+    // get email template
+
+    // send mail
+    await this.mailer.send({
+      from: 'giangd@gmail.com',
+      to: `${user.email}`,
+      subject: 'hello',
+      html: 'hello',
+    });
   };
 
   verifyToken = async (tokenId: string): Promise<void> => {

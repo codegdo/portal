@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import { AppState } from '../../../store/reducers';
 import { useAction, useFetch } from '../../../hooks';
@@ -22,11 +22,9 @@ interface FetchOutput {
 
 const Login: React.FC = (): JSX.Element => {
   const { loggedIn, orgId } = useSelector((state: AppState) => state.session);
-  //const location = useLocation();
   const [form, setForm] = useState<FormType>();
   const { updateSession } = useAction();
-  const { fetching, response, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/login');
-
+  const { fetching, result, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/login');
 
   // initial load form
   useEffect(() => {
@@ -41,7 +39,7 @@ const Login: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (fetching == 'success') {
       if (isMounted.current) {
-        const { user, orgId, token } = response.data || {};
+        const { user, orgId, token } = result.data || {};
         storage.setItem(jwtToken, token);
         updateSession({ loggedIn: true, user, orgId });
       }
@@ -63,10 +61,10 @@ const Login: React.FC = (): JSX.Element => {
 
   return loggedIn ? (orgId ? <Redirect to="/" /> : <Redirect to="/auth/configure" />) :
     (
-      response && !response.ok && response.data.statusCode === 403 ? <Redirect to={{ pathname: '/auth/resend', state: { response } }} /> :
+      result && !result.ok && result.data.statusCode === 403 ? <Redirect to={{ pathname: '/auth/resend', state: { result } }} /> :
         (
           form == undefined ? <div>loading</div> :
-            <Form data={form} response={response} onSubmit={handleSubmit}>
+            <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
               <Form.Message />
               <Form.Header />
               <Form.Main />

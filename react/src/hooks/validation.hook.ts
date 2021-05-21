@@ -18,7 +18,7 @@ export const useValidation = (
   const [state, setState] = useState(initialState);
 
   const setValue = async (field: FieldType, target: TargetInput): Promise<void> => {
-    const keyId = toCamelCase(field.name + field.id);
+    const keyId = toCamelCase(`${field.name}${field.id}`);
     const value = target[keyId];
 
     const errors = await validate(keyId, { [keyId]: value });
@@ -53,7 +53,8 @@ export const useValidation = (
   };
 
   const resetValue = (field: FieldType) => {
-    setState({ value: field.value, error: '' });
+    const val = field.value == null || field.value == undefined ? '' : field.value;
+    setState({ value: val, error: '' });
   };
 
   return [state.value, state.error || initialError, setValue, resetValue];
