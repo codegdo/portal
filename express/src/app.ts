@@ -32,7 +32,7 @@ export default async (): Promise<Application> => {
         // return getEntityManager().findOneByToken(User, token);
 
         if (!request.session.user) {
-          throw new UnauthorizedError('Session lost');
+          throw new UnauthorizedError('Session timeout');
         }
 
         return request.session.user;

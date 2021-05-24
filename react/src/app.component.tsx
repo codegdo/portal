@@ -1,20 +1,14 @@
 import React from 'react';
-
 import { BrowserRouter, HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Display } from './components/element';
-
 import { RouteGuard } from './components/route/route.guard';
 import { Template } from './components/template/template.component';
 import { usePreload } from './hooks/preload.hook';
-
-
 import { AuthRouter, HomeRouter, MarketingRouter, SalesRouter, RewardsRouter } from './views';
 
 export const App: React.FC = (): JSX.Element | null => {
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { preload, sessionTimeout } = usePreload();
-
 
   return preload ?
     (preload.ok ?

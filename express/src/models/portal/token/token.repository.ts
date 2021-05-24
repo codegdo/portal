@@ -6,14 +6,14 @@ import { TokenDto } from './token.dto';
 
 @EntityRepository(Token)
 export class TokenRepository extends Repository<Token> {
-  async createToken({ id, json, expiredAt }: TokenDto): Promise<void> {
+  async createToken({ id, json, expiredAt }: TokenDto): Promise<Token> {
     const token = new Token();
     token.id = id;
     token.expiredAt = expiredAt;
     token.json = json;
 
     try {
-      await token.save();
+      return token.save();
     } catch (error) {
       console.log(error);
       throw new InternalServerError('Internal server error');

@@ -70,8 +70,7 @@ export class AuthController {
       token,
     };
 
-    console.log('login session', session.id);
-
+    // set session user cookie
     session.user = { ...payload.user, roleId: role.id };
 
     return payload;
@@ -79,14 +78,12 @@ export class AuthController {
 
   @Get('/logout')
   async logoutUser(@Session() session: any, @Res() res: any): Promise<unknown> {
-    console.log('LOGOUT SESSION ID', session.id);
-
     if (session.user) {
       await this.authService.logoutUser(session.id);
       res.clearCookie('connect.sid', { path: '/' });
     }
 
-    return { message: 'SESSION CLEAR' };
+    return { message: 'Logout' };
   }
 
   @Post('/resend')

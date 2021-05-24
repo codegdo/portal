@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mapTemplateToLayout } from '../helpers';
 import { AppState } from '../store/reducers';
@@ -16,6 +16,8 @@ export const usePreload = (): any => {
 
   const { updateLayout } = useAction();
 
+  const [sessionTimeout, setSessionTimeout] = useState(false);
+
   useEffect(() => {
     void fetchData();
   }, [loggedIn]);
@@ -24,20 +26,25 @@ export const usePreload = (): any => {
     if (fetching == 'success') {
       if (isMounted.current) {
         const {
-          data: { orgId, templates },
+          data: { orgId, templates, user },
         } = result;
 
         if (orgId) {
           const layout = mapTemplateToLayout(templates);
           updateLayout({ ...layout });
         }
+        // check if session timeout
+        if (loggedIn) {
+          !user && setSessionTimeout(true);
+        } else {
+          setSessionTimeout(false);
+        }
       }
     }
   }, [fetching]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   return {
     preload: result,
-    sessionTimeout: !(loggedIn && result && result.data.user),
+    sessionTimeout,
   };
 };

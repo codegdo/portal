@@ -112,12 +112,12 @@ export class AuthService {
 
     // null - incorrect password
     if (user === null) {
-      throw new ExceptionHttp(400, 'Invalid credentials');
+      throw new ExceptionHttp(400, 'Invalid Credentials');
     }
 
     // not activated
     if (user.isActive === false) {
-      throw new ExceptionHttp(403, 'Unactivated account');
+      throw new ExceptionHttp(403, 'Unactivated Account');
     }
 
     return user;
@@ -154,7 +154,7 @@ export class AuthService {
       json: JSON.stringify({ username }),
     });
 
-    await this.portal.tokenRepository.createToken(tokenDto);
+    const token = await this.portal.tokenRepository.createToken(tokenDto);
 
     // get email template
 
@@ -163,7 +163,7 @@ export class AuthService {
       from: 'giangd@gmail.com',
       to: `${user.email}`,
       subject: 'hello',
-      html: 'hello',
+      html: `<a href="http://localhost:3000/auth/verify/${token.id}">Activate</a>`,
     });
   };
 

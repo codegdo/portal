@@ -61,7 +61,7 @@ const Login: React.FC = (): JSX.Element => {
 
   return loggedIn ? (orgId ? <Redirect to="/" /> : <Redirect to="/auth/configure" />) :
     (
-      result && !result.ok && result.data.statusCode === 403 ? <Redirect to={{ pathname: '/auth/resend', state: { result } }} /> :
+      result && result.data.message === 'Unactivated Account' ? <Redirect to={{ pathname: '/auth/resend', state: { result } }} /> :
         (
           form == undefined ? <div>loading</div> :
             <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
