@@ -6,18 +6,13 @@ import { http, RequestOption } from '../services';
 import { stripTrailingSlash } from '../utils';
 
 export type FetchConfig = {
-  option?: { [key: string]: string | boolean | number | unknown };
-  setting?: { [key: string]: string | boolean | number | unknown };
+  option?: { [key: string]: any };
+  detail?: { [key: string]: any };
 };
 
-export type FetchState<T> = {
+type FetchState<T> = {
   fetching: 'idle' | 'loading' | 'error' | 'success';
   result?: T;
-};
-
-export type FetchOutput<T> = FetchState<T> & {
-  isMounted: React.MutableRefObject<boolean>;
-  fetchData: (configs?: FetchConfig) => Promise<void>;
 };
 
 type Action<T> =
@@ -25,10 +20,24 @@ type Action<T> =
   | { type: 'SUCCESS'; payload: T }
   | { type: 'FAILURE'; payload: T };
 
+export type FetchResult<T> = {
+  data: T;
+  detail: T;
+  ok: boolean;
+  status: number;
+};
+
+type FetchReturn<T> = {
+  fetching: 'idle' | 'loading' | 'error' | 'success';
+  result: FetchResult<T>;
+  isMounted: React.MutableRefObject<boolean>;
+  fetchData: (configs?: FetchConfig) => Promise<void>;
+};
+
 export const useFetch = <T>(
   endpoint: string,
   { baseUrl, init, ...rest }: RequestOption = {}
-): FetchOutput<any> => {
+): FetchReturn<T> => {
   const token = window.localStorage.getItem(jwtToken);
   const url = baseUrl
     ? stripTrailingSlash(`${baseUrl}/${endpoint}`)
@@ -67,8 +76,8 @@ export const useFetch = <T>(
   const isMounted = useRef(false);
 
   const fetchData = useCallback(
-    async (config: FetchConfig = { option: {}, setting: {} }): Promise<void> => {
-      const { option, setting } = config;
+    async (config: FetchConfig = { option: {}, detail: {} }): Promise<void> => {
+      const { option, detail } = config;
 
       if (!endpoint) {
         return;
@@ -82,7 +91,7 @@ export const useFetch = <T>(
           ...option,
         });
 
-        dispatch({ type: 'SUCCESS', payload: { ...data, ok: true, setting } });
+        dispatch({ type: 'SUCCESS', payload: { ...data, ok: true, detail } });
       } catch (error) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const status: number = error.status;
@@ -94,7 +103,7 @@ export const useFetch = <T>(
               data: { message: 'Failed to fetch' },
               ok: false,
               status,
-              setting,
+              detail,
             },
           });
         } else if (error.data.message === 'Session lost') {
@@ -102,7 +111,7 @@ export const useFetch = <T>(
         } else {
           dispatch({
             type: 'FAILURE',
-            payload: { ...error, ok: false, status, setting },
+            payload: { ...error, ok: false, status, detail },
           });
         }
       }
@@ -117,10 +126,10 @@ export const useFetch = <T>(
     void fetchData();
   }, [fetchData]);
 
-  useEffect((): any => {
+  useEffect((): (() => void) => {
     isMounted.current = true;
     return () => (isMounted.current = false);
   }, []);
 
-  return { ...state, isMounted, fetchData };
+  return { fetching: state.fetching, result: state.result, isMounted, fetchData };
 };

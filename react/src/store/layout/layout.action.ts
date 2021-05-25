@@ -21,16 +21,16 @@ export function updateInternal(layouts: LayoutState): AnyAction {
   };
 }
 
-export function updateGeneral(na: { [x: string]: string }): AnyAction {
+export function updateGeneral(layouts: { [x: string]: string }): AnyAction {
   return {
     type: UPDATE_LAYOUT_GENERAL,
-    payload: na,
+    payload: layouts,
   };
 }
 
-export function updateLayout(layout: LayoutState): AnyAction {
+export function updateLayout(layouts: LayoutState): AnyAction {
   return {
     type: UPDATE_LAYOUT,
-    payload: layout,
+    payload: layouts,
   };
 }

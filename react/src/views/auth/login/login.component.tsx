@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 import { AppState } from '../../../store/reducers';
 import { useAction, useFetch } from '../../../hooks';
@@ -15,16 +15,19 @@ export class LoginDto {
   password!: string;
 }
 
-interface FetchOutput {
-  user: {};
+interface IResultData {
+  user: { [key: string]: string };
+  orgId: string | number;
   token: string;
+  message: string;
 }
 
 const Login: React.FC = (): JSX.Element => {
   const { loggedIn, orgId } = useSelector((state: AppState) => state.session);
   const [form, setForm] = useState<FormType>();
   const { updateSession } = useAction();
-  const { fetching, result, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/login');
+  const { fetching, result, isMounted, fetchData } = useFetch<IResultData>('api/auth/login');
+  const history = useHistory();
 
   // initial load form
   useEffect(() => {
@@ -37,21 +40,25 @@ const Login: React.FC = (): JSX.Element => {
 
   // api response
   useEffect(() => {
-    if (fetching == 'success') {
+    if (fetching == 'success' && result) {
       if (isMounted.current) {
-        const { user, orgId, token } = result.data || {};
+        const { user, orgId, token } = result.data;
         storage.setItem(jwtToken, token);
         updateSession({ loggedIn: true, user, orgId });
+      }
+    } else if (fetching == 'error') {
+      if (result?.data?.message === 'Unactivated Account') {
+        history.push({ pathname: '/auth/resend', state: { result } });
       }
     }
   }, [fetching]);
 
   // submit form
-  const handleSubmit = (values: { [key: string]: any }) => {
-    const [keyFields] = splitObjectKeyId(values);
+  const handleSubmit = (values: { [key: string]: string }): void => {
+    const { keyFields } = splitObjectKeyId(values);
     const config = {
       option: { body: { ...keyFields } },
-      setting: { username: keyFields.username }
+      detail: { username: keyFields.username }
     };
 
     if (fetching !== 'loading') {
@@ -61,16 +68,13 @@ const Login: React.FC = (): JSX.Element => {
 
   return loggedIn ? (orgId ? <Redirect to="/" /> : <Redirect to="/auth/configure" />) :
     (
-      result && result.data.message === 'Unactivated Account' ? <Redirect to={{ pathname: '/auth/resend', state: { result } }} /> :
-        (
-          form == undefined ? <div>loading</div> :
-            <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
-              <Form.Message />
-              <Form.Header />
-              <Form.Main />
-              <Form.Footer />
-            </Form>
-        )
+      form == undefined ? <div>loading</div> :
+        <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
+          <Form.Message />
+          <Form.Header />
+          <Form.Main />
+          <Form.Footer />
+        </Form>
     );
 };
 

@@ -4,10 +4,14 @@ import JsxParser from 'react-jsx-parser';
 import { useSelector } from 'react-redux';
 
 import { NavMain } from '../nav/nav.partial';
-import { stripTrailingSlash, stringTemplateReplace } from '../../utils';
+import { stripTrailingSlash } from '../../utils';
 import { TemplateProps } from './template.type';
 import { AppState } from '../../store/reducers';
 import { mainExternal, mainGeneral, mainInternal } from '../../layouts';
+
+const Loading: React.FC = (): JSX.Element => {
+  return <div>loading</div>
+}
 
 export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   const { route } = props;
@@ -24,7 +28,7 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   const { external, internal, general } = layout;
   const { path = '/' } = route;
   const key = path.replace('/', '') || 'main';
-  let template = `<Content />`;
+  let template = `<Content {...props}/>`;
 
   if (loggedIn && orgId) {
     template = (user && user.roletype === 'internal') ? (internal[key] || internal['main'] || mainInternal) : (external[key] || external['main'] || mainExternal);
@@ -32,7 +36,10 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
     template = general[key] || general['main'] || mainGeneral;
   }
 
-  template = stringTemplateReplace(template);
+  //template = stringTemplateReplace(template);
+  const fallback = template.replace('<Content', '<Loading');
+
+  console.log('TEMPLATE FALLBACK', fallback);
 
   useLayoutEffect(() => {
     //document.body.classList.add((path == '/' ? 'home' : key));
@@ -44,11 +51,11 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   }, []);
 
   return route.redirectTo ? <Redirect to={urlRedirect} /> : (
-    <Suspense fallback={null}>
+    <Suspense fallback={<JsxParser renderInWrapper={false} jsx={fallback} />}>
       <JsxParser
         renderInWrapper={false}
         bindings={{}}
-        components={{ Content, NavMain }}
+        components={{ Content, NavMain, Loading }}
         jsx={template}
       />
     </Suspense>

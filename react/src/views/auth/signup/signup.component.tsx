@@ -24,8 +24,8 @@ const Signup: React.FC = (): JSX.Element => {
   }, []);
 
   // submit form
-  const handleSubmit = (values: { [key: string]: any }) => {
-    const [keyFields] = splitObjectKeyId(values);
+  const handleSubmit = (values: { [key: string]: string }) => {
+    const { keyFields } = splitObjectKeyId(values);
     const option = {
       body: { ...keyFields }
     };

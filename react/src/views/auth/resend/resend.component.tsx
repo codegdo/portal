@@ -13,9 +13,9 @@ type LocationState = {
 }
 
 const Resend: React.FC = (): JSX.Element => {
-  const { search, state = {} } = useLocation<LocationState>();
+  const { search, state } = useLocation<LocationState>();
 
-  const { fetching, result = state.result, fetchData } = useFetch('api/auth/resend');
+  const { fetching, result = state?.result, fetchData } = useFetch('api/auth/resend');
 
   const [form, setForm] = useState<FormType>();
 
@@ -32,8 +32,8 @@ const Resend: React.FC = (): JSX.Element => {
       }
 
       //
-      if (state && state.result && state.result.setting) {
-        formData.fields[0].value = state.result.setting.username;
+      if (state?.result?.detail) {
+        formData.fields[0].value = state?.result?.detail?.username;
       }
 
       console.log(location);
@@ -44,11 +44,11 @@ const Resend: React.FC = (): JSX.Element => {
 
 
   // submit form
-  const handleSubmit = (values: { [key: string]: any }) => {
-    const [keyFields] = splitObjectKeyId(values);
+  const handleSubmit = (values: { [key: string]: string }) => {
+    const { keyFields } = splitObjectKeyId(values);
     const config: FetchConfig = {
       option: { body: { ...keyFields } },
-      setting: { clear: true }
+      detail: { clear: true }
     };
 
     void fetchData(config);
@@ -59,7 +59,6 @@ const Resend: React.FC = (): JSX.Element => {
   return (
     form == undefined ? <div>loading</div> :
       (
-        //fetching == 'success' ? <Redirect to={{ pathname: '/auth/login', state: {} }} /> :
         <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
           <Form.Message />
           <Form.Header />

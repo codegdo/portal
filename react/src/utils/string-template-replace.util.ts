@@ -5,7 +5,7 @@ const keys = [
   },
   {
     key: '{{nav_main}}',
-    value: '<NavMain />',
+    value: '<NavMain {...props} />',
   },
 ];
 

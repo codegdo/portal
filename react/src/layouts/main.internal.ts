@@ -1,7 +1,7 @@
 export const mainInternal = `
 <div>
   Internal App 
-  {{nav_main}}
-  {{content}}
+  <NavMain {...props} />
+  <Content {...props}/>
 </div>
 `;

@@ -5,11 +5,17 @@ import { AppState } from '../store/reducers';
 import { useAction } from './action.hook';
 import { useFetch } from './fetch.hook';
 
-export const usePreload = (): any => {
+type IResultData = {
+  user: { [key: string]: string };
+  orgId: string | number;
+  templates: [];
+};
+
+export const usePreload = (): { preload; sessionTimeout: boolean } => {
   const subdomain = location.hostname.split('.')[1]
     ? window.location.host.split('.')[0]
-    : false;
-  const { fetching, result, isMounted, fetchData } = useFetch(
+    : '';
+  const { fetching, result, isMounted, fetchData } = useFetch<IResultData>(
     `/api/preload/start?subdomain=${subdomain}`
   );
   const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
@@ -23,14 +29,15 @@ export const usePreload = (): any => {
   }, [loggedIn]);
 
   useEffect(() => {
-    if (fetching == 'success') {
+    if (fetching == 'success' && result) {
       if (isMounted.current) {
         const {
-          data: { orgId, templates, user },
+          data: { orgId, user, templates },
         } = result;
 
         if (orgId) {
-          const layout = mapTemplateToLayout(templates);
+          let layout = mapTemplateToLayout(templates);
+
           updateLayout({ ...layout });
         }
         // check if session timeout

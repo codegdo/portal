@@ -1,16 +1,20 @@
+import { stringTemplateReplace } from '../utils';
+
 type Layouts = {
   external: { [x: string]: string };
   internal: { [x: string]: string };
-  na: { [x: string]: string };
+  general: { [x: string]: string };
 };
 
-export const mapTemplateToLayout = (templates: any[]): Layouts => {
-  const layouts = templates.reduce((i, v) => {
-    const { type, name, html } = v;
-    const layout = { ...i[type], [name]: html };
+export const mapTemplateToLayout = (templates: []): Layouts => {
+  return templates.reduce(
+    (i, v) => {
+      const { type, name, html } = v;
 
-    return (i = { ...i, [type]: { ...layout } });
-  }, {});
+      const layout = { ...i[type], [name]: stringTemplateReplace(html) };
 
-  return layouts;
+      return (i = { ...i, [type]: { ...layout } });
+    },
+    { internal: {}, external: {}, general: {} }
+  );
 };

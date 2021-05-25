@@ -14,17 +14,13 @@ interface FetchOutput {
 const Logout: React.FC = (): JSX.Element | null => {
   const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
   const dispatch = useDispatch();
-  const { fetching, result, isMounted, fetchData } = useFetch<FetchOutput>('/api/auth/logout');
+  const { result, isMounted, fetchData } = useFetch<FetchOutput>('/api/auth/logout');
 
   useEffect(() => {
-    console.log('FETCHING', fetching);
-    console.log('RESULT', result)
-    console.log('LOGIN', loggedIn);
-
-    if (result) {
+    if (loggedIn && result) {
       if (isMounted.current) {
         storage.removeItem(jwtToken);
-        loggedIn && dispatch(deleteSession());
+        dispatch(deleteSession());
       }
     }
   }, [result]);
@@ -33,7 +29,7 @@ const Logout: React.FC = (): JSX.Element | null => {
     loggedIn && void fetchData();
   }, []);
 
-  return loggedIn ? null : <Redirect to="/auth/login" />;
+  return loggedIn ? <div>logging out...</div> : <Redirect to="/auth/login" />;
 };
 
 export default Logout;

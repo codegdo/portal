@@ -75,7 +75,7 @@ export type FormContextValue<T> = {
 export type FormProps<T> = {
   data: FormType;
   response: FetchState<T>;
-  onSubmit?: <T>(args: T) => void;
+  onSubmit?: (args: T) => void;
 };
 
 export type FormRenderProps = {
