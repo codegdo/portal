@@ -1,7 +1,7 @@
 import React from 'react';
 
-const MarketingComponent = (): JSX.Element => {
+const Marketing = (): JSX.Element => {
   return <div>MARKETING</div>;
 };
 
-export default MarketingComponent;
+export default Marketing;

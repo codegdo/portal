@@ -24,9 +24,11 @@ export const normalizeData = (form: any): FormType => {
   return { ...form, data: list };
 };
 
-export function normalizeForm(
-  form: FormType
-): { values: any; errors: any; formValidationSchema: ValidationSchema } {
+export function normalizeForm(form: FormType): {
+  values: { [x: string]: string | number | boolean };
+  errors: { [x: string]: string | number | boolean };
+  formSchema: ValidationSchema;
+} {
   const option: FormObject = {
     data: form,
     key: 'name',
@@ -35,8 +37,8 @@ export function normalizeForm(
   };
 
   const values = parseFormObject(option);
-  const formValidationSchema = parseFormValidationSchema(option);
+  const formSchema = parseFormValidationSchema(option);
   //const errors = parseFormError(validation);
 
-  return { values, errors: {}, formValidationSchema };
+  return { values, errors: {}, formSchema };
 }

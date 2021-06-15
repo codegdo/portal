@@ -1,43 +1,36 @@
-SELECT * FROM dbo."RoleType";
-
-SELECT * FROM sec."Role";
-
-SELECT * FROM sec."User";
-
-UPDATE sec."User"
-SET 
-"isActive" = '1',
-WHERE "UserId" = '1';
-
 INSERT
-INTO dbo."RoleType"
+INTO dbo.roletype
 VALUES
-('1', 'system'),
-('2', 'internal'),
-('3', 'external');
+('1', 'SYSTEM'),
+('2', 'INTERNAL'),
+('3', 'EXTERNAL');
 
 INSERT
-INTO sec."Role"
+INTO sec.role
 VALUES
-('1', 'System User', null, '1', null, '1'),
-('2', 'Internal User', null, '1', null, '2'),
-('3', 'External User', null, '1', null, '3');
+('1', 'System User', null, '0', null, '1'),
+('2', 'Internal User', null, '0', null, '2'),
+('3', 'External User', null, '0', null, '3');
 
 INSERT
-INTO org."Template"
+INTO org.template
 VALUES
 ('1', 'main', 'internal', '<div>Internal {{content}}</div>', null, null, null, '1'),
 ('2', 'main', 'external', '<div>External {{content}}</div>', null, null, null, '1'),
-('3', 'main', 'na', '<div>NA {{content}}</div>', null, null, null, '1');
+('3', 'main', 'general', '<div>NA {{content}}</div>', null, null, null, '1');
+
+TRUNCATE sec.role CASCADE;
 
 DROP TABLE IF EXISTS
-dbo."Module",
-dbo."RoleType",
-org."Subscription",
-org."Template",
-sec."Organization",
-sec."Policy",
-sec."Role",
-sec."Session",
-sec."Token",
-sec."User" CASCADE;
+dbo.module,
+dbo.roletype,
+org.company,
+org.contact,
+org.subscription,
+org.template,
+sec.organization,
+sec.policy,
+sec.role,
+sec.session,
+sec.token,
+sec.user CASCADE;

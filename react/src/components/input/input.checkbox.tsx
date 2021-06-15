@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { parseCheckboxValue } from '../../helpers';
 import { InputContext } from './input.component';
+import { FieldType } from '../form';
+import { TargetInput } from './input.type';
+import { toCamelCase } from '../../utils';
 
 export const InputCheckbox: React.FC = () => {
   const context = useContext(InputContext);
@@ -10,7 +13,11 @@ export const InputCheckbox: React.FC = () => {
   }
 
   // value = 'one;two::one:asf;two:abc'
-  const { input: { data }, value: initialValue, onChange } = context;
+  const { input, value: initialValue, onChange } = context;
+
+  const { name, id, data }: Partial<FieldType> = input || {};
+
+  const nameId = toCamelCase(`${name}${id}`);
 
   const [aChecks, oInputs] = parseCheckboxValue(initialValue, { data, key: 'value', value: '' });
 
@@ -33,7 +40,11 @@ export const InputCheckbox: React.FC = () => {
       checkVal = checkVal + '::' + inputVal;
     }
 
-    changed && (onChange && onChange(checkVal));
+    const target: TargetInput = {
+      [nameId]: checkVal
+    };
+
+    changed && (onChange && onChange(target));
 
     return () => {
       setChanged(false);

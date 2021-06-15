@@ -1,8 +1,15 @@
 import { Service } from 'typedi';
 import { Connection, getConnection } from 'typeorm';
+
+import { ModuleRepository } from './module/module.repository';
 import { UserRepository } from './user/user.repository';
+import { SessionRepository } from './session/session.repository';
 import { TokenRepository } from './token/token.repository';
 import { TemplateRepository } from './template/template.repository';
+import { OrganizationRepository } from './organization/organization.repository';
+import { RoleRepository } from './role/role.repository';
+import { PolicyRepository } from './policy/policy.repository';
+import { SubscriptionRepository } from './subscription/subscription.repository';
 
 @Service()
 export class PortalRepository {
@@ -10,16 +17,42 @@ export class PortalRepository {
     return getConnection('default');
   }
 
+  // dbo
+  get moduleRepository(): ModuleRepository {
+    return this.connection.getCustomRepository(ModuleRepository);
+  }
+
+  // org
+  get templateRepository(): TemplateRepository {
+    return this.connection.getCustomRepository(TemplateRepository);
+  }
+
+  get subscriptionRepository(): SubscriptionRepository {
+    return this.connection.getCustomRepository(SubscriptionRepository);
+  }
+
+  // sec
   get userRepository(): UserRepository {
-    // this.connection.transaction((manager) => manager.query(''));
     return this.connection.getCustomRepository(UserRepository);
+  }
+
+  get orgRepository(): OrganizationRepository {
+    return this.connection.getCustomRepository(OrganizationRepository);
+  }
+
+  get roleRepository(): RoleRepository {
+    return this.connection.getCustomRepository(RoleRepository);
+  }
+
+  get policyRepository(): PolicyRepository {
+    return this.connection.getCustomRepository(PolicyRepository);
+  }
+
+  get sessionRepository(): SessionRepository {
+    return this.connection.getCustomRepository(SessionRepository);
   }
 
   get tokenRepository(): TokenRepository {
     return this.connection.getCustomRepository(TokenRepository);
-  }
-
-  get templateRepository(): TemplateRepository {
-    return this.connection.getCustomRepository(TemplateRepository);
   }
 }

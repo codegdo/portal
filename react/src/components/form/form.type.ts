@@ -1,4 +1,5 @@
 import { ValidationSchema } from 'class-validator';
+import { FetchState } from '../../hooks';
 
 export type FieldOption = {
   setting?: {
@@ -57,20 +58,24 @@ export type FieldType = BlockType & {
 
 export type NormalizeElement = FormType & BlockType & FieldType;
 
-export type FormContextValue = {
-  data: FormType;
-  values: { [key: string]: string };
-  errors: { [key: string]: string };
-  response: any;
+export type FormData = {
+  values: { [key: string]: string | number | boolean };
+  errors: { [key: string]: string | number | boolean };
   status: string | undefined;
-  formValidationSchema: ValidationSchema;
+  formSchema: ValidationSchema;
+};
+
+export type FormContextValue<T> = {
+  data: FormType;
+  form: FormData;
+  response: FetchState<T>;
   onClick?: (name: string) => void;
 };
 
-export type FormProps = {
+export type FormProps<T> = {
   data: FormType;
-  response: any;
-  onSubmit?: <T>(args: T) => void;
+  response: FetchState<T>;
+  onSubmit?: (args: T) => void;
 };
 
 export type FormRenderProps = {

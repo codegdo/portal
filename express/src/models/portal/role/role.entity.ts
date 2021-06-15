@@ -5,12 +5,15 @@ import {
   Column,
   JoinColumn,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { Policy } from '../policy/policy.entity';
 
-export enum RoleTypeName {
-  SYSTEM = 'SYSTEM',
-  INTERNAL = 'INTERNAL',
-  EXTERNAL = 'EXTERNAL',
+export enum RoleTypeEnum {
+  SYSTEM = 'system',
+  INTERNAL = 'internal',
+  EXTERNAL = 'external',
 }
 
 @Entity({ database: 'portal', schema: 'dbo', name: 'roletype' })
@@ -21,9 +24,9 @@ export class RoleType extends BaseEntity {
   @Column({
     name: 'name',
     type: 'enum',
-    enum: RoleTypeName,
+    enum: RoleTypeEnum,
   })
-  name!: RoleTypeName;
+  name!: RoleTypeEnum;
 }
 
 @Entity({ database: 'portal', schema: 'sec', name: 'role' })
@@ -42,7 +45,21 @@ export class Role extends BaseEntity {
 
   @ManyToOne(() => RoleType, (roletype) => roletype.id)
   @JoinColumn({ name: 'roletype_id' })
-  roleType!: RoleType;
+  roletype!: RoleType;
+
+  @ManyToMany(() => Policy, (policy: Policy) => policy.roles)
+  @JoinTable({
+    name: 'role_policy',
+    joinColumn: {
+      name: 'role_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'policy_id',
+      referencedColumnName: 'id',
+    },
+  })
+  policies!: Policy[];
 
   @Column({ name: 'org_id', nullable: true })
   orgId!: number;

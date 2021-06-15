@@ -1,22 +1,18 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import { apiUrl, jwtToken } from '../app.config';
 
 import { http, RequestOption } from '../services';
 import { stripTrailingSlash } from '../utils';
 
-type FetchConfig = {
+export type FetchConfig = {
   option?: { [key: string]: any };
-  setting?: { [key: string]: any };
+  detail?: { [key: string]: any };
 };
 
 type FetchState<T> = {
   fetching: 'idle' | 'loading' | 'error' | 'success';
-  response?: T;
-};
-
-type FetchOutput<T> = FetchState<T> & {
-  isMounted: React.MutableRefObject<boolean>;
-  fetchData: (configs?: FetchConfig) => Promise<void>;
+  result?: T;
 };
 
 type Action<T> =
@@ -24,10 +20,24 @@ type Action<T> =
   | { type: 'SUCCESS'; payload: T }
   | { type: 'FAILURE'; payload: T };
 
+export type FetchResult<T> = {
+  data: T;
+  detail: T;
+  ok: boolean;
+  status: number;
+};
+
+type FetchReturn<T> = {
+  fetching: 'idle' | 'loading' | 'error' | 'success';
+  result: FetchResult<T>;
+  isMounted: React.MutableRefObject<boolean>;
+  fetchData: (configs?: FetchConfig) => Promise<void>;
+};
+
 export const useFetch = <T>(
   endpoint: string,
   { baseUrl, init, ...rest }: RequestOption = {}
-): FetchOutput<any> => {
+): FetchReturn<T> => {
   const token = window.localStorage.getItem(jwtToken);
   const url = baseUrl
     ? stripTrailingSlash(`${baseUrl}/${endpoint}`)
@@ -40,7 +50,7 @@ export const useFetch = <T>(
 
   const initialState: FetchState<T> = {
     fetching: 'idle',
-    response: undefined,
+    result: undefined,
   };
 
   const fetchReducer = <T>(
@@ -51,9 +61,9 @@ export const useFetch = <T>(
       case 'REQUEST':
         return { ...state, fetching: 'loading' };
       case 'SUCCESS':
-        return { ...state, fetching: 'success', response: action.payload };
+        return { ...state, fetching: 'success', result: action.payload };
       case 'FAILURE':
-        return { ...state, fetching: 'error', response: action.payload };
+        return { ...state, fetching: 'error', result: action.payload };
       default:
         return state;
     }
@@ -61,11 +71,13 @@ export const useFetch = <T>(
 
   const [state, dispatch] = useReducer(fetchReducer, initialState);
 
+  const history = useHistory();
+
   const isMounted = useRef(false);
 
   const fetchData = useCallback(
-    async (config: FetchConfig = { option: {}, setting: {} }): Promise<void> => {
-      const { option, setting } = config;
+    async (config: FetchConfig = { option: {}, detail: {} }): Promise<void> => {
+      const { option, detail } = config;
 
       if (!endpoint) {
         return;
@@ -79,15 +91,28 @@ export const useFetch = <T>(
           ...option,
         });
 
-        dispatch({ type: 'SUCCESS', payload: { ...data, ok: true, setting } });
+        dispatch({ type: 'SUCCESS', payload: { ...data, ok: true, detail } });
       } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const status: number = error.status;
+
         if (error.message === 'Failed to fetch') {
           dispatch({
             type: 'FAILURE',
-            payload: { data: { message: 'Failed to fetch' }, ok: false, setting },
+            payload: {
+              data: { message: 'Failed to fetch' },
+              ok: false,
+              status,
+              detail,
+            },
           });
+        } else if (error.data.message === 'Session timeout') {
+          history.push('/auth/logout');
         } else {
-          dispatch({ type: 'FAILURE', payload: { ...error, ok: false, setting } });
+          dispatch({
+            type: 'FAILURE',
+            payload: { ...error, ok: false, status, detail },
+          });
         }
       }
     },
@@ -101,10 +126,10 @@ export const useFetch = <T>(
     void fetchData();
   }, [fetchData]);
 
-  useEffect((): any => {
+  useEffect((): (() => void) => {
     isMounted.current = true;
     return () => (isMounted.current = false);
   }, []);
 
-  return { ...state, isMounted, fetchData };
+  return { fetching: state.fetching, result: state.result, isMounted, fetchData };
 };

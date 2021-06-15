@@ -10,7 +10,7 @@ export const FormFooter: React.FC = () => {
     return null;
   }
 
-  const { data: { buttons }, status, onClick } = context;
+  const { data: { buttons }, response: { fetching }, onClick } = context;
 
   return (
     <footer className="form-footer">
@@ -19,7 +19,7 @@ export const FormFooter: React.FC = () => {
           switch (type) {
             case 'button':
               return <div key={id} className={`item item_${name}`}>
-                <button className="button" type="button" name={name} onClick={() => onClick && onClick(name)}>{value}</button>
+                <button className="button" type="button" name={name} disabled={(fetching == 'loading') ? true : false} onClick={() => onClick && onClick(name)}>{value}</button>
               </div>
             default:
               if (name == 'signup') {

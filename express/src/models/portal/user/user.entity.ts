@@ -31,16 +31,16 @@ export class User extends BaseEntity {
   @Column({ name: 'password', select: false })
   password!: string;
 
-  @Column({ name: 'data_column', nullable: true })
-  dataColumn!: string;
+  @Column({ name: 'salt', select: false })
+  salt!: string;
+
+  @Column({ name: 'json', nullable: true })
+  json!: string;
 
   @Column({ name: 'is_active', default: false })
   isActive!: boolean;
 
-  @Column({ name: 'salt', select: false })
-  salt!: string;
-
-  @OneToOne((_type) => Role)
+  @OneToOne(() => Role, (role) => role.id)
   @JoinColumn({ name: 'role_id' })
   role!: Role;
 
@@ -50,15 +50,15 @@ export class User extends BaseEntity {
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
+    default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt!: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-    onUpdate: 'CURRENT_TIMESTAMP(6)',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt!: Date;
 

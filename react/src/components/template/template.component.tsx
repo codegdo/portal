@@ -3,16 +3,21 @@ import { Redirect, useRouteMatch } from 'react-router-dom';
 import JsxParser from 'react-jsx-parser';
 import { useSelector } from 'react-redux';
 
-import { NavMain } from '../nav/nav.partial';
-import { stripTrailingSlash, stringTemplateReplace } from '../../utils';
+import { NavMain } from '../nav/nav.main';
+import { NavSub } from '../nav/nav.sub';
+import { stripTrailingSlash } from '../../utils';
 import { TemplateProps } from './template.type';
 import { AppState } from '../../store/reducers';
-import { mainExternal, mainInternal, mainNA } from '../../layouts';
+import { mainExternal, mainGeneral, mainInternal } from '../../layouts';
+
+const Placeholder: React.FC = (): JSX.Element | null => {
+  return null;
+}
 
 export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   const { route } = props;
   const { url } = useRouteMatch();
-  const { layout, session: { user } } = useSelector((state: AppState) => state);
+  const { layout, session: { loggedIn, user, orgId } } = useSelector((state: AppState) => state);
 
   const { component = 'notfound.component.tsx', redirectTo = '/' } = route || {};
   const urlRedirect = stripTrailingSlash(`${url}/${redirectTo}`);
@@ -21,18 +26,18 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
     () => import(`../../views/${component}`)
   );
 
-  const { external, internal, na } = layout;
+  const { external, internal, general } = layout;
   const { path = '/' } = route;
   const key = path.replace('/', '') || 'main';
-  let template = `<Content />`;
+  let template = `<Content {...props}/>`;
 
-  if (user) {
-    template = (user && user.roleType === 'internal') ? (internal[key] || internal['main'] || mainInternal) : (external[key] || external['main'] || mainExternal);
+  if (loggedIn && orgId) {
+    template = (user?.roletype === 'internal') ? (internal[key] || internal['main'] || mainInternal) : (external[key] || external['main'] || mainExternal);
   } else {
-    template = na[key] || na['main'] || mainNA;
+    template = general[key] || general['main'] || mainGeneral;
   }
 
-  template = stringTemplateReplace(template);
+  const placeholder = template.replace('<Content', '<Placeholder');
 
   useLayoutEffect(() => {
     //document.body.classList.add((path == '/' ? 'home' : key));
@@ -44,11 +49,12 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   }, []);
 
   return route.redirectTo ? <Redirect to={urlRedirect} /> : (
-    <Suspense fallback={null}>
+    <Suspense fallback={<JsxParser allowUnknownElements={false} renderInWrapper={false} jsx={placeholder} />}>
       <JsxParser
+        allowUnknownElements={false}
         renderInWrapper={false}
         bindings={{}}
-        components={{ Content, NavMain }}
+        components={{ Content, NavMain, NavSub, Placeholder }}
         jsx={template}
       />
     </Suspense>

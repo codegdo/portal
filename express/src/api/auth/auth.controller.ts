@@ -1,5 +1,6 @@
 import {
   Body,
+  CurrentUser,
   Get,
   JsonController,
   Param,
@@ -27,54 +28,70 @@ export class AuthController {
   private jwt!: JwtService;
 
   @Post('/signup')
-  async signupUser(@Body() input: SignupUserDto): Promise<any> {
-    const user = await this.authService.signupUser(input);
-
-    return { username: user.username };
+  async signupUser(@Body() signupUserDto: SignupUserDto): Promise<unknown> {
+    return this.authService.signupUser(signupUserDto);
   }
 
-  @Get('/confirm/:token')
-  async confirmToken() {}
+  @Get('/verify/:token')
+  async verifyToken(@Param('token') token: string): Promise<{ message: string }> {
+    await this.authService.verifyToken(token);
+
+    return { message: 'SUCCESS' };
+  }
+
+  @Post('/configure')
+  async configureUser(
+    @CurrentUser() user: { [x: string]: string } | undefined,
+    @Body() configureUserDto: { [key: string]: string }
+  ): Promise<any> {
+    return this.authService.configureUser({
+      ...configureUserDto,
+      user,
+    });
+  }
 
   @Post('/login')
   async loginUser(
     @Session() session: any,
     @Body() loginInput: LoginUserDto
   ): Promise<LoginOutput> {
-    const user = await this.authService.loginUser(loginInput);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { user, nav } = await this.authService.loginUser(loginInput);
 
-    const { username, email } = user;
+    const { username, email, orgId, role } = user;
     const token = this.jwt.sign({ username });
-    const payload = { user: { username, email, roleType: 'internal' }, token };
+    const payload = {
+      user: { username, email, roletype: role.roletype.name, isOwner: role.isOwner },
+      orgId,
+      token,
+      nav,
+    };
 
-    session.user = payload.user;
+    // set session user cookie
+    session.user = { ...payload.user, roleId: role.id, orgId };
 
-    console.log('LOGIN', user);
     return payload;
   }
 
   @Get('/logout')
-  async logoutUser(@Session() session: any, @Res() res: any) {
-    session.destroy((error: any) => console.log(error));
-    return res.clearCookie('connect.sid', { path: '/' }).status(200);
+  async logoutUser(@Session() session: any, @Res() res: any): Promise<unknown> {
+    if (session.user) {
+      await this.authService.logoutUser(session.id);
+      res.clearCookie('connect.sid', { path: '/' });
+    }
+
+    return { message: 'Logout' };
   }
 
   @Post('/resend')
-  async resendToken(@Body() resendInput: ResendUserTokenDto): Promise<any> {
-    const user = await this.authService.resendToken(resendInput);
+  async resendToken(@Body() resendInput: ResendUserTokenDto): Promise<unknown> {
+    await this.authService.resendToken(resendInput);
 
-    return user;
+    return { message: 'SUCCESS' };
   }
 
   @Post('/recovery')
   async recoveryUser() {}
-
-  @Get('/verify/:token')
-  async verifyToken(@Param('token') token: string) {
-    await this.authService.verifyToken(token);
-
-    return { message: 'Verify successful' };
-  }
 }
 
 //activation

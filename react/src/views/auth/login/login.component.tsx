@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 import { AppState } from '../../../store/reducers';
 import { useAction, useFetch } from '../../../hooks';
 import { Form, FormType } from '../../../components/form';
-import { normalizeData } from '../../../helpers';
+import { mapNav, normalizeData } from '../../../helpers';
 import { splitObjectKeyId } from '../../../utils';
 import { storage } from '../../../services';
 import { jwtToken } from '../../../app.config';
@@ -15,18 +15,19 @@ export class LoginDto {
   password!: string;
 }
 
-interface FetchOutput {
-  user: {};
+interface IResultData {
+  user: { [key: string]: string };
+  orgId: string | number;
   token: string;
+  message: string;
 }
 
 const Login: React.FC = (): JSX.Element => {
-  const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
-  //const location = useLocation();
+  const { loggedIn, orgId } = useSelector((state: AppState) => state.session);
   const [form, setForm] = useState<FormType>();
-  const { updateSession } = useAction();
-  const { fetching, response, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/login');
-
+  const { updateSession, updateNav } = useAction();
+  const { fetching, result, isMounted, fetchData } = useFetch<IResultData>('api/auth/login');
+  const history = useHistory();
 
   // initial load form
   useEffect(() => {
@@ -39,20 +40,27 @@ const Login: React.FC = (): JSX.Element => {
 
   // api response
   useEffect(() => {
-    if (fetching == 'success') {
+    if (fetching == 'success' && result) {
       if (isMounted.current) {
-        storage.setItem(jwtToken, response.data.token);
-        updateSession({ loggedIn: true, user: response.data.user });
+        const { user, orgId, token, nav } = result.data;
+
+        storage.setItem(jwtToken, token);
+        updateSession({ loggedIn: true, user, orgId });
+        updateNav(mapNav(nav));
+      }
+    } else if (fetching == 'error') {
+      if (result?.data?.message === 'Unactivated Account') {
+        history.push({ pathname: '/auth/resend', state: { result } });
       }
     }
   }, [fetching]);
 
   // submit form
-  const handleSubmit = (values: { [key: string]: any }) => {
-    const [keyFields] = splitObjectKeyId(values);
+  const handleSubmit = (values: { [key: string]: string }): void => {
+    const { keyFields } = splitObjectKeyId(values);
     const config = {
       option: { body: { ...keyFields } },
-      setting: { username: keyFields.username }
+      detail: { username: keyFields.username }
     };
 
     if (fetching !== 'loading') {
@@ -60,18 +68,15 @@ const Login: React.FC = (): JSX.Element => {
     }
   }
 
-  return loggedIn ? <Redirect to="/" /> :
+  return loggedIn ? (orgId ? <Redirect to="/" /> : <Redirect to="/auth/configure" />) :
     (
-      response && !response.ok && response.data.statusCode === 403 ? <Redirect to={{ pathname: '/auth/resend', state: { response } }} /> :
-        (
-          form == undefined ? <div>loading</div> :
-            <Form data={form} response={response} onSubmit={handleSubmit}>
-              <Form.Message />
-              <Form.Header />
-              <Form.Main />
-              <Form.Footer />
-            </Form>
-        )
+      form == undefined ? <div>loading</div> :
+        <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
+          <Form.Message />
+          <Form.Header />
+          <Form.Main />
+          <Form.Footer />
+        </Form>
     );
 };
 

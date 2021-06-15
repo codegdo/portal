@@ -3,9 +3,9 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
 import { getConnection } from 'typeorm';
-import { TypeormStore } from 'typeorm-store';
 import { Session } from './models/portal/entities';
 import { sessionSecret } from './configs';
+import { TypeormStore } from 'connect-typeorm/out';
 
 declare module 'express-session' {
   export interface Session {
@@ -17,15 +17,10 @@ export const appMiddleware = (app: Application): void => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
-  app.use((req, _res, next) => {
-    console.log('req.session', req.session);
-    next();
-  });
-
   app.use(
     cors((_req: Request, callback) => {
       callback(null, {
-        origin: 'http://localhost:3000',
+        origin: ['http://localhost:3000', 'https://portal.dev'],
         credentials: true,
         allowedHeaders: ['Content-Type', 'Authorization', 'Expiry'],
         exposedHeaders: ['Authorization', 'Expiry'],
@@ -40,11 +35,13 @@ export const appMiddleware = (app: Application): void => {
       saveUninitialized: false,
       cookie: {
         secure: false,
-        maxAge: 60 * 1000,
+        maxAge: 60 * 60 * 1000,
       },
       store: new TypeormStore({
-        repository: getConnection('default').getRepository(Session),
-      }),
+        cleanupLimit: 0,
+        limitSubquery: false, // If using MariaDB.
+        ttl: 360,
+      }).connect(getConnection('default').getRepository(Session)),
     })
   );
 };

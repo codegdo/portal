@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage';
 
 import { sessionReducer } from './session/session.reducer';
 import { layoutReducer } from './layout/layout.reducer';
+import { navReducer } from './nav/nav.reducer';
 
 export type AppState = ReturnType<typeof appReducer>;
 type RootReducer = ReturnType<typeof rootReducer>;
@@ -12,6 +13,7 @@ type RootReducer = ReturnType<typeof rootReducer>;
 export const appReducer = combineReducers({
   session: sessionReducer,
   layout: layoutReducer,
+  nav: navReducer,
 });
 
 const rootReducer = (state: AppState | undefined, action: AnyAction): AppState => {
@@ -23,7 +25,5 @@ const rootReducer = (state: AppState | undefined, action: AnyAction): AppState =
   return appReducer(state, action);
 };
 
-export const persistedReducer: Reducer<
-  RootReducer & PersistPartial,
-  AnyAction
-> = persistReducer({ key: 'root', storage }, rootReducer);
+export const persistedReducer: Reducer<RootReducer & PersistPartial, AnyAction> =
+  persistReducer({ key: 'root', storage }, rootReducer);

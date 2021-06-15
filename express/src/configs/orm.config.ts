@@ -7,7 +7,7 @@ const options: ConnectionOptions = {
   password: process.env.POSTGRES_PASSWORD,
   port: 5432,
   synchronize: false,
-  logging: false,
+  logging: true,
 };
 
 const portal: ConnectionOptions = {

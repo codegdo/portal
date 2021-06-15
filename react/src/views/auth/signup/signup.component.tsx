@@ -11,7 +11,7 @@ interface FetchOutput {
 }
 
 const Signup: React.FC = (): JSX.Element => {
-  const { fetching, response, fetchData } = useFetch<FetchOutput>('api/auth/signup');
+  const { fetching, result, fetchData } = useFetch<FetchOutput>('api/auth/signup');
   const [form, setForm] = useState<FormType>();
 
   // initial load form
@@ -24,8 +24,8 @@ const Signup: React.FC = (): JSX.Element => {
   }, []);
 
   // submit form
-  const handleSubmit = (values: { [key: string]: any }) => {
-    const [keyFields] = splitObjectKeyId(values);
+  const handleSubmit = (values: { [key: string]: string }) => {
+    const { keyFields } = splitObjectKeyId(values);
     const option = {
       body: { ...keyFields }
     };
@@ -36,8 +36,8 @@ const Signup: React.FC = (): JSX.Element => {
   return (
     form == undefined ? <div>loading</div> :
       (
-        (fetching == 'success' && response) ? <SignupSuccess data={response.data} /> :
-          <Form data={form} response={response} onSubmit={handleSubmit}>
+        (fetching == 'success' && result) ? <SignupSuccess data={result.data} /> :
+          <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
             <Form.Message />
             <Form.Header />
             <Form.Main />

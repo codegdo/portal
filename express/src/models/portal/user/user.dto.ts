@@ -1,27 +1,13 @@
-import {
-  IsNotEmpty,
-  IsString,
-  MinLength,
-  MaxLength,
-  Matches,
-  IsOptional,
-} from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
   email!: string;
 
   @IsNotEmpty()
-  @MinLength(4)
-  @MaxLength(20)
   username!: string;
 
   @IsNotEmpty()
-  @MinLength(8)
-  @MaxLength(20)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password too weak',
-  })
   password!: string;
 
   @IsNotEmpty()

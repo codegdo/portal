@@ -1,3 +1,5 @@
+https://dbdiagram.io/d/602e82a980d742080a3b1574
+
 Table Organization {
   Id int [pk, increment]
   Name varchar(30)

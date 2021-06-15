@@ -9,21 +9,11 @@ export const FormMessage: React.FC = (): JSX.Element | null => {
     return null;
   }
 
-  const { response } = context;
+  const { response: { fetching, result } } = context;
 
-  if (response) {
-    console.log('form message', response);
-    const { ok, data: { message, name } } = response;
+  const { ok, data } = result || {};
 
-    if (ok) {
-      return <Message type={"success"} text={message || name}>{message || name}</Message>;
-    }
+  return fetching == 'loading' ? <div>loading...</div> :
+    (result && data?.message ? <Message type={(ok ? "success" : "error")}>{data.message}</Message> : null)
 
-    switch (status) {
-      default:
-        return <Message type={"error"} text={message || name}>{message || name}</Message>;
-    }
-  }
-
-  return null;
 }
