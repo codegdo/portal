@@ -27,8 +27,8 @@ export class Template extends BaseEntity {
   @Column({ name: 'style', nullable: true })
   style!: string;
 
-  @Column({ name: 'data', nullable: true })
-  data!: string;
+  @Column({ name: 'json', nullable: true })
+  json!: string;
 
   @Column({ name: 'org_id', nullable: true })
   orgId!: number;

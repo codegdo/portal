@@ -16,6 +16,7 @@ export const App: React.FC = (): JSX.Element | null => {
         <HashRouter hashType="noslash">
           <BrowserRouter>
             <Switch>
+              <Redirect from='/home' to='/' />
               <RouteGuard exact path="/" component={HomeRouter} />
               <Route path="/auth" component={AuthRouter} />
               <RouteGuard path="/marketing" component={MarketingRouter} />

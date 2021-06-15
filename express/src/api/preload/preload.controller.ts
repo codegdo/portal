@@ -20,10 +20,8 @@ export class PreloadController {
     @Session() { user }: any,
     @QueryParam('subdomain') subdomain: string
   ) {
-    const templates = await this.preloadService.getTemplatesByOrg();
+    const templates = await this.preloadService.getTemplatesByOrg(subdomain, user);
 
-    console.log('PRELOAD', subdomain);
-
-    return { orgId: null, templates, user };
+    return { templates, user };
   }
 }

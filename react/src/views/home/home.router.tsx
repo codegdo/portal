@@ -5,6 +5,10 @@ import { RouteData } from '../../components/types';
 
 const routes: RouteData[] = [
   {
+    path: '/home',
+    redirectTo: '/'
+  },
+  {
     path: '/',
     component: 'home/home.component.tsx',
   },

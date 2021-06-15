@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Form } from '../../../components/form/form.component';
 import { FormType } from '../../../components/types';
-import { normalizeData } from '../../../helpers';
+import { mapTemplate, normalizeData } from '../../../helpers';
 import { useAction, useFetch } from '../../../hooks';
 import { AppState } from '../../../store/reducers';
 import { splitObjectKeyId } from '../../../utils';
@@ -15,7 +15,7 @@ interface FetchOutput {
 
 const Configure: React.FC = (): JSX.Element => {
   const { loggedIn, orgId } = useSelector((state: AppState) => state.session);
-  const { updateSession } = useAction();
+  const { updateSession, updateLayout } = useAction();
   const { fetching, result, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/configure');
   const [form, setForm] = useState<FormType>();
 
@@ -32,23 +32,28 @@ const Configure: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (fetching == 'success') {
       if (isMounted.current) {
-        updateSession({ orgId: 1 });
+        const { orgId, templates } = result.data;
+        const layout = mapTemplate(templates);
+
+        updateSession({ orgId });
+        updateLayout({ ...layout });
       }
     }
   }, [fetching]);
 
   // submit form
-  const handleSubmit = (values: { [key: string]: string }) => {
+  const handleSubmit = (values: { [key: string]: string }): void => {
     const { keyFields } = splitObjectKeyId(values);
     const option = {
       body: { ...keyFields }
     };
 
-    fetchData({ option });
+    console.log(keyFields);
+    void fetchData({ option });
   }
 
   return (
-    form == undefined ? <div>loading</div> :
+    form == undefined ? <div>loading...</div> :
       (
         (loggedIn && orgId) ? <Redirect to="/" /> :
           <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
@@ -58,7 +63,6 @@ const Configure: React.FC = (): JSX.Element => {
             <Form.Footer />
             <Link to="/auth/logout">Logout</Link>
           </Form>
-
       )
   );
 };

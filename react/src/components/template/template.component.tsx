@@ -3,14 +3,15 @@ import { Redirect, useRouteMatch } from 'react-router-dom';
 import JsxParser from 'react-jsx-parser';
 import { useSelector } from 'react-redux';
 
-import { NavMain } from '../nav/nav.partial';
+import { NavMain } from '../nav/nav.main';
+import { NavSub } from '../nav/nav.sub';
 import { stripTrailingSlash } from '../../utils';
 import { TemplateProps } from './template.type';
 import { AppState } from '../../store/reducers';
 import { mainExternal, mainGeneral, mainInternal } from '../../layouts';
 
-const Loading: React.FC = (): JSX.Element => {
-  return <div>loading</div>
+const Placeholder: React.FC = (): JSX.Element | null => {
+  return null;
 }
 
 export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
@@ -31,15 +32,12 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   let template = `<Content {...props}/>`;
 
   if (loggedIn && orgId) {
-    template = (user && user.roletype === 'internal') ? (internal[key] || internal['main'] || mainInternal) : (external[key] || external['main'] || mainExternal);
+    template = (user?.roletype === 'internal') ? (internal[key] || internal['main'] || mainInternal) : (external[key] || external['main'] || mainExternal);
   } else {
     template = general[key] || general['main'] || mainGeneral;
   }
 
-  //template = stringTemplateReplace(template);
-  const fallback = template.replace('<Content', '<Loading');
-
-  console.log('TEMPLATE FALLBACK', fallback);
+  const placeholder = template.replace('<Content', '<Placeholder');
 
   useLayoutEffect(() => {
     //document.body.classList.add((path == '/' ? 'home' : key));
@@ -51,11 +49,12 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   }, []);
 
   return route.redirectTo ? <Redirect to={urlRedirect} /> : (
-    <Suspense fallback={<JsxParser renderInWrapper={false} jsx={fallback} />}>
+    <Suspense fallback={<JsxParser allowUnknownElements={false} renderInWrapper={false} jsx={placeholder} />}>
       <JsxParser
+        allowUnknownElements={false}
         renderInWrapper={false}
         bindings={{}}
-        components={{ Content, NavMain, Loading }}
+        components={{ Content, NavMain, NavSub, Placeholder }}
         jsx={template}
       />
     </Suspense>

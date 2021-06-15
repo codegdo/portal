@@ -1,0 +1,7 @@
+// TASKKILL NODE - WIN
+taskkill /F /IM node.exe
+
+// HOST
+C:\Windows\System32\drivers\etc
+
+// Caddy

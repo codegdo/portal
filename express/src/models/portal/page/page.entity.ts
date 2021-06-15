@@ -6,31 +6,34 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToMany,
+  //JoinColumn,
+  //ManyToOne
 } from 'typeorm';
-import { Role } from '../entities';
+import { Module } from '../module/module.entity';
 
-@Entity({ database: 'portal', schema: 'sec', name: 'policy' })
-export class Policy extends BaseEntity {
+@Entity({ database: 'portal', schema: 'dbo', name: 'page' })
+export class Page extends BaseEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
-  @Column({ name: 'name', nullable: true })
+  @Column({ name: 'name', nullable: false })
   name!: string;
 
-  @Column({ name: 'description', nullable: true })
-  description!: string;
+  @Column({ name: 'type' })
+  type!: string;
 
-  @Column({ name: 'data', nullable: true })
-  data!: string;
+  @Column({ name: 'parent_id' })
+  parentId!: number;
 
   @Column({ name: 'is_active', default: false })
   isActive!: boolean;
 
-  @Column({ name: 'org_id', nullable: true })
-  orgId!: number;
+  @ManyToMany(() => Module, (module: Module) => module.pages)
+  modules!: Module[];
 
-  @ManyToMany(() => Role, (role: Role) => role.policies)
-  roles!: Role[];
+  //@ManyToOne(() => Module)
+  //@JoinColumn({ name: 'module_id', referencedColumnName: 'id' })
+  //module!: Module;
 
   @CreateDateColumn({
     name: 'created_at',
@@ -47,12 +50,3 @@ export class Policy extends BaseEntity {
   })
   updatedAt!: Date;
 }
-
-/*
-INSERT
-INTO sec."Permission"
-VALUES
-('1', 'None'),
-('2', 'Read'),
-('3', 'Write');
-*/

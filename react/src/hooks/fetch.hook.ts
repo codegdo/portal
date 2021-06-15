@@ -106,7 +106,7 @@ export const useFetch = <T>(
               detail,
             },
           });
-        } else if (error.data.message === 'Session lost') {
+        } else if (error.data.message === 'Session timeout') {
           history.push('/auth/logout');
         } else {
           dispatch({

@@ -7,8 +7,23 @@ export class PreloadService {
   @Inject()
   private portal!: PortalRepository;
 
-  getTemplatesByOrg = async (): Promise<Template[]> => {
-    const templates = await this.portal.templateRepository.getTemplatesByOrg();
-    return templates;
+  getTemplatesByOrg = async (subdomain: string, user: any): Promise<Template[]> => {
+    if (user) {
+      return this.portal.templateRepository.getTemplatesByOrg(user.orgId);
+    }
+
+    console.log('SUB', subdomain);
+
+    if (subdomain) {
+      const org = await this.portal.orgRepository.findOne({
+        where: [{ hostname: subdomain }],
+      });
+
+      if (org) {
+        return this.portal.templateRepository.getTemplatesByOrg(org.id);
+      }
+    }
+
+    return [];
   };
 }

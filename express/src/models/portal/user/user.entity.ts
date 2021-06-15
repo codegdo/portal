@@ -34,8 +34,8 @@ export class User extends BaseEntity {
   @Column({ name: 'salt', select: false })
   salt!: string;
 
-  @Column({ name: 'data', nullable: true })
-  data!: string;
+  @Column({ name: 'json', nullable: true })
+  json!: string;
 
   @Column({ name: 'is_active', default: false })
   isActive!: boolean;
@@ -50,15 +50,15 @@ export class User extends BaseEntity {
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
+    default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt!: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-    onUpdate: 'CURRENT_TIMESTAMP(6)',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt!: Date;
 

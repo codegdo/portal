@@ -1,5 +1,6 @@
 // dbo
-
+export * from './module/module.entity';
+export * from './plan/plan.entity';
 // org
 export * from './template/template.entity';
 

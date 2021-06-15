@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { mapTemplateToLayout } from '../helpers';
+import { mapTemplate } from '../helpers';
 import { AppState } from '../store/reducers';
 import { useAction } from './action.hook';
 import { useFetch } from './fetch.hook';
@@ -12,6 +12,7 @@ type IResultData = {
 };
 
 export const usePreload = (): { preload; sessionTimeout: boolean } => {
+  console.log(location.hostname);
   const subdomain = location.hostname.split('.')[1]
     ? window.location.host.split('.')[0]
     : '';
@@ -32,14 +33,14 @@ export const usePreload = (): { preload; sessionTimeout: boolean } => {
     if (fetching == 'success' && result) {
       if (isMounted.current) {
         const {
-          data: { orgId, user, templates },
+          data: { user, templates },
         } = result;
 
-        if (orgId) {
-          let layout = mapTemplateToLayout(templates);
-
+        if (templates.length > 0) {
+          const layout = mapTemplate(templates);
           updateLayout({ ...layout });
         }
+
         // check if session timeout
         if (loggedIn) {
           !user && setSessionTimeout(true);

@@ -44,15 +44,10 @@ export class AuthController {
     @CurrentUser() user: { [x: string]: string } | undefined,
     @Body() configureUserDto: { [key: string]: string }
   ): Promise<any> {
-    console.log('CONFIGURE SESSION USER', user);
-    console.log('CONFIGURE USER DTO', configureUserDto);
-
-    /*await this.authService.configureUser({
+    return this.authService.configureUser({
       ...configureUserDto,
-      user
-    });*/
-
-    return { orgId: 1 };
+      user,
+    });
   }
 
   @Post('/login')
@@ -60,7 +55,8 @@ export class AuthController {
     @Session() session: any,
     @Body() loginInput: LoginUserDto
   ): Promise<LoginOutput> {
-    const user = await this.authService.loginUser(loginInput);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { user, nav } = await this.authService.loginUser(loginInput);
 
     const { username, email, orgId, role } = user;
     const token = this.jwt.sign({ username });
@@ -68,10 +64,11 @@ export class AuthController {
       user: { username, email, roletype: role.roletype.name, isOwner: role.isOwner },
       orgId,
       token,
+      nav,
     };
 
     // set session user cookie
-    session.user = { ...payload.user, roleId: role.id };
+    session.user = { ...payload.user, roleId: role.id, orgId };
 
     return payload;
   }

@@ -5,7 +5,7 @@ import { Redirect, useHistory } from 'react-router-dom';
 import { AppState } from '../../../store/reducers';
 import { useAction, useFetch } from '../../../hooks';
 import { Form, FormType } from '../../../components/form';
-import { normalizeData } from '../../../helpers';
+import { mapNav, normalizeData } from '../../../helpers';
 import { splitObjectKeyId } from '../../../utils';
 import { storage } from '../../../services';
 import { jwtToken } from '../../../app.config';
@@ -25,7 +25,7 @@ interface IResultData {
 const Login: React.FC = (): JSX.Element => {
   const { loggedIn, orgId } = useSelector((state: AppState) => state.session);
   const [form, setForm] = useState<FormType>();
-  const { updateSession } = useAction();
+  const { updateSession, updateNav } = useAction();
   const { fetching, result, isMounted, fetchData } = useFetch<IResultData>('api/auth/login');
   const history = useHistory();
 
@@ -42,9 +42,11 @@ const Login: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (fetching == 'success' && result) {
       if (isMounted.current) {
-        const { user, orgId, token } = result.data;
+        const { user, orgId, token, nav } = result.data;
+
         storage.setItem(jwtToken, token);
         updateSession({ loggedIn: true, user, orgId });
+        updateNav(mapNav(nav));
       }
     } else if (fetching == 'error') {
       if (result?.data?.message === 'Unactivated Account') {

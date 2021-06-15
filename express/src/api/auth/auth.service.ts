@@ -1,6 +1,7 @@
 import { InternalServerError } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
 import { ExceptionHttp } from '../../app.exception';
+import { format } from 'date-fns';
 import {
   LoginUserDto,
   ResendUserTokenDto,
@@ -10,6 +11,7 @@ import {
 import { Organization, Role, Token, User } from '../../models/portal/entities';
 import { PortalRepository } from '../../models/portal/repositories';
 import { MailService } from '../../services';
+import { httpHost, dateStyle } from '../../configs';
 
 @Service()
 export class AuthService {
@@ -21,6 +23,60 @@ export class AuthService {
 
   @Inject()
   private token!: Token;
+
+  private async createTemplate(orgId: number) {
+    const list = await this.portal.templateRepository.find({
+      where: [{ orgId: null }],
+    });
+
+    const templates = list.reduce((array, item): any => {
+      const { id, ...rest } = item;
+      return [...array, { ...rest, orgId }];
+    }, []);
+
+    return this.portal.templateRepository.create(templates);
+  }
+
+  private async createSubscription(orgId: number, modules: string) {
+    const list = await this.portal.moduleRepository.find({
+      where: [{ isSubscription: true }],
+    });
+
+    const date = new Date();
+    const trial30days = date.setDate(date.getDate() + 30);
+
+    const subs = list.reduce((array, item): any => {
+      const checked = modules.indexOf(`${item.id}`) !== -1;
+      const sub = {
+        module: item.id,
+        orgId,
+        plan: checked ? 2 : null,
+        isRenewed: false,
+        isTrial: checked ? true : false,
+        endDate: checked
+          ? format(trial30days, dateStyle)
+          : format(Date.now(), dateStyle),
+      };
+      return [...array, { ...sub }];
+    }, []);
+
+    return this.portal.subscriptionRepository.create(subs);
+  }
+
+  private async getNav(orgId: number | null, rolename: string) {
+    if (orgId) {
+      const modules = await this.portal.moduleRepository.getModuleByUser(
+        orgId,
+        rolename
+      );
+
+      console.log('GET NAV', modules);
+
+      return modules;
+    }
+
+    return null;
+  }
 
   signupUser = async (
     signupUserDto: SignupUserDto
@@ -50,15 +106,15 @@ export class AuthService {
     await this.mailer.send({
       from: 'giangd@gmail.com',
       to: `${user.email}`,
-      subject: 'hello',
-      html: 'hello',
+      subject: 'Activate',
+      html: `<a href="${httpHost}/auth/verify/${token.id}">Activate</a>`,
     });
 
     return { username };
   };
 
-  configureUser = async (configureUserDto: any): Promise<null> => {
-    const { name, hostname, user } = configureUserDto;
+  configureUser = async (configureUserDto: any): Promise<any> => {
+    const { name, hostname, modules, user } = configureUserDto;
 
     // session user
     if (!user) {
@@ -85,24 +141,33 @@ export class AuthService {
     role.id = 2;
 
     //
-    await this.portal.connection
+    const result = await this.portal.connection
       .transaction(async (manager) => {
-        const savedOrg = await manager.save(org);
+        const { id: orgId } = await manager.save(org);
 
-        owner.orgId = savedOrg.id;
+        owner.orgId = orgId;
         owner.role = role;
 
+        const templates = await this.createTemplate(orgId);
+        const subs = await this.createSubscription(orgId, modules);
+
+        await manager.save(templates);
+        await manager.save(subs);
         await manager.save(owner);
+
+        return { orgId, templates };
       })
       .catch((error) => {
         console.log(error);
         throw new InternalServerError('Internal server error');
       });
 
-    return null;
+    return result;
   };
 
-  loginUser = async (loginUserDto: LoginUserDto): Promise<User> => {
+  loginUser = async (
+    loginUserDto: LoginUserDto
+  ): Promise<{ user: User; nav: any }> => {
     const user = await this.portal.userRepository.loginUser(loginUserDto);
 
     // undefined - not found
@@ -120,7 +185,16 @@ export class AuthService {
       throw new ExceptionHttp(403, 'Unactivated Account');
     }
 
-    return user;
+    //
+    const {
+      orgId,
+      role: {
+        roletype: { name: rolename },
+      },
+    } = user;
+    const nav = await this.getNav(orgId, rolename);
+
+    return { user, nav };
   };
 
   logoutUser = async (id: string): Promise<void> => {
@@ -162,8 +236,8 @@ export class AuthService {
     await this.mailer.send({
       from: 'giangd@gmail.com',
       to: `${user.email}`,
-      subject: 'hello',
-      html: `<a href="http://localhost:3000/auth/verify/${token.id}">Activate</a>`,
+      subject: 'Activate',
+      html: `<a href="${httpHost}/auth/verify/${token.id}">Activate</a>`,
     });
   };
 

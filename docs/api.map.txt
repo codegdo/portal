@@ -1,0 +1,69 @@
+Home
+	Dashboard
+  
+Account
+	Profile
+	Subscription
+
+Help
+	Supports
+	Guides
+
+Marketing
+	Coop
+		Summary
+		Requests
+		Claims
+		Accruals
+		Reports
+	
+
+Sales
+	Summary
+	Deals
+	Reports
+
+Admin
+	Users
+		Internals
+		Externals
+	Roles
+	Groups
+	Languages
+	Companies
+	Contacts
+	Products
+	Prices
+	Forms
+	Templates
+	Programs
+		Marketing
+		Sales
+
+
+
+/marketing
+/marketing/:programType/:programId/summary
+/marketing/:programType/:programId/summary/{companyId}
+/marketing/:programType/:programId/requests
+/marketing/:programType/:programId/requests?formId=0
+/marketing/:programType/:programId/claims
+/marketing/:programType/:programId/claims?formId=0
+
+/sales
+/sales/spa/{programId}/summary
+/sales/spa/{programId}/deals?formId=0
+
+/admin/users
+/admin/users/internals
+/admin/users/internals?formId=0
+/admin/users/externals
+/admin/users/externals?formId=0
+
+/admin/programs
+/admin/programs/marketing
+/admin/programs/sales
+
+
+
+	

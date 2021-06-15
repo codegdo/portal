@@ -20,7 +20,7 @@ export const appMiddleware = (app: Application): void => {
   app.use(
     cors((_req: Request, callback) => {
       callback(null, {
-        origin: 'http://localhost:3000',
+        origin: ['http://localhost:3000', 'https://portal.dev'],
         credentials: true,
         allowedHeaders: ['Content-Type', 'Authorization', 'Expiry'],
         exposedHeaders: ['Authorization', 'Expiry'],
@@ -35,12 +35,12 @@ export const appMiddleware = (app: Application): void => {
       saveUninitialized: false,
       cookie: {
         secure: false,
-        maxAge: 60 * 1000,
+        maxAge: 60 * 60 * 1000,
       },
       store: new TypeormStore({
         cleanupLimit: 0,
         limitSubquery: false, // If using MariaDB.
-        ttl: 60,
+        ttl: 360,
       }).connect(getConnection('default').getRepository(Session)),
     })
   );

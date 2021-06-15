@@ -24,7 +24,7 @@ export default async (): Promise<Application> => {
         console.log('test');
         return true;
       },
-      currentUserChecker: async ({ request }: Action): Promise<any> => {
+      currentUserChecker: async ({ request }: Action): Promise<unknown> => {
         const token = await request.headers['authorization'];
 
         console.log('currentUserCheck', request.session);
