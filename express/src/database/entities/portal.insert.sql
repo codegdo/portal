@@ -68,16 +68,16 @@ VALUES
 ('40', 'Supports', 'view', null, '0', '1', '1', '1'),
 ('41', 'Guides', 'view', null, '1', '1', '1', '1'),
 --Sales
-('50', 'Summary', 'view', null, '0', '1', '1', '1'),
-('52', 'Deals', 'view', null, '1', '1', '1', '1'),
+('50', 'Dashboard', 'view', null, '0', '1', '1', '1'),
+('51', 'Deals', 'view', null, '1', '1', '1', '1'),
 --Marketing
-('60', 'Summary', 'view', null, '0', '1', '1', '1'),
+('60', 'Dashboard', 'view', null, '0', '1', '1', '1'),
 ('61', 'Requests', 'view', null, '1', '1', '1', '1'),
 ('62', 'Claims', 'view', null, '2', '1', '1', '1'),
 ('63', 'Accruals', 'view', null, '3', '1', '1', '1'),
 ('64', 'Reports', 'view', null, '4', '1', '1', '1'),
 --Rewards
-('70', 'Summary', 'view', null, '0', '1', '1', '1'),
+('70', 'Dashboard', 'view', null, '0', '1', '1', '1'),
 ('71', 'Claims', 'view', null, '1', '1', '1', '1'),
 --Admin
 ('100', 'Users', 'view', null, '0', '1', '1', '1'),

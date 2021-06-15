@@ -22,6 +22,9 @@ export class Module extends BaseEntity {
   @Column({ name: 'sort_order', default: 0 })
   sortOrder!: number;
 
+  @Column({ name: 'sort_group', default: 0 })
+  sortGroup!: number;
+
   @Column({ name: 'is_external', default: false })
   isExternal!: boolean;
 

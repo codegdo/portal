@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { NavLink, useRouteMatch } from 'react-router-dom';
 import { AppState } from '../../store/reducers';
-
-import { NavComponent } from './nav.component';
 
 export const NavSub: React.FC = (): JSX.Element | null => {
 
@@ -11,22 +9,34 @@ export const NavSub: React.FC = (): JSX.Element | null => {
   const { url } = useRouteMatch();
   const [subnav, setSubnav] = useState([]);
 
-  console.log(url);
-  // strip of slash
-  // split /
-
   useEffect(() => {
 
     if (modules) {
-      setSubnav(modules[ids['sales']].pages);
+      const { pages } = modules[ids[url.substring(1).split('/')[0]]] || {};
+
+      if (pages) {
+
+        if (pages.length > 0) {
+          pages.sort((a, b) => {
+            return ((a.sortOrder < b.sortOrder) ? -1 : ((a.sortOrder > b.sortOrder) ? 1 : 0));
+          });
+        }
+
+        setSubnav(pages);
+      }
     }
 
-    return () => {
-      //
-    }
   }, [url]);
 
-  console.log(subnav);
 
-  return subnav ? <NavComponent data={subnav} /> : null;
+  return subnav ? <>
+    {
+      subnav.map(
+        ({ name }): JSX.Element => {
+          return <NavLink key={name} to={`./${name.toLowerCase()}`}>{name}</NavLink>
+        }
+      )
+    }
+  </> : null;
+
 };

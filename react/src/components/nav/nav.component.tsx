@@ -7,14 +7,15 @@ export const NavComponent: React.FC<NavComponentProps> = ({ data }): JSX.Element
   const match = useRouteMatch();
   const location = useLocation();
 
-  console.log('MATCH', match);
+
   console.log('location', location);
+  console.log('match', match);
 
   return data ? <>
     {
       data.map(
         (item): JSX.Element => {
-          return <Link key={item.name} to={`${item.name.toLowerCase()}`}>{item.name}</Link>
+          return <Link key={item.name} to={`./${item.name.toLowerCase()}`}>{item.name}</Link>
         }
       )
     }

@@ -15,12 +15,12 @@ const Placeholder: React.FC = (): JSX.Element | null => {
 }
 
 export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
-  const { route } = props;
+  const { route = {} } = props;
   const { url } = useRouteMatch();
   const { layout, session: { loggedIn, user, orgId } } = useSelector((state: AppState) => state);
 
-  const { component = 'notfound.component.tsx', redirectTo = '/' } = route || {};
-  const urlRedirect = stripTrailingSlash(`${url}/${redirectTo}`);
+  const { component = 'notfound.component.tsx', redirectTo = '/' } = route;
+  const urlRedirect = stripTrailingSlash(`../${url}/${redirectTo}`);
 
   const Content = lazy(
     () => import(`../../views/${component}`)

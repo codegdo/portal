@@ -20,8 +20,14 @@ export const App: React.FC = (): JSX.Element | null => {
               <RouteGuard exact path="/" component={HomeRouter} />
               <Route path="/auth" component={AuthRouter} />
               <RouteGuard path="/marketing" component={MarketingRouter} />
+              <RouteGuard path="/coops" component={MarketingRouter} />
+              <RouteGuard path="/mdfs" component={MarketingRouter} />
               <RouteGuard path="/sales" component={SalesRouter} />
+              <RouteGuard path="/vars" component={SalesRouter} />
+              <RouteGuard path="/spas" component={SalesRouter} />
               <RouteGuard path="/rewards" component={RewardsRouter} />
+              <RouteGuard path="/rebates" component={RewardsRouter} />
+              <RouteGuard path="/spiffs" component={RewardsRouter} />
               <Route path="*" component={Template} />
             </Switch>
             {sessionTimeout && <Redirect to='/auth/logout' />}
