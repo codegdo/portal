@@ -5,3 +5,4 @@ export * from './split-string-key-id.util';
 export * from './split-object-key-id.util';
 export * from './regex-check.util';
 export * from './string-template-replace.util';
+export * from './sort-array.util';

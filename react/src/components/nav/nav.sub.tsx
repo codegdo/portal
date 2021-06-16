@@ -10,18 +10,20 @@ export const NavSub: React.FC = (): JSX.Element | null => {
   const [subnav, setSubnav] = useState([]);
 
   useEffect(() => {
+    let pathname = url.substring(1).split('/')[0];
+
+    if (['coops', 'mdfs'].includes(pathname)) {
+      pathname = 'marketing';
+    } else if (['vars', 'spas'].includes(pathname)) {
+      pathname = 'sales';
+    } else if (['rebates', 'spiffs'].includes(pathname)) {
+      pathname = 'rewards';
+    }
 
     if (modules) {
-      const { pages } = modules[ids[url.substring(1).split('/')[0]]] || {};
+      const { pages } = modules[ids[pathname]] || {};
 
       if (pages) {
-
-        if (pages.length > 0) {
-          pages.sort((a, b) => {
-            return ((a.sortOrder < b.sortOrder) ? -1 : ((a.sortOrder > b.sortOrder) ? 1 : 0));
-          });
-        }
-
         setSubnav(pages);
       }
     }
@@ -29,7 +31,7 @@ export const NavSub: React.FC = (): JSX.Element | null => {
   }, [url]);
 
 
-  return subnav ? <>
+  return <>
     {
       subnav.map(
         ({ name }): JSX.Element => {
@@ -37,6 +39,6 @@ export const NavSub: React.FC = (): JSX.Element | null => {
         }
       )
     }
-  </> : null;
+  </>;
 
 };

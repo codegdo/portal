@@ -8,8 +8,6 @@ export const NavMain: React.FC = (): JSX.Element | null => {
   const { modules } = useSelector((state: AppState) => state.nav);
   const { pathname } = useLocation();
 
-
-
   return modules ? <>
     {
       modules.map(
@@ -17,11 +15,20 @@ export const NavMain: React.FC = (): JSX.Element | null => {
 
           const path = `/${name.toLowerCase()}`;
 
-          return sortGroup == 2 && <NavLink key={name} to={path} isActive={() => [path].includes(pathname)} >{name}</NavLink>
+          if (sortGroup === 2) {
+            switch (name) {
+              case 'Marketing':
+                return <NavLink key={pathname} to={path} isActive={() => [path, '/coops', '/mdfs'].includes(pathname)} >{name}</NavLink>
+              case 'Sales':
+                return <NavLink key={pathname} to={path} isActive={() => [path, '/vars', '/spas'].includes(pathname)} >{name}</NavLink>
+              case 'Rewards':
+                return <NavLink key={pathname} to={path} isActive={() => [path, '/rebates', '/spiffs'].includes(pathname)} >{name}</NavLink>
+              default:
+                return <NavLink key={pathname} to={path} >{name}</NavLink>
+            }
+          }
         }
       )
     }
   </> : null;
-
-  //return <NavComponent data={modules} />;
 };

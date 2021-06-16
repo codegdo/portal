@@ -3,8 +3,7 @@ import { Redirect, useRouteMatch } from 'react-router-dom';
 import JsxParser from 'react-jsx-parser';
 import { useSelector } from 'react-redux';
 
-import { NavMain } from '../nav/nav.main';
-import { NavSub } from '../nav/nav.sub';
+import { NavMain, NavProfile, NavSub } from '../nav/nav.component';
 import { stripTrailingSlash } from '../../utils';
 import { TemplateProps } from './template.type';
 import { AppState } from '../../store/reducers';
@@ -54,7 +53,7 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
         allowUnknownElements={false}
         renderInWrapper={false}
         bindings={{}}
-        components={{ Content, NavMain, NavSub, Placeholder }}
+        components={{ Content, NavMain, NavProfile, NavSub, Placeholder }}
         jsx={template}
       />
     </Suspense>
