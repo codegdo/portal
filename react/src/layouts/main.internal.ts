@@ -2,14 +2,14 @@ export const mainInternal = `
 <div>
   <header>
     <h1>Internal App </h1>
-    <NavMain {...props} />
-    <NavProfile {...props} />
+    <NavMain url={url} />
+    <NavProfile url={url} />
   </header>
   <aside>
-    <NavSub {...props} />
+    <NavSub url={url} />
   </aside>
   <main>
-    <Content {...props}/>
+    <Content {...props} />
   </main>
   <footer></footer>
 </div>

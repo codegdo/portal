@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useLayoutEffect } from 'react';
+import React, { Suspense, lazy, useLayoutEffect, useMemo } from 'react';
 import { Redirect, useRouteMatch } from 'react-router-dom';
 import JsxParser from 'react-jsx-parser';
 import { useSelector } from 'react-redux';
@@ -38,6 +38,20 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
 
   const placeholder = template.replace('<Content', '<Placeholder');
 
+  //const NavMain = useMemo(() => navmain, [component.split('/')[0]])
+
+  const jsxTemplate = useMemo(() => {
+    return <JsxParser
+      allowUnknownElements={false}
+      renderInWrapper={false}
+      bindings={{ url }}
+      components={{ Content, NavMain, NavProfile, NavSub, Placeholder }}
+      jsx={template}
+    />
+  }, []);
+
+  const jsxPlaceholder = useMemo(() => <JsxParser allowUnknownElements={false} renderInWrapper={false} jsx={placeholder} />, [])
+
   useLayoutEffect(() => {
     //document.body.classList.add((path == '/' ? 'home' : key));
     document.body.setAttribute('data-page', (path == '/' ? 'home' : key));
@@ -45,17 +59,14 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
     //return () => {
     //document.body.classList.remove((path == '/' ? 'home' : key));
     //};
+
   }, []);
 
   return route.redirectTo ? <Redirect to={urlRedirect} /> : (
-    <Suspense fallback={<JsxParser allowUnknownElements={false} renderInWrapper={false} jsx={placeholder} />}>
-      <JsxParser
-        allowUnknownElements={false}
-        renderInWrapper={false}
-        bindings={{}}
-        components={{ Content, NavMain, NavProfile, NavSub, Placeholder }}
-        jsx={template}
-      />
+    <Suspense fallback={jsxPlaceholder}>
+      {
+        jsxTemplate
+      }
     </Suspense>
   );
 };

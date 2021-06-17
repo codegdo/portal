@@ -2,7 +2,7 @@ export const mainExternal = `
 <div>
 External App
 
-<Content {...props}/>
+<Content {...props} />
 
 </div>
 `;

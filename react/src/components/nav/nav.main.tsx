@@ -1,34 +1,38 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { AppState } from '../../store/reducers';
 
-export const NavMain: React.FC = (): JSX.Element | null => {
+export const NavMain: React.FC<any> = ({ url }): JSX.Element => {
 
-  const { modules } = useSelector((state: AppState) => state.nav);
-  const { pathname } = useLocation();
+  const { modules = [] } = useSelector((state: AppState) => state.nav);
 
-  return modules ? <>
+  console.log('NAVMAIN', url);
+
+  return <>
     {
       modules.map(
-        ({ name, sortGroup }): JSX.Element => {
+        ({ id, name, sortGroup }): JSX.Element | null => {
 
           const path = `/${name.toLowerCase()}`;
 
           if (sortGroup === 2) {
             switch (name) {
               case 'Marketing':
-                return <NavLink key={pathname} to={path} isActive={() => [path, '/coops', '/mdfs'].includes(pathname)} >{name}</NavLink>
+                return <NavLink key={id} to={path} isActive={() => [path, '/coops', '/mdfs'].includes(url)}>{name}</NavLink>
               case 'Sales':
-                return <NavLink key={pathname} to={path} isActive={() => [path, '/vars', '/spas'].includes(pathname)} >{name}</NavLink>
+                return <NavLink key={id} to={path} isActive={() => [path, '/vars', '/spas'].includes(url)}>{name}</NavLink>
               case 'Rewards':
-                return <NavLink key={pathname} to={path} isActive={() => [path, '/rebates', '/spiffs'].includes(pathname)} >{name}</NavLink>
+                return <NavLink key={id} to={path} isActive={() => [path, '/rebates', '/spiffs'].includes(url)}>{name}</NavLink>
               default:
-                return <NavLink key={pathname} to={path} >{name}</NavLink>
+                return <NavLink key={id} to={path}>{name}</NavLink>
             }
           }
+
+          return null;
         }
       )
     }
-  </> : null;
+  </>;
+
 };

@@ -2,9 +2,10 @@ export interface RouteData {
   path?: string;
   exact?: boolean;
   component?: string;
+  group?: string;
   redirectTo?: string;
   restricted?: boolean;
-  data?: { x: string };
+  data?: { [key: string]: string };
 }
 
 export interface RoutesProps {
