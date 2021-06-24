@@ -1,16 +1,18 @@
 export const mainInternal = `
-<div>
-  <header>
-    <h1>Internal App </h1>
-    <NavMain url={url} />
-    <NavProfile url={url} />
+<div class="internal">
+  <header class="internal-header">
+    <nav class="nav">
+      <span>Internal App</span>
+      <NavMain url={url} />
+      <NavProfile url={url} />
+    </nav>
   </header>
-  <aside>
+  <aside class="internal-aside">
     <NavSub url={url} />
   </aside>
-  <main>
+  <main class="internal-main">
     <Content {...props} />
   </main>
-  <footer></footer>
+  <footer class="internal-footer"></footer>
 </div>
 `;

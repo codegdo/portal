@@ -113,8 +113,8 @@ export class AuthService {
     return { username };
   };
 
-  configureUser = async (configureUserDto: any): Promise<any> => {
-    const { name, hostname, modules, user } = configureUserDto;
+  setupUser = async (setupUserDto: any): Promise<any> => {
+    const { name, hostname, modules, user } = setupUserDto;
 
     // session user
     if (!user) {
@@ -162,7 +162,9 @@ export class AuthService {
         throw new InternalServerError('Internal server error');
       });
 
-    return result;
+    const nav = await this.getNav(result.orgId, 'internal');
+
+    return { ...result, nav };
   };
 
   loginUser = async (
@@ -188,11 +190,10 @@ export class AuthService {
     //
     const {
       orgId,
-      role: {
-        roletype: { name: rolename },
-      },
+      role: { roletype },
     } = user;
-    const nav = await this.getNav(orgId, rolename);
+
+    const nav = await this.getNav(orgId, roletype.name);
 
     return { user, nav };
   };

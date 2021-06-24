@@ -16,7 +16,7 @@ export const NavMain: React.FC<any> = ({ url }): JSX.Element => {
 
           const path = `/${name.toLowerCase()}`;
 
-          if (sortGroup === 2) {
+          if (sortGroup === 11) {
             switch (name) {
               case 'Marketing':
                 return <NavLink key={id} to={path} isActive={() => [path, '/coops', '/mdfs'].includes(url)}>{name}</NavLink>

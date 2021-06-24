@@ -1,7 +1,7 @@
 // PAGES
 //[data-page='login'] {}
 [data-page='signup'] {
-  .na {
+  .genernal {
     // modify submit button to full width
     .item_submit {
       width: 100%;
@@ -14,7 +14,7 @@
   }
 }
 [data-page='resend'] {
-  .na {
+  .general {
     .item_submit {
       width: 100%;
     }

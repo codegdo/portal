@@ -23,18 +23,18 @@
     flex-grow: 1;
   }
 
-  background-color: $purple;
   //background: url('../assets/image/portal-yellow.jpg') $light;
   //background-position: center;
   //background-repeat: no-repeat;
   //background-size: cover;
+
+  background-color: $purple;
   display: none;
 }
 .general-main {
   display: flex;
   align-items: center;
   justify-content: center;
-
   overflow: auto;
   //
   .container {

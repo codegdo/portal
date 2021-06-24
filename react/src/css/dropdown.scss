@@ -1,0 +1,10 @@
+.dropdown {
+}
+
+.dropdown-menu {
+  display: none;
+
+  &[aria-expanded='true'] {
+    display: block;
+  }
+}

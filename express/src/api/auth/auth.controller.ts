@@ -39,13 +39,13 @@ export class AuthController {
     return { message: 'SUCCESS' };
   }
 
-  @Post('/configure')
-  async configureUser(
+  @Post('/setup')
+  async setupUser(
     @CurrentUser() user: { [x: string]: string } | undefined,
-    @Body() configureUserDto: { [key: string]: string }
+    @Body() setupUserDto: { [key: string]: string }
   ): Promise<any> {
-    return this.authService.configureUser({
-      ...configureUserDto,
+    return this.authService.setupUser({
+      ...setupUserDto,
       user,
     });
   }
@@ -91,7 +91,7 @@ export class AuthController {
   }
 
   @Post('/recovery')
-  async recoveryUser() {}
+  async recoveryUser() { }
 }
 
 //activation

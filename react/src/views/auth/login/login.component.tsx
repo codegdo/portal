@@ -9,6 +9,7 @@ import { mapNav, normalizeData } from '../../../helpers';
 import { splitObjectKeyId } from '../../../utils';
 import { storage } from '../../../services';
 import { jwtToken } from '../../../app.config';
+import { Dropdown } from '../../../components/dropdown/dropdown.component';
 
 export class LoginDto {
   username!: string;
@@ -46,7 +47,7 @@ const Login: React.FC = (): JSX.Element => {
 
         storage.setItem(jwtToken, token);
         updateSession({ loggedIn: true, user, orgId });
-        updateNav(mapNav(nav));
+        nav && updateNav(mapNav(nav));
       }
     } else if (fetching == 'error') {
       if (result?.data?.message === 'Unactivated Account') {
@@ -68,7 +69,7 @@ const Login: React.FC = (): JSX.Element => {
     }
   }
 
-  return loggedIn ? (orgId ? <Redirect to="/" /> : <Redirect to="/auth/configure" />) :
+  return loggedIn ? (orgId ? <Redirect to="/" /> : <Redirect to="/auth/setup" />) :
     (
       form == undefined ? <div>loading</div> :
         <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>

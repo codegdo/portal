@@ -4,8 +4,8 @@ import { Module } from './module.entity';
 
 @EntityRepository(Module)
 export class ModuleRepository extends Repository<Module> {
-  async getModuleByUser(orgId: number, rolename: string): Promise<Module[]> {
-    switch (rolename) {
+  async getModuleByUser(orgId: number, roletype: string): Promise<Module[]> {
+    switch (roletype) {
       case 'system':
         return this.createQueryBuilder('module')
           .leftJoinAndSelect('module.pages', 'pages')
