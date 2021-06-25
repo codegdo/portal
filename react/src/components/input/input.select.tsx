@@ -12,7 +12,7 @@ export const InputSelect: React.FC = () => {
 
   const nameId = toCamelCase(`${name || ''}${id || ''}`);
 
-  const changeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const target: TargetInput = {
       [nameId]: event.target.value
     };
@@ -21,7 +21,7 @@ export const InputSelect: React.FC = () => {
 
   return (
     <span className="input-select">
-      <select defaultValue={value} onChange={changeSelect}>
+      <select defaultValue={value} onChange={selectChange}>
         {
           data.map(({ value: val, text: txt }: NormalizeElement, i: number) => {
             return <option key={i} value={val}>{txt}</option>

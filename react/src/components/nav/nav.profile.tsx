@@ -17,18 +17,16 @@ export const NavProfile: React.FC = (): JSX.Element | null => {
         const pathModule = `/${name.toLowerCase()}`;
 
         if (sortGroup === 2) {
-          return <Dropdown key={id}>
-            <Dropdown.Toggle type="button">
-              DropDown
-            </Dropdown.Toggle>
+          return <Dropdown key={id} value={name} options={pages}>
+            <Dropdown.Toggle type="a" className="hello">{name}</Dropdown.Toggle>
             <Dropdown.Menu>
               {
                 pages.map(({ id, name }): JSX.Element => {
                   const pathPage = `/${name.toLowerCase()}`;
 
-                  return <li key={id}>
+                  return <Dropdown.Item key={id} className="">
                     <NavLink to={`${pathModule}${pathPage}`}>{name}</NavLink>
-                  </li>
+                  </Dropdown.Item>
                 })
               }
             </Dropdown.Menu>

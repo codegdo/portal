@@ -4,7 +4,7 @@ import { Display } from './components/element';
 import { RouteGuard } from './components/route/route.guard';
 import { Template } from './components/template/template.component';
 import { usePreload } from './hooks/preload.hook';
-import { AuthRouter, HomeRouter, MarketingRouter, SalesRouter, RewardsRouter } from './views';
+import { AuthRouter, HomeRouter, MarketingRouter, SalesRouter, RewardsRouter, AccountRouter } from './views';
 
 export const App: React.FC = (): JSX.Element | null => {
 
@@ -19,6 +19,7 @@ export const App: React.FC = (): JSX.Element | null => {
               <Redirect from='/home' to='/' />
               <RouteGuard exact path="/" component={HomeRouter} />
               <Route path="/auth" component={AuthRouter} />
+              <RouteGuard path="/account" component={AccountRouter} />
               <RouteGuard path="/marketing" component={MarketingRouter} />
               <RouteGuard path="/coops" component={MarketingRouter} />
               <RouteGuard path="/mdfs" component={MarketingRouter} />

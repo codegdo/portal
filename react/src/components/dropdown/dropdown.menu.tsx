@@ -1,20 +1,24 @@
 import React, { useContext } from 'react';
 import { DropdownContext } from './dropdown.component';
+import { DropdownRender } from './dropdown.render';
 
-export const DropdownMenu: React.FC<any> = ({ children }): JSX.Element | null => {
+export const DropdownMenu: React.FC<any> = ({ type = 'ul', children }): JSX.Element | null => {
   const context = useContext(DropdownContext);
 
   if (context == undefined) {
     return null;
   }
 
-  const { dropdownRef, isActive } = context;
+  const { ddRef, isToggle } = context;
 
-  return (
-    <div ref={dropdownRef} className={`dropdown-menu`} aria-expanded={isActive} >
-      {
-        children ? children : <span>DropDown Menu</span>
-      }
-    </div>
-  )
+  return React.createElement(
+    `${type}`,
+    {
+      className: 'dropdown-menu',
+      ref: ddRef,
+      'aria-expanded': isToggle
+    },
+    children ? children : <DropdownRender />
+  );
+
 };

@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import { DropdownContext } from './dropdown.component';
-import { DropdownValue } from './dropdown.value';
 
-export const DropdownToggle: React.FC<any> = ({ type = 'button', className = 'dropdown-toggle', children }): JSX.Element | null => {
-
+export const DropdownItem: React.FC<any> = ({ type = 'li', className = 'dropdown-item', children }): JSX.Element | null => {
   const context = useContext(DropdownContext);
 
   if (context == undefined) {
@@ -15,6 +13,6 @@ export const DropdownToggle: React.FC<any> = ({ type = 'button', className = 'dr
   return React.createElement(
     `${type}`,
     { onClick: onToggle, className },
-    children ? children : <DropdownValue />
+    children ? children : <>option</>
   );
-}
+};
