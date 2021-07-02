@@ -9,6 +9,10 @@ const routes: RouteData[] = [
     component: 'account/profile/profile.component.tsx',
   },
   {
+    path: '/subscription',
+    component: 'account/subscription/subscription.component.tsx',
+  },
+  {
     path: '/',
     component: 'account/account.component.tsx',
   }

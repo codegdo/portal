@@ -1,40 +1,37 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
-import { AppState } from '../../store/reducers';
+import { Link } from 'react-router-dom';
 import { Dropdown } from '../dropdown/dropdown.component';
+import { Avatar } from '../item';
+
+import { NavComponent } from './nav.component';
 
 export const NavProfile: React.FC = (): JSX.Element | null => {
-
-  const { modules = [] } = useSelector((state: AppState) => state.nav);
 
   console.log('NAVPROFILE');
 
   return <>
-    {
-      modules.map((m): JSX.Element | null => {
-        const { id, name, sortGroup, pages = [] } = m;
-        const pathModule = `/${name.toLowerCase()}`;
-
-        if (sortGroup === 2) {
-          return <Dropdown key={id} value={name} options={pages}>
-            <Dropdown.Toggle type="a" className="hello">{name}</Dropdown.Toggle>
-            <Dropdown.Menu>
-              {
-                pages.map(({ id, name }): JSX.Element => {
-                  const pathPage = `/${name.toLowerCase()}`;
-
-                  return <Dropdown.Item key={id} className="">
-                    <NavLink to={`${pathModule}${pathPage}`}>{name}</NavLink>
-                  </Dropdown.Item>
-                })
-              }
-            </Dropdown.Menu>
-          </Dropdown>
-        }
-
-        return null;
-      })
-    }
+    <li>
+      <Dropdown>
+        <Dropdown.Toggle type="a" className="link-icon">
+          <i className="icon">settings</i>
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="dropdown-menu -right">
+          <NavComponent group={1} />
+        </Dropdown.Menu>
+      </Dropdown>
+    </li>
+    <li>
+      <Dropdown>
+        <Dropdown.Toggle type="a" className="link-icon">
+          <Avatar />
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="dropdown-menu -right">
+          <NavComponent group={2} />
+          <Dropdown.Item>
+            <Link to="/auth/logout" className="dropdown-link">Logout</Link>
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    </li>
   </>;
 };

@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { DropdownContext } from './dropdown.component';
+import { DropdownItemProps } from './dropdown.type';
 
-export const DropdownItem: React.FC<any> = ({ type = 'li', className = 'dropdown-item', children }): JSX.Element | null => {
+export const DropdownItem: React.FC<DropdownItemProps> = ({ type = 'li', className, children }): JSX.Element | null => {
   const context = useContext(DropdownContext);
 
   if (context == undefined) {

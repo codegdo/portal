@@ -10,10 +10,10 @@ const SalesComponent = (): JSX.Element => {
       SALES
       <ul>
         <li>
-          <Link to={`${url}/123`}>Deal Registration</Link>
+          <Link to={`${url}/123/dashboard`}>Deal Registration</Link>
         </li>
         <li>
-          <Link to={`${url}/124`}>Special Pricing Request</Link>
+          <Link to={`${url}/124/dashboard`}>Special Pricing Request</Link>
         </li>
       </ul>
     </div>

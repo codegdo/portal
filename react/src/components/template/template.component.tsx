@@ -1,17 +1,13 @@
 import React, { Suspense, lazy, useLayoutEffect, useMemo } from 'react';
-import { Redirect, useRouteMatch } from 'react-router-dom';
+import { Link, Redirect, useRouteMatch } from 'react-router-dom';
 import JsxParser from 'react-jsx-parser';
 import { useSelector } from 'react-redux';
 
-import { NavMain, NavProfile, NavSub } from '../nav/nav.component';
+import { NavMain, NavMenu, NavMenuProfile, NavProfile, NavSub } from '../nav';
 import { stripTrailingSlash } from '../../utils';
 import { TemplateProps } from './template.type';
 import { AppState } from '../../store/reducers';
 import { mainExternal, mainGeneral, mainInternal } from '../../layouts';
-
-const Placeholder: React.FC = (): JSX.Element | null => {
-  return null;
-}
 
 export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   const { route = {} } = props;
@@ -36,26 +32,31 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
     template = general[key] || general['main'] || mainGeneral;
   }
 
-  const placeholder = template.replace('<Content', '<Placeholder');
-
   //const NavMain = useMemo(() => navmain, [component.split('/')[0]])
+  const components: Record<string, any> = {
+    Content, NavMain, NavMenu, NavMenuProfile, NavProfile, NavSub, Link
+  }
 
   const jsxTemplate = useMemo(() => {
     return <JsxParser
       allowUnknownElements={false}
       renderInWrapper={false}
       bindings={{ url }}
-      components={{ Content, NavMain, NavProfile, NavSub, Placeholder }}
-      jsx={template}
-    />
+      components={{ ...components }}
+      jsx={template} />
   }, []);
 
-  const jsxPlaceholder = useMemo(() => <JsxParser allowUnknownElements={false} renderInWrapper={false} jsx={placeholder} />, [])
+  const jsxFallback = useMemo(() => {
+    return <JsxParser
+      allowUnknownElements={false}
+      renderInWrapper={false}
+      jsx={document.getElementById('root').innerHTML.trim()} />
+  }, []);
 
   useLayoutEffect(() => {
-    //document.body.classList.add((path == '/' ? 'home' : key));
     document.body.setAttribute('data-page', (path == '/' ? 'home' : key));
 
+    //document.body.classList.add((path == '/' ? 'home' : key));
     //return () => {
     //document.body.classList.remove((path == '/' ? 'home' : key));
     //};
@@ -63,7 +64,7 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
   }, []);
 
   return route.redirectTo ? <Redirect to={urlRedirect} /> : (
-    <Suspense fallback={jsxPlaceholder}>
+    <Suspense fallback={jsxFallback}>
       {
         jsxTemplate
       }

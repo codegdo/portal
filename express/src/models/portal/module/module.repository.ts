@@ -10,7 +10,7 @@ export class ModuleRepository extends Repository<Module> {
         return this.createQueryBuilder('module')
           .leftJoinAndSelect('module.pages', 'pages')
           .leftJoin(Subscription, 'subscription', 'module.id = subscription.module')
-          .select(['module.id', 'module.name', 'module.sortGroup', 'pages.id', 'pages.name', 'pages.sortOrder'])
+          .select(['module.id', 'module.name', 'module.sortGroup', 'pages.id', 'pages.name', 'pages.sortOrder', 'pages.parentId'])
           .where('subscription.orgId = :orgId', { orgId })
           .andWhere('CURRENT_TIMESTAMP < subscription.end_date')
           .orWhere('module.is_subscription = :isSubscription', {
@@ -22,7 +22,7 @@ export class ModuleRepository extends Repository<Module> {
         return this.createQueryBuilder('module')
           .leftJoinAndSelect('module.pages', 'pages')
           .leftJoin(Subscription, 'subscription', 'module.id = subscription.module')
-          .select(['module.id', 'module.name', 'module.sortGroup', 'pages.id', 'pages.name', 'pages.sortOrder'])
+          .select(['module.id', 'module.name', 'module.sortGroup', 'pages.id', 'pages.name', 'pages.sortOrder', 'pages.parentId'])
           .where('subscription.orgId = :orgId', { orgId })
           .andWhere('CURRENT_TIMESTAMP < subscription.end_date')
           .orWhere('module.is_subscription = :isSubscription', {
@@ -35,7 +35,7 @@ export class ModuleRepository extends Repository<Module> {
         return this.createQueryBuilder('module')
           .leftJoinAndSelect('module.pages', 'pages')
           .leftJoin(Subscription, 'subscription', 'module.id = subscription.module')
-          .select(['module.id', 'module.name', 'module.sortGroup', 'pages.id', 'pages.name', 'pages.sortOrder'])
+          .select(['module.id', 'module.name', 'module.sortGroup', 'pages.id', 'pages.name', 'pages.sortOrder', 'pages.parentId'])
           .where('subscription.orgId = :orgId', { orgId })
           .andWhere('CURRENT_TIMESTAMP < subscription.end_date')
           .orWhere('module.is_subscription = :isSubscription', {

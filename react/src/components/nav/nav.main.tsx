@@ -2,12 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { AppState } from '../../store/reducers';
+import { NavMainProps } from './nav.type';
 
-export const NavMain: React.FC<any> = ({ url }): JSX.Element => {
+export const NavMain: React.FC<NavMainProps> = ({ url = '' }): JSX.Element => {
 
   const { modules = [] } = useSelector((state: AppState) => state.nav);
-
-  console.log('NAVMAIN', url);
+  const matchUrl = '/' + url.split('/')[1];
 
   return <>
     {
@@ -19,13 +19,13 @@ export const NavMain: React.FC<any> = ({ url }): JSX.Element => {
           if (sortGroup === 11) {
             switch (name) {
               case 'Marketing':
-                return <NavLink key={id} to={path} isActive={() => [path, '/coops', '/mdfs'].includes(url)}>{name}</NavLink>
+                return <li key={id}><NavLink to={path} className="link" isActive={() => [path, '/coops', '/mdfs'].includes(matchUrl)}>{name}</NavLink></li>
               case 'Sales':
-                return <NavLink key={id} to={path} isActive={() => [path, '/vars', '/spas'].includes(url)}>{name}</NavLink>
+                return <li key={id}><NavLink to={path} className="link" isActive={() => [path, '/vars', '/spas'].includes(matchUrl)}>{name}</NavLink></li>
               case 'Rewards':
-                return <NavLink key={id} to={path} isActive={() => [path, '/rebates', '/spiffs'].includes(url)}>{name}</NavLink>
+                return <li key={id}><NavLink to={path} className="link" isActive={() => [path, '/rebates', '/spiffs'].includes(matchUrl)}>{name}</NavLink></li>
               default:
-                return <NavLink key={id} to={path}>{name}</NavLink>
+                return <li key={id}><NavLink className="link" to={path}>{name}</NavLink></li>
             }
           }
 

@@ -9,10 +9,10 @@ const Marketing = (): JSX.Element => {
       MARKETING
       <ul>
         <li>
-          <Link to={`${url}/123`}>Coop</Link>
+          <Link to={`${url}/123/dashboard`}>Coop</Link>
         </li>
         <li>
-          <Link to={`${url}/124`}>Mdf</Link>
+          <Link to={`${url}/124/dashboard`}>Mdf</Link>
         </li>
       </ul>
     </div>

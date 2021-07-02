@@ -9,10 +9,10 @@ const RewardsComponent = (): JSX.Element => {
       REWARDS
       <ul>
         <li>
-          <Link to={`${url}/123`}>Rebate</Link>
+          <Link to={`${url}/123/dashboard`}>Rebate</Link>
         </li>
         <li>
-          <Link to={`${url}/124`}>Spiff</Link>
+          <Link to={`${url}/124/dashboard`}>Spiff</Link>
         </li>
       </ul>
     </div>

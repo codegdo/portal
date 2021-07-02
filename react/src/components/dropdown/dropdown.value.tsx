@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { DropdownContext } from './dropdown.component';
 
-export const DropdownValue: React.FC<any> = ({ children }): JSX.Element | null => {
+export const DropdownValue: React.FC = (): JSX.Element | null => {
 
   const context = useContext(DropdownContext);
 
@@ -9,7 +9,7 @@ export const DropdownValue: React.FC<any> = ({ children }): JSX.Element | null =
     return null;
   }
 
-  const { value, placeholder } = context;
+  const { value } = context;
 
   return <>{value}</>
 }

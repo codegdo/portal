@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { DropdownContext } from './dropdown.component';
+import { DropdownOptionProps } from './dropdown.type';
 
-export const DropdownOption: React.FC<any> = ({ type = 'li', className = 'dropdown-option', children }): JSX.Element | null => {
+export const DropdownOption: React.FC<DropdownOptionProps> = ({ type = 'li', className, children }): JSX.Element | null => {
   const context = useContext(DropdownContext);
 
   if (context == undefined) {
@@ -10,7 +11,7 @@ export const DropdownOption: React.FC<any> = ({ type = 'li', className = 'dropdo
 
   const { onToggle, dropdownChange } = context;
 
-  const onClick = (e) => {
+  const onClick = (e: React.ChangeEvent<HTMLElement>) => {
     dropdownChange(e);
     onToggle();
   }

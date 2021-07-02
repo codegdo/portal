@@ -8,7 +8,7 @@ export const NavSub: React.FC<any> = ({ url }): JSX.Element => {
   const { modules, ids } = useSelector((state: AppState) => state.nav);
 
   let path = '.';
-  let pathname = url.substring(1).split('/')[0];
+  let pathname = url.split('/')[1];
 
   if (['coops', 'mdfs'].includes(pathname)) {
     pathname = 'marketing';
@@ -16,14 +16,14 @@ export const NavSub: React.FC<any> = ({ url }): JSX.Element => {
     pathname = 'sales';
   } else if (['rebates', 'spiffs'].includes(pathname)) {
     pathname = 'rewards';
-  } else if (pathname == '') {
+  } else if (pathname == 'admin') {
     pathname = 'admin';
     path = './admin';
   }
 
   let pages = [];
 
-  if (ids && ids[pathname]) {
+  if (ids && (ids[pathname] !== undefined)) {
     pages = modules[ids[pathname]]?.pages
   }
 
@@ -32,8 +32,8 @@ export const NavSub: React.FC<any> = ({ url }): JSX.Element => {
   return <>
     {
       pages.map(
-        ({ id, name }): JSX.Element => {
-          return <NavLink key={id} to={`${path}/${name.toLowerCase()}`}>{name}</NavLink>
+        ({ id, name, parentId }): JSX.Element => {
+          return !parentId && <NavLink key={id} to={`${path}/${name.toLowerCase()}`}>{name}</NavLink>
         }
       )
     }

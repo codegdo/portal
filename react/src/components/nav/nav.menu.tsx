@@ -1,0 +1,35 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Link, NavLink } from 'react-router-dom';
+import { useMediaQuery } from '../../hooks';
+import { AppState } from '../../store/reducers';
+import { Dropdown } from '../dropdown/dropdown.component';
+import { NavComponent } from './nav.component';
+
+import { NavMain } from './nav.main';
+import { NavMenuProps } from './nav.type';
+
+export const NavMenu: React.FC<NavMenuProps> = (): JSX.Element | null => {
+
+  console.log('NAVMENU');
+
+  return <li>
+    {
+      <Dropdown className="dropdown">
+        <Dropdown.Toggle type="a" className="link-icon">
+          <Dropdown.Icon icon="menu" toggleIcon="close" />
+        </Dropdown.Toggle>
+        <Dropdown.Menu type="div" className="dropdown-menu -full">
+          <small>Module</small>
+          <ul className="nav-menu">
+            <NavMain />
+          </ul>
+          <small>Admin</small>
+          <ul className="nav-menu">
+            <NavComponent group={1} />
+          </ul>
+        </Dropdown.Menu>
+      </Dropdown>
+    }
+  </li>;
+};
