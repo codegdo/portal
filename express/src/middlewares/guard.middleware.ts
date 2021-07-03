@@ -11,7 +11,7 @@ export class LoggingMiddleware implements ExpressMiddlewareInterface {
     //console.log('ip', req.ip);
     //console.log('headers', req.headers);
     console.log('user-agent', ua);
-    console.log('guard middleward - user', req.session.user);
+    console.log('guard middleward - user', req?.session?.user);
 
     if ('authorization' in req.headers) {
       const token = req.headers['authorization'];

@@ -1,8 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
-import { useMediaQuery } from '../../hooks';
-import { AppState } from '../../store/reducers';
 import { Dropdown } from '../dropdown/dropdown.component';
 import { NavComponent } from './nav.component';
 
@@ -22,7 +18,7 @@ export const NavMenu: React.FC<NavMenuProps> = (): JSX.Element | null => {
         <Dropdown.Menu type="div" className="dropdown-menu -full">
           <small>Module</small>
           <ul className="nav-menu">
-            <NavMain />
+            <NavMain className="dropdown-link" />
           </ul>
           <small>Admin</small>
           <ul className="nav-menu">
