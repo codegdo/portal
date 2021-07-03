@@ -1,5 +1,5 @@
 import { FieldType } from '../components/types';
-import { toCamelCase, stringTemplateReplace } from '../utils';
+import { toCamelCase, stringTemplateReplace, sortArray } from '../utils';
 
 type Layouts = {
   external: { [x: string]: string };
@@ -37,6 +37,13 @@ export const mapTemplate = (templates: [] = []): Layouts => {
 export const mapNav = (modules: [] = []): { modules: []; ids: {} } => {
   const ids = modules.reduce((acc, item, index) => {
     const key: string = item.name.toLowerCase();
+
+    const { pages = [] } = modules[index];
+
+    if (pages && pages.length > 0) {
+      sortArray(pages, 'sortOrder');
+    }
+
     return { ...acc, [key]: index };
   }, {});
 

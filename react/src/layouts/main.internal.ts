@@ -1,8 +1,19 @@
 export const mainInternal = `
-<div>
-  Internal App 
-  <NavMain {...props} />
-  <NavSub {...props} />
-  <Content {...props}/>
+<div class="internal">
+  <header class="internal-header">
+    <div class="container"> 
+      <nav class="nav -bar">
+        <div class="nav-logo"><Link to="/">Internal App</Link></div>
+        <ul class="nav-link nav_main"><NavMain url={url} /></ul>
+        <ul class="nav-link nav_menu"><NavMenuProfile url={url} /></ul>
+      </nav>
+    </div> 
+  </header>
+  <aside class="internal-aside">
+    <NavSub url={url} />
+  </aside>
+  <main class="internal-main">
+    <div class="container"><Content {...props} /></div>  
+  </main>
 </div>
 `;

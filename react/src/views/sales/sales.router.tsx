@@ -5,6 +5,11 @@ import { RouteData } from '../../components/types';
 
 const routes: RouteData[] = [
   {
+    exact: true,
+    path: '/:programId',
+    redirectTo: '/dashboard'
+  },
+  {
     path: '/:programId/dashboard',
     component: 'sales/dashboard/dashboard.component.tsx',
   },

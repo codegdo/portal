@@ -1,32 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { AppState } from '../../store/reducers';
 
-import { NavComponent } from './nav.component';
-
-export const NavSub: React.FC = (): JSX.Element | null => {
+export const NavSub: React.FC<any> = ({ url }): JSX.Element => {
 
   const { modules, ids } = useSelector((state: AppState) => state.nav);
-  const { url } = useRouteMatch();
-  const [subnav, setSubnav] = useState([]);
 
-  console.log(url);
-  // strip of slash
-  // split /
+  let path = '.';
+  let pathname = url.split('/')[1];
 
-  useEffect(() => {
+  if (['coops', 'mdfs'].includes(pathname)) {
+    pathname = 'marketing';
+  } else if (['vars', 'spas'].includes(pathname)) {
+    pathname = 'sales';
+  } else if (['rebates', 'spiffs'].includes(pathname)) {
+    pathname = 'rewards';
+  } else if (pathname == 'admin') {
+    pathname = 'admin';
+    path = './admin';
+  }
 
-    if (modules) {
-      setSubnav(modules[ids['sales']].pages);
+  let pages = [];
+
+  if (ids && (ids[pathname] !== undefined)) {
+    pages = modules[ids[pathname]]?.pages
+  }
+
+  console.log('NAVSUB', url);
+
+  return <>
+    {
+      pages.map(
+        ({ id, name, parentId }): JSX.Element => {
+          return !parentId && <NavLink key={id} to={`${path}/${name.toLowerCase()}`}>{name}</NavLink>
+        }
+      )
     }
-
-    return () => {
-      //
-    }
-  }, [url]);
-
-  console.log(subnav);
-
-  return subnav ? <NavComponent data={subnav} /> : null;
+  </>;
 };

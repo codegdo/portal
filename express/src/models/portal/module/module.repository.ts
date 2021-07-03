@@ -4,14 +4,13 @@ import { Module } from './module.entity';
 
 @EntityRepository(Module)
 export class ModuleRepository extends Repository<Module> {
-  async getModuleByUser(orgId: number, rolename: string): Promise<Module[]> {
-    switch (rolename) {
+  async getModuleByUser(orgId: number, roletype: string): Promise<Module[]> {
+    switch (roletype) {
       case 'system':
         return this.createQueryBuilder('module')
-          .select('module.name')
           .leftJoinAndSelect('module.pages', 'pages')
           .leftJoin(Subscription, 'subscription', 'module.id = subscription.module')
-
+          .select(['module.id', 'module.name', 'module.sortGroup', 'pages.id', 'pages.name', 'pages.sortOrder', 'pages.parentId'])
           .where('subscription.orgId = :orgId', { orgId })
           .andWhere('CURRENT_TIMESTAMP < subscription.end_date')
           .orWhere('module.is_subscription = :isSubscription', {
@@ -23,7 +22,7 @@ export class ModuleRepository extends Repository<Module> {
         return this.createQueryBuilder('module')
           .leftJoinAndSelect('module.pages', 'pages')
           .leftJoin(Subscription, 'subscription', 'module.id = subscription.module')
-          .select(['module.name', 'pages.name'])
+          .select(['module.id', 'module.name', 'module.sortGroup', 'pages.id', 'pages.name', 'pages.sortOrder', 'pages.parentId'])
           .where('subscription.orgId = :orgId', { orgId })
           .andWhere('CURRENT_TIMESTAMP < subscription.end_date')
           .orWhere('module.is_subscription = :isSubscription', {
@@ -34,8 +33,9 @@ export class ModuleRepository extends Repository<Module> {
           .getMany();
       default:
         return this.createQueryBuilder('module')
-          .select('module.name')
+          .leftJoinAndSelect('module.pages', 'pages')
           .leftJoin(Subscription, 'subscription', 'module.id = subscription.module')
+          .select(['module.id', 'module.name', 'module.sortGroup', 'pages.id', 'pages.name', 'pages.sortOrder', 'pages.parentId'])
           .where('subscription.orgId = :orgId', { orgId })
           .andWhere('CURRENT_TIMESTAMP < subscription.end_date')
           .orWhere('module.is_subscription = :isSubscription', {

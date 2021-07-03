@@ -3,7 +3,7 @@ export const mainGeneral = `
   <aside class="general-aside">
     <div class="container">
       <header>
-        PartnerPortal
+        <span>PartnerPortal</span>
         <h1>An Interactive Channel Platform</h1>
       </header>
       <main></main>
@@ -11,7 +11,7 @@ export const mainGeneral = `
   </aside>
   <main class="general-main">
     <div class="container">
-    <Content {...props}/>
+      <Content {...props}/>
       <div class="terms hidden"><small>Creating an account means you’re okay with our <a href="#">Terms</a>.</small></div>
     </div>
   </main>

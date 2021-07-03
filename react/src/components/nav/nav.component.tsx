@@ -1,27 +1,36 @@
-import React from 'react';
-import { Link, useLocation, useRouteMatch } from 'react-router-dom';
+import React, { Fragment } from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { AppState } from '../../store/reducers';
 import { NavComponentProps } from './nav.type';
 
-export const NavComponent: React.FC<NavComponentProps> = ({ data }): JSX.Element | null => {
+export const NavComponent: React.FC<NavComponentProps> = ({ group }): JSX.Element | null => {
 
-  const match = useRouteMatch();
-  const location = useLocation();
+  const { modules = [] } = useSelector((state: AppState) => state.nav);
 
-  console.log('MATCH', match);
-  console.log('location', location);
+  console.log('NAVCOMPONENT');
 
-  return data ? <>
+  return <>
     {
-      data.map(
-        (item): JSX.Element => {
-          return <Link key={item.name} to={`${item.name.toLowerCase()}`}>{item.name}</Link>
-        }
-      )
-    }
-  </> : null;
-};
+      modules.map((m): JSX.Element | null => {
 
-// mainnav
-// subnav -- will update when module switch
-// sidenav
-//
+        const { id, name, sortGroup, pages = [] } = m;
+        const pathModule = `/${name.toLowerCase()}`;
+
+        if (sortGroup === group) {
+          return <Fragment key={id}>
+            {
+              pages.map(({ id, name, parentId }): JSX.Element => {
+                const pathPage = `/${name.toLowerCase()}`;
+
+                return !parentId && <li key={id}><NavLink to={`${pathModule}${pathPage}`} className="dropdown-link">{name}</NavLink></li>
+              })
+            }
+          </Fragment>
+        }
+
+        return null;
+      })
+    }
+  </>;
+};

@@ -16,86 +16,123 @@ VALUES
 INSERT
 INTO dbo.feature_module(feature_id, module_id, org_id)
 VALUES
-('1', '4', null),
-('2', '4', null),
-('3', '4', null),
-('4', '4', null),
-('5', '4', null),
-('6', '4', null),
-('7', '4', null),
-('8', '4', null),
-('9', '4', null),
-('10', '4', null),
-('1', '5', null),
-('2', '5', null),
-('3', '5', null),
-('4', '5', null),
-('5', '5', null),
-('6', '5', null),
-('7', '5', null),
-('8', '5', null),
-('9', '5', null),
-('10', '5', null),
-('2', '6', null),
-('5', '6', null),
-('6', '6', null),
-('7', '6', null),
-('8', '6', null),
-('9', '6', null),
-('10', '6', null);
+('1', '11', null),
+('2', '11', null),
+('3', '11', null),
+('4', '11', null),
+('5', '11', null),
+('6', '11', null),
+('7', '11', null),
+('8', '11', null),
+('9', '11', null),
+('10', '11', null),
+('1', '12', null),
+('2', '12', null),
+('3', '12', null),
+('4', '12', null),
+('5', '12', null),
+('6', '12', null),
+('7', '12', null),
+('8', '12', null),
+('9', '12', null),
+('10', '12', null),
+('2', '13', null),
+('5', '13', null),
+('6', '13', null),
+('7', '13', null),
+('8', '13', null),
+('9', '13', null),
+('10', '13', null);
 
 INSERT
 INTO dbo.module(id, name, sort_order, sort_group, is_external, is_internal, is_subscription, is_active)
 VALUES
-('0', 'System', '0', '0', '0', '0', '0', '1'),
-('1', 'Admin', '6', '0', '0', '1', '0', '1'),
-('2', 'Home', '0', '0', '1', '1', '0', '1'),
-('3', 'Account', '4', '0', '1', '1', '0', '1'),
-('4', 'Help', '5', '0', '1', '1', '0', '1'),
-('5', 'Sales', '1', '0', '1', '1', '1', '1'),
-('6', 'Marketing', '2', '0', '1', '1', '1', '1'),
-('7', 'Rewards', '3', '0', '1', '1', '1', '1');
+('1', 'System', '0', '0', '0', '0', '0', '1'),
+('2', 'Admin', '1', '1', '0', '1', '0', '1'),
+('3', 'Account', '2', '2', '1', '1', '0', '1'),
+('4', 'Help', '3', '3', '1', '1', '0', '1'),
+('5', 'Resources', '4', '4', '1', '1', '0', '1'),
+('11', 'Sales', '11', '11', '1', '1', '1', '1'),
+('12', 'Marketing', '12', '11', '1', '1', '1', '1'),
+('13', 'Rewards', '13', '11', '1', '1', '1', '1');
+
+INSERT
+INTO dbo.module_page(module_id, page_id, org_id)
+VALUES
+--Admin
+('2', '200', null),
+('2', '201', null),
+('2', '202', null),
+('2', '203', null),
+('2', '204', null),
+('2', '205', null),
+('2', '206', null),
+('2', '207', null),
+('2', '208', null),
+('2', '209', null),
+('2', '210', null),
+('2', '211', null),
+('2', '212', null),
+('2', '213', null),
+('2', '214', null),
+('2', '215', null),
+--Account
+('3', '300', null),
+('3', '301', null),
+--Help
+('4', '400', null),
+('4', '401', null),
+--Sales
+('11', '1100', null),
+('11', '1101', null),
+--Marketing
+('12', '1200', null),
+('12', '1201', null),
+('12', '1202', null),
+('12', '1203', null),
+('12', '1204', null),
+--Rewards
+('13', '1300', null),
+('13', '1301', null);
 
 INSERT
 INTO dbo.page(id, name, type, parent_id, sort_order, is_external, is_internal, is_active)
 VALUES
---Home
-('20', 'Dashboard', 'view', null, '0', '1', '1', '1'),
---Account
-('30', 'Profile', 'form', null, '0', '1', '1', '1'),
-('31', 'Subscription', 'form', null, '1', '1', '1', '1'),
---Help
-('40', 'Supports', 'view', null, '0', '1', '1', '1'),
-('41', 'Guides', 'view', null, '1', '1', '1', '1'),
---Sales
-('50', 'Summary', 'view', null, '0', '1', '1', '1'),
-('52', 'Deals', 'view', null, '1', '1', '1', '1'),
---Marketing
-('60', 'Summary', 'view', null, '0', '1', '1', '1'),
-('61', 'Requests', 'view', null, '1', '1', '1', '1'),
-('62', 'Claims', 'view', null, '2', '1', '1', '1'),
-('63', 'Accruals', 'view', null, '3', '1', '1', '1'),
-('64', 'Reports', 'view', null, '4', '1', '1', '1'),
---Rewards
-('70', 'Summary', 'view', null, '0', '1', '1', '1'),
-('71', 'Claims', 'view', null, '1', '1', '1', '1'),
 --Admin
-('100', 'Users', 'view', null, '0', '1', '1', '1'),
-('101', 'Internals', 'view', '12', '1', '1', '1', '1'),
-('102', 'Externals', 'view', '12', '2', '1', '1', '1'),
-('103', 'Roles', 'view', null, '3', '1', '1', '1'),
-('104', 'Groups', 'view', null, '4', '1', '1', '1'),
-('105', 'Languages', 'view', null, '5', '1', '1', '1'),
-('106', 'Companies', 'view', null, '6', '1', '1', '1'),
-('107', 'Contacts', 'view', null, '7', '1', '1', '1'),
-('108', 'Products', 'view', null, '8', '1', '1', '1'),
-('109', 'Prices', 'view', null, '9', '1', '1', '1'),
-('110', 'Forms', 'view', null, '10', '1', '1', '1'),
-('111', 'Templates', 'view', null, '11', '1', '1', '1'),
-('112', 'Programs', 'view', null, '12', '1', '1', '1'),
-('113', 'Sales', 'view', '24', '13', '1', '1', '1'),
-('114', 'Marketing', 'view', '24', '14', '1', '1', '1'),
-('115', 'Rewards', 'view', '24', '15', '1', '1', '1');
+('200', 'Users', 'view', null, '0', '1', '1', '1'),
+('201', 'Internals', 'view', '200', '1', '1', '1', '1'),
+('202', 'Externals', 'view', '200', '2', '1', '1', '1'),
+('203', 'Roles', 'view', null, '3', '1', '1', '1'),
+('204', 'Groups', 'view', null, '4', '1', '1', '1'),
+('205', 'Languages', 'view', null, '5', '1', '1', '1'),
+('206', 'Companies', 'view', null, '6', '1', '1', '1'),
+('207', 'Contacts', 'view', null, '7', '1', '1', '1'),
+('208', 'Products', 'view', null, '8', '1', '1', '1'),
+('209', 'Prices', 'view', null, '9', '1', '1', '1'),
+('210', 'Forms', 'view', null, '10', '1', '1', '1'),
+('211', 'Templates', 'view', null, '11', '1', '1', '1'),
+('212', 'Programs', 'view', null, '12', '1', '1', '1'),
+('213', 'Sales', 'view', '212', '13', '1', '1', '1'),
+('214', 'Marketing', 'view', '212', '14', '1', '1', '1'),
+('215', 'Rewards', 'view', '212', '15', '1', '1', '1'),
+--Account
+('300', 'Profile', 'form', null, '0', '1', '1', '1'),
+('301', 'Subscription', 'form', null, '1', '1', '1', '1'),
+--Help
+('400', 'Supports', 'view', null, '0', '1', '1', '1'),
+('401', 'Guides', 'view', null, '1', '1', '1', '1'),
+--Sales
+('1100', 'Dashboard', 'view', null, '0', '1', '1', '1'),
+('1101', 'Deals', 'view', null, '1', '1', '1', '1'),
+--Marketing
+('1200', 'Dashboard', 'view', null, '0', '1', '1', '1'),
+('1201', 'Requests', 'view', null, '1', '1', '1', '1'),
+('1202', 'Claims', 'view', null, '2', '1', '1', '1'),
+('1203', 'Accruals', 'view', null, '3', '1', '1', '1'),
+('1204', 'Reports', 'view', null, '4', '1', '1', '1'),
+--Rewards
+('1300', 'Dashboard', 'view', null, '0', '1', '1', '1'),
+('1301', 'Claims', 'view', null, '1', '1', '1', '1');
 
 INSERT
 INTO dbo.roletype(name)

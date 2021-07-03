@@ -25,6 +25,15 @@ export class Page extends BaseEntity {
   @Column({ name: 'parent_id' })
   parentId!: number;
 
+  @Column({ name: 'sort_order', default: 0 })
+  sortOrder!: number;
+
+  @Column({ name: 'is_external', default: false })
+  isExternal!: boolean;
+
+  @Column({ name: 'is_internal', default: false })
+  isInternal!: boolean;
+
   @Column({ name: 'is_active', default: false })
   isActive!: boolean;
 

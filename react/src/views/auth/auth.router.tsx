@@ -26,8 +26,8 @@ const routes: RouteData[] = [
     component: 'auth/signup/signup.component.tsx',
   },
   {
-    path: '/configure',
-    component: 'auth/configure/configure.component.tsx'
+    path: '/setup',
+    component: 'auth/setup/setup.component.tsx'
   },
   {
     path: '/register',

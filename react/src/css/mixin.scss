@@ -27,3 +27,31 @@
   transition: background-color 200ms ease, outline 200ms ease, color 200ms ease,
     box-shadow 200ms ease, -webkit-box-shadow 200ms ease;
 }
+
+@mixin fadein() {
+  animation: 0.4s ease-out fadeIn 1;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+@mixin slidedown() {
+  animation: slideDown 0.5s forwards;
+
+  @keyframes slideDown {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0%);
+    }
+  }
+}
