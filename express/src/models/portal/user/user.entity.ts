@@ -12,7 +12,7 @@ import {
   BeforeUpdate,
 } from 'typeorm';
 
-import * as bcrypt from 'bcrypt';
+import { genSalt, hash } from 'bcryptjs';
 import { Role } from '../entities';
 import { ExceptionHttp } from '../../../app.exception';
 
@@ -67,8 +67,8 @@ export class User extends BaseEntity {
   async hashPassword(): Promise<void> {
     if (this.password) {
       try {
-        this.salt = await bcrypt.genSalt();
-        this.password = await bcrypt.hash(this.password, this.salt);
+        this.salt = await genSalt();
+        this.password = await hash(this.password, this.salt);
       } catch (error) {
         throw new ExceptionHttp(500);
       }
@@ -77,8 +77,8 @@ export class User extends BaseEntity {
 
   async validatePassword(password: string): Promise<boolean> {
     try {
-      const hash = await bcrypt.hash(password, this.salt);
-      return hash === this.password;
+      const hashPassword = await hash(password, this.salt);
+      return hashPassword === this.password;
     } catch (error) {
       throw new ExceptionHttp(500);
     }
