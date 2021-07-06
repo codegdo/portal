@@ -93,7 +93,6 @@ export const useFetch = <T>(
 
         dispatch({ type: 'SUCCESS', payload: { ...data, ok: true, detail } });
       } catch (error) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const status: number = error.status;
 
         if (error.message === 'Failed to fetch') {
@@ -106,7 +105,7 @@ export const useFetch = <T>(
               detail,
             },
           });
-        } else if (error?.data?.message === 'Session timeout') {
+        } else if (error?.data && error?.data?.message === 'Session timeout') {
           history.push('/auth/logout');
         } else {
           dispatch({
