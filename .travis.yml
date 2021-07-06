@@ -18,6 +18,7 @@ before_install:
     if [ "$PULL_REQUEST" != "false" ]; then
       if [[ "$PULL_BRANCH" =~ ^react\/.*$ ]]; then
         # docker build -t react-test -f ./react/Dockerfile.dev ./react;
+        "$PULL_REQUEST"
       fi;
     fi;
 
@@ -26,6 +27,7 @@ script:
     if [ "$PULL_REQUEST" != "false" ]; then
       if [[ "$PULL_BRANCH" =~ ^react\/.*$ ]]; then
         # docker run react-test npm run test -- --coverage;
+        "$PULL_REQUEST"
       fi;
     fi;
 
