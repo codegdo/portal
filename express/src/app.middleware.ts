@@ -20,7 +20,7 @@ export const appMiddleware = (app: Application): void => {
   app.use(
     cors((_req: Request, callback) => {
       callback(null, {
-        origin: ['http://localhost:3000', 'https://portal.dev'],
+        origin: '*',
         credentials: true,
         allowedHeaders: ['Content-Type', 'Authorization', 'Expiry'],
         exposedHeaders: ['Authorization', 'Expiry'],

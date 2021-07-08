@@ -3,7 +3,7 @@ import { createServer } from 'http';
 
 import app from './app';
 
-(async (): Promise<void> => {
+void (async (): Promise<void> => {
   const server = createServer(await app());
 
   server.listen(5000, () => {

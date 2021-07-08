@@ -17,7 +17,8 @@ before_install:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
       if [[ "$PULL_BRANCH" =~ ^react\/.*$ ]]; then
-        docker build -t react-test -f ./react/Dockerfile.dev ./react;
+        # docker build -t react-test -f ./react/Dockerfile.dev ./react;
+        "$PULL_REQUEST"
       fi;
     fi;
 
@@ -25,7 +26,8 @@ script:
   - >
     if [ "$PULL_REQUEST" != "false" ]; then
       if [[ "$PULL_BRANCH" =~ ^react\/.*$ ]]; then
-        docker run react-test npm run test -- --coverage;
+        # docker run react-test npm run test -- --coverage;
+        "$PULL_REQUEST"
       fi;
     fi;
 
@@ -65,8 +67,8 @@ after_success:
       fi;
       if [[ "$PULL_BRANCH" =~ ^root\/.*$ ]]; then
         docker push codegdo/portal:nginx-$BRANCH;  
-        docker push codegdo/portal:react-$BRANCH;
         docker push codegdo/portal:express-$BRANCH;
+        docker push codegdo/portal:react-$BRANCH;
         # docker push codegdo/portal:express-$BRANCH-$SHA;
         # docker push codegdo/portal:nginx-$BRANCH-$SHA;
         # docker push codegdo/portal:react-$BRANCH-$SHA;
