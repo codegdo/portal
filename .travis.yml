@@ -83,7 +83,7 @@ deploy:
   provider: elasticbeantalk
   region: us-west-1
   app: portal-$BRANCH
-  env: portal-$BRANCH
+  env: portal-$BRANCH-env
   bucket_name: elasticbeanstalk-us-west-1-408615658702
   bucket_path: portal-$BRANCH
   access_key_id: $AWS_ACCESS_KEY
