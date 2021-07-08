@@ -35,7 +35,7 @@ export default async (): Promise<Application> => {
           throw new UnauthorizedError('Session timeout');
         }
 
-        return request.session.user;
+        return request?.session?.user;
       },
       routePrefix: '/api',
       controllers: [__dirname + '/api/**/*.controller.+(js|ts)'],
