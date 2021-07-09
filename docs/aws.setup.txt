@@ -23,3 +23,7 @@ awsbudget
 
 // SETUP
 https://us-west-1.console.aws.amazon.com/elasticbeanstalk/home?region=us-west-1#/newEnvironment
+create new eb INSTANCE - app = portal-dev | env = portal-dev-env
+create new sec group - sec-db-dev
+  - inbound rule: PostgreSQL source AWSEBSecurityGroup
+modify RDS INSTANCE - connectivity - security group - sec-portal-dev

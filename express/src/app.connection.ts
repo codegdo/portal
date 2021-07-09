@@ -1,18 +1,27 @@
 import { Connection, createConnections } from 'typeorm';
-import { connections } from './configs';
+import { connectionOptions } from './configs';
 
-export const appConnection = async (): Promise<Connection[] | null> => {
-  let retries = 5;
+export const appConnection = async (): Promise<{ connections: Connection[] | null, errorCode: string }> => {
+  let retries = 1;
+  let connections = null;
+  let errorCode = '';
+
   while (retries) {
     try {
-      return createConnections(connections);
-    } catch (error) {
-      console.log(error);
+      connections = await createConnections(connectionOptions);
+
+      return { connections, errorCode };
+    } catch (err) {
+
+      console.log('ERROR', err);
       retries -= 1;
       console.log(`retries left: ${retries}`);
+
       await new Promise((resolve) => setTimeout(resolve, 5000));
+
+      errorCode = err.code;
     }
   }
 
-  return null;
+  return { connections, errorCode };
 };

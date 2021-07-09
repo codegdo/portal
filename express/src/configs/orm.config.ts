@@ -20,4 +20,4 @@ const portal: ConnectionOptions = {
   },
 };
 
-export const connections = [portal];
+export const connectionOptions = [portal];

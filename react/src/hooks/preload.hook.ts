@@ -36,7 +36,7 @@ export const usePreload = (): { preload; sessionTimeout: boolean } => {
           data: { user, templates },
         } = result;
 
-        if (templates.length > 0) {
+        if (templates?.length > 0) {
           const layout = mapTemplate(templates);
           updateLayout({ ...layout });
         }
