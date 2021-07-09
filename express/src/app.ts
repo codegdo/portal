@@ -10,18 +10,19 @@ import { Container } from 'typedi';
 
 import { appConnection } from './app.connection';
 import { appMiddleware } from './app.middleware';
+import { AppError } from './app.error';
 
 export default async (): Promise<Application> => {
   const app = express();
-  const connections = await appConnection();
+  const { connections, errorCode } = await appConnection();
 
   useContainer(Container);
+  appMiddleware(app, connections);
 
   if (connections) {
-    appMiddleware(app);
+
     useExpressServer(app, {
-      authorizationChecker: async (): Promise<boolean> => {
-        console.log('test');
+      authorizationChecker: () => {
         return true;
       },
       currentUserChecker: async ({ request }: Action): Promise<unknown> => {
@@ -31,16 +32,28 @@ export default async (): Promise<Application> => {
         console.log(token);
         // return getEntityManager().findOneByToken(User, token);
 
-        if (!request.session.user) {
+        if (!request.session?.user) {
           throw new UnauthorizedError('Session timeout');
         }
 
-        return request?.session?.user;
+        return request.session?.user;
       },
       routePrefix: '/api',
       controllers: [__dirname + '/api/**/*.controller.+(js|ts)'],
       middlewares: [__dirname + '/middlewares/*.middleware.+(js|ts)'],
       interceptors: [],
+    });
+
+  } else {
+    //
+    console.log('DB Connection Fail');
+
+    useExpressServer(app, {
+      currentUserChecker: (): string => {
+        return errorCode;
+      },
+      routePrefix: '/api',
+      controllers: [AppError],
     });
   }
 
