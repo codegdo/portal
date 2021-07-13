@@ -3,7 +3,7 @@ import { BrowserRouter, HashRouter, Redirect, Route, Switch } from 'react-router
 import { Display } from './components/element';
 import { RouteGuard } from './components/route/route.guard';
 import { Template } from './components/template/template.component';
-import { usePreload } from './hooks/preload.hook';
+import { usePreload } from './hooks/use-preload.hook';
 import { AuthRouter, HomeRouter, AdminRouter, MarketingRouter, SalesRouter, RewardsRouter, AccountRouter } from './views';
 
 export const App: React.FC = (): JSX.Element | null => {

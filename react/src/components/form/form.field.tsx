@@ -1,7 +1,7 @@
 import { registerSchema } from 'class-validator';
 import React, { useContext, useEffect } from 'react';
 import { FormContext } from '.';
-import { useValidation } from '../../hooks/validation.hook';
+import { useValidation } from '../../hooks/use-validation.hook';
 import { toCamelCase } from '../../utils';
 import { Field } from '../field/field.component';
 import { TargetInput } from '../input/input.type';

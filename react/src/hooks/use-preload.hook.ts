@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mapTemplate } from '../helpers';
 import { AppState } from '../store/reducers';
-import { useAction } from './action.hook';
-import { useFetch } from './fetch.hook';
+import { useAction } from './use-action.hook';
+import { useFetch } from './use-fetch.hook';
 
 type IResultData = {
   user: { [key: string]: string };
