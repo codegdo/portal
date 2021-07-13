@@ -29,7 +29,7 @@ const Logout: React.FC = (): JSX.Element | null => {
     loggedIn && void fetchData();
   }, []);
 
-  return loggedIn ? <div>logging out...</div> : <Redirect to="/auth/login" />;
+  return loggedIn ? <div>logging out...</div> : <Redirect to="/" />;
 };
 
 export default Logout;
