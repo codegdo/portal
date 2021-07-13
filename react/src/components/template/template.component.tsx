@@ -3,7 +3,7 @@ import { Link, Redirect, useRouteMatch } from 'react-router-dom';
 import JsxParser from 'react-jsx-parser';
 import { useSelector } from 'react-redux';
 
-import { NavMain, NavMenu, NavMenuProfile, NavProfile, NavSub } from '../nav';
+import * as Nav from '../nav';
 import { stripTrailingSlash } from '../../utils';
 import { TemplateProps } from './template.type';
 import { AppState } from '../../store/reducers';
@@ -34,7 +34,7 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
 
   //const NavMain = useMemo(() => navmain, [component.split('/')[0]])
   const components: Record<string, any> = {
-    Content, NavMain, NavMenu, NavMenuProfile, NavProfile, NavSub, Link
+    Content, Link, ...Nav
   }
 
   const jsxTemplate = useMemo(() => {
