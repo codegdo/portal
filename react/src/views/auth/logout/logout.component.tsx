@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+
 import { jwtToken } from '../../../app.config';
-import { useFetch } from '../../../hooks';
+import { useAction, useFetch } from '../../../hooks';
 import { storage } from '../../../services';
-import { deleteSession } from '../../../store/actions';
 import { AppState } from '../../../store/reducers';
 
 interface FetchOutput {
@@ -13,15 +13,13 @@ interface FetchOutput {
 
 const Logout: React.FC = (): JSX.Element | null => {
   const loggedIn = useSelector((state: AppState) => state.session.loggedIn);
-  const dispatch = useDispatch();
-  const { result, isMounted, fetchData } = useFetch<FetchOutput>('/api/auth/logout');
+  const { deleteSession } = useAction();
+  const { result, fetchData } = useFetch<FetchOutput>('/api/auth/logout');
 
   useEffect(() => {
-    if (loggedIn && result) {
-      if (isMounted.current) {
-        storage.removeItem(jwtToken);
-        dispatch(deleteSession());
-      }
+    if (result) {
+      storage.removeItem(jwtToken);
+      deleteSession();
     }
   }, [result]);
 
@@ -29,7 +27,7 @@ const Logout: React.FC = (): JSX.Element | null => {
     loggedIn && void fetchData();
   }, []);
 
-  return loggedIn ? <div>logging out...</div> : <Redirect to="/" />;
+  return loggedIn ? <div>logging out...</div> : <Navigate to="/" />;
 };
 
 export default Logout;

@@ -5,7 +5,7 @@ import { Avatar } from '../item';
 
 import { NavComponent } from './nav.component';
 
-export const NavProfile: React.FC = (): JSX.Element | null => {
+export const NavProfile: React.FC<{ name: string }> = (props): JSX.Element | null => {
 
   console.log('NAVPROFILE');
 
@@ -16,7 +16,7 @@ export const NavProfile: React.FC = (): JSX.Element | null => {
           <i className="icon">settings</i>
         </Dropdown.Toggle>
         <Dropdown.Menu className="dropdown-menu -right">
-          <NavComponent group={1} />
+          <NavComponent group={1} {...props} />
         </Dropdown.Menu>
       </Dropdown>
     </li>
@@ -26,7 +26,7 @@ export const NavProfile: React.FC = (): JSX.Element | null => {
           <Avatar />
         </Dropdown.Toggle>
         <Dropdown.Menu className="dropdown-menu -right">
-          <NavComponent group={2} />
+          <NavComponent group={2} {...props} />
           <Dropdown.Item>
             <Link to="/auth/logout" className="dropdown-link">Logout</Link>
           </Dropdown.Item>

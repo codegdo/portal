@@ -1,10 +1,10 @@
 import React from 'react';
-import { NavLink, Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
-import External from './external.component';
+import { NavLink, Route, Routes } from 'react-router-dom';
+
 import Internal from './internal.component';
+import External from './internal.component';
 
 const User = (): JSX.Element => {
-  const { url } = useRouteMatch();
 
   return (
     <div className="content">
@@ -13,16 +13,15 @@ const User = (): JSX.Element => {
       </header>
       <nav>
         <ul className="tabbar">
-          <li><NavLink to={`${url}/external`}>External</NavLink></li>
-          <li><NavLink to={`${url}/internal`}>Internal</NavLink></li>
+          <li><NavLink to="external">External</NavLink></li>
+          <li><NavLink to="internal">Internal</NavLink></li>
         </ul>
       </nav>
       <main>
-        <Switch>
-          <Route path={`${url}/external`} component={External} />
-          <Route path={`${url}/internal`} component={Internal} />
-          <Redirect from={url} to={`${url}/external`} />
-        </Switch>
+        <Routes>
+          <Route path="internal" element={<Internal />} />
+          <Route path="external" element={<External />} />
+        </Routes>
       </main>
     </div>
   );

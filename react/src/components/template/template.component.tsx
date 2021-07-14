@@ -1,38 +1,34 @@
-import React, { Suspense, lazy, useLayoutEffect, useMemo } from 'react';
-import { Link, Redirect, useRouteMatch } from 'react-router-dom';
+import React, { Suspense, useLayoutEffect, useMemo } from 'react';
+import { Link, } from 'react-router-dom';
 import JsxParser from 'react-jsx-parser';
 import { useSelector } from 'react-redux';
 
 import * as Nav from '../nav';
-import { stripTrailingSlash } from '../../utils';
+//import { stripTrailingSlash } from '../../utils';
 import { TemplateProps } from './template.type';
 import { AppState } from '../../store/reducers';
 import { mainExternal, mainGeneral, mainInternal } from '../../layouts';
+import { useLocation } from 'react-router';
 
 export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
-  const { route = {} } = props;
-  const { url } = useRouteMatch();
+  const { name } = props;
   const { layout, session: { loggedIn, user, orgId } } = useSelector((state: AppState) => state);
-
-  const { component = 'notfound.component.tsx', redirectTo = '/' } = route;
-  const urlRedirect = stripTrailingSlash(`../${url}/${redirectTo}`);
-
-  const Content = lazy(
-    () => import(`../../views/${component}`)
-  );
+  const { pathname } = useLocation();
 
   const { external, internal, general } = layout;
-  const { path = '/' } = route;
-  const key = path.replace('/', '') || 'main';
   let template = `<Content {...props}/>`;
 
   if (loggedIn && orgId) {
-    template = (user?.roletype === 'internal') ? (internal[key] || internal['main'] || mainInternal) : (external[key] || external['main'] || mainExternal);
+    if (user?.roletype === 'internal') {
+      template = internal[name] || internal['main'] || mainInternal;
+    } else {
+      template = external[name] || external['main'] || mainExternal;
+    }
   } else {
-    template = general[key] || general['main'] || mainGeneral;
+    template = general[name] || general['main'] || mainGeneral;
   }
 
-  //const NavMain = useMemo(() => navmain, [component.split('/')[0]])
+  const Content = (props: any) => <props.component {...props} />;
   const components: Record<string, any> = {
     Content, Link, ...Nav
   }
@@ -41,33 +37,21 @@ export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
     return <JsxParser
       allowUnknownElements={false}
       renderInWrapper={false}
-      bindings={{ url }}
+      bindings={{ props }}
       components={{ ...components }}
       jsx={template} />
-  }, []);
+  }, [pathname]);
 
   const jsxFallback = useMemo(() => {
     return <JsxParser
       allowUnknownElements={false}
       renderInWrapper={false}
-      jsx={document.getElementById('root').innerHTML.trim()} />
-  }, []);
+      jsx={document.getElementById('root')?.innerHTML.trim()} />
+  }, [pathname]);
 
   useLayoutEffect(() => {
-    document.body.setAttribute('data-page', (path == '/' ? 'home' : key));
-
-    //document.body.classList.add((path == '/' ? 'home' : key));
-    //return () => {
-    //document.body.classList.remove((path == '/' ? 'home' : key));
-    //};
-
+    document.body.setAttribute('data-page', name);
   }, []);
 
-  return route.redirectTo ? <Redirect to={urlRedirect} /> : (
-    <Suspense fallback={jsxFallback}>
-      {
-        jsxTemplate
-      }
-    </Suspense>
-  );
+  return <Suspense fallback={jsxFallback}>{jsxTemplate}</Suspense>;
 };

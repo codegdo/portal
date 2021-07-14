@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+//import { useNavigate } from 'react-router-dom';
 import { apiUrl, jwtToken } from '../app.config';
 
 import { http, RequestOption } from '../services';
@@ -71,7 +72,7 @@ export const useFetch = <T>(
 
   const [state, dispatch] = useReducer(fetchReducer, initialState);
 
-  const history = useHistory();
+  //const navigate = useNavigate();
 
   const isMounted = useRef(false);
 
@@ -106,7 +107,10 @@ export const useFetch = <T>(
             },
           });
         } else if (error?.data?.message === 'Session timeout') {
+          //navigate('/auth/logout');
+          const history = createBrowserHistory();
           history.push('/auth/logout');
+
         } else {
           dispatch({
             type: 'FAILURE',

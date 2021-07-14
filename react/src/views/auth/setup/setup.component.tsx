@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router';
+import { Navigate } from 'react-router';
 import { Form } from '../../../components/form/form.component';
 import { FormType } from '../../../components/types';
 import { mapNav, mapTemplate, normalizeData } from '../../../helpers';
@@ -56,7 +56,7 @@ const Setup: React.FC = (): JSX.Element => {
   return (
     form == undefined ? <div>loading...</div> :
       (
-        (loggedIn && orgId) ? <Redirect to="/" /> :
+        (loggedIn && orgId) ? <Navigate to="/" /> :
           <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
             <Form.Message />
             <Form.Header />

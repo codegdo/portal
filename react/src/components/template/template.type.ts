@@ -1,5 +1,4 @@
-import { RouteData } from '../types';
-
 export interface TemplateProps {
-  route: RouteData;
+  component: React.ExoticComponent<any>;
+  name: string;
 }

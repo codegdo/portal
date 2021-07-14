@@ -1,21 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Marketing = (): JSX.Element => {
+const Reward = (): JSX.Element => {
+
 
   return (
     <div>
-      MARKETING
+      REWARDS
       <ul>
         <li>
-          <Link to="/123">Coop</Link>
+          <Link to="/123">Rebate</Link>
         </li>
         <li>
-          <Link to="/124">Mdf</Link>
+          <Link to="/124">Spiff</Link>
         </li>
       </ul>
     </div>
   );
 };
 
-export default Marketing;
+export default Reward;

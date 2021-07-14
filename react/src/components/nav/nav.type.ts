@@ -1,12 +1,15 @@
 export type NavComponentProps = {
-  group: number;
-};
-
-export type NavMainProps = {
-  url?: string;
+  group?: number;
+  name?: string;
   className?: string;
 };
 
+export type NavMainProps = {
+  name?: string;
+  className?: string;
+}
+
 export type NavMenuProps = {
-  url?: string;
+  name?: string;
+  className?: string;
 };

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useFetch } from '../../../hooks';
 import VerifyError from './verify.error';
 import VerifySuccess from './verify.success';
 
 const Verify: React.FC = (): JSX.Element => {
 
-  const { params: { token } } = useRouteMatch();
+  const { params: { token } } = useParams();
   const { fetching, result, fetchData } = useFetch(`/api/auth/verify/${token}`);
 
   useEffect(() => {

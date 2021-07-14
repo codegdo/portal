@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { lazy } from 'react';
+import { useRoutes } from 'react-router-dom';
+import { Template } from '../../components/template/template.component';
 
-import { Routes } from '../../components/route/route.component';
-import { RouteData } from '../../components/types';
+const home = lazy(() => import('./home.component'));
+const notfound = lazy(() => import('../notfound.component'));
 
-const routes: RouteData[] = [
-  {
-    path: '/home',
-    redirectTo: '/'
-  },
-  {
-    path: '/',
-    component: 'home/home.component.tsx',
-  },
-];
+export const HomeRoute: React.FC = (): JSX.Element => {
+  const routes = useRoutes([
+    {
+      path: '/',
+      element: <Template name="home" component={home} />
+    },
+    {
+      path: '*',
+      element: <Template name="not-found" component={notfound} />
+    },
+  ]);
 
-export const HomeRouter: React.FC = (): JSX.Element => {
-  return <Routes routes={routes} />;
+  return <>{routes}</>;
 };

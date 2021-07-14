@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import { AppState } from '../../../store/reducers';
 import { useAction, useFetch, useMediaQuery } from '../../../hooks';
@@ -9,7 +9,7 @@ import { mapNav, normalizeData } from '../../../helpers';
 import { splitObjectKeyId } from '../../../utils';
 import { storage } from '../../../services';
 import { jwtToken } from '../../../app.config';
-import { Dropdown } from '../../../components/dropdown/dropdown.component';
+//import { Dropdown } from '../../../components/dropdown/dropdown.component';
 
 export class LoginDto {
   username!: string;
@@ -28,7 +28,7 @@ const Login: React.FC = (): JSX.Element => {
   const [form, setForm] = useState<FormType>();
   const { updateSession, updateNav } = useAction();
   const { fetching, result, isMounted, fetchData } = useFetch<IResultData>('api/auth/login');
-  const history = useHistory();
+  const navigate = useNavigate();
   const isPageWide = useMediaQuery('(min-width: 800px)');
 
 
@@ -55,7 +55,8 @@ const Login: React.FC = (): JSX.Element => {
       }
     } else if (fetching == 'error') {
       if (result?.data?.message === 'Unactivated Account') {
-        history.push({ pathname: '/auth/resend', state: { result } });
+        //history.push({ pathname: '/auth/resend', state: { result } });
+        navigate('resend');
       }
     }
   }, [fetching]);
@@ -73,7 +74,7 @@ const Login: React.FC = (): JSX.Element => {
     }
   }
 
-  return loggedIn ? (orgId ? <Redirect to="/" /> : <Redirect to="/auth/setup" />) :
+  return loggedIn ? (orgId ? <Navigate to="/" /> : <Navigate to="setup" />) :
     (
       form == undefined ? <div>loading</div> :
         <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>

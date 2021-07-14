@@ -5,7 +5,7 @@ import { NavComponent } from './nav.component';
 import { NavMain } from './nav.main';
 import { NavMenuProps } from './nav.type';
 
-export const NavMenu: React.FC<NavMenuProps> = (): JSX.Element | null => {
+export const NavMenu: React.FC<NavMenuProps> = (props): JSX.Element | null => {
 
   console.log('NAVMENU');
 
@@ -18,7 +18,7 @@ export const NavMenu: React.FC<NavMenuProps> = (): JSX.Element | null => {
         <Dropdown.Menu type="div" className="dropdown-menu -full">
           <small>Module</small>
           <ul className="nav-menu">
-            <NavMain className="dropdown-link" />
+            <NavMain {...props} />
           </ul>
           <small>Admin</small>
           <ul className="nav-menu">
