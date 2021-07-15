@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DealForm = (): JSX.Element => {
+const DealForm: React.FC = (): JSX.Element => {
   return <div>DEAL FORM</div>;
 };
 

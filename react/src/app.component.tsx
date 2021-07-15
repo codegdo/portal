@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Navigate } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { AppRoute } from './app.route';
 //import { Display } from './components/element';
 //import { usePreload } from './hooks/use-preload.hook';

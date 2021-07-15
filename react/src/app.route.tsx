@@ -48,7 +48,7 @@ export const AppRoute: React.FC = (): JSX.Element => {
       element: <RouteGuard path='/' element={<SaleRoute />} />
     },
     {
-      path: '/var*',
+      path: '/dr*',
       element: <RouteGuard path='/' element={<SaleRoute />} />
     },
     {

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import { AppState } from '../../../store/reducers';
-import { useAction, useFetch, useMediaQuery } from '../../../hooks';
+import { useAction, useFetch } from '../../../hooks';
 import { Form, FormType } from '../../../components/form';
 import { mapNav, normalizeData } from '../../../helpers';
 import { splitObjectKeyId } from '../../../utils';
@@ -29,10 +29,6 @@ const Login: React.FC = (): JSX.Element => {
   const { updateSession, updateNav } = useAction();
   const { fetching, result, isMounted, fetchData } = useFetch<IResultData>('api/auth/login');
   const navigate = useNavigate();
-  const isPageWide = useMediaQuery('(min-width: 800px)');
-
-
-  console.log(isPageWide);
 
   // initial load form
   useEffect(() => {

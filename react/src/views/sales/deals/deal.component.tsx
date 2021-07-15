@@ -1,7 +1,9 @@
 import React from 'react';
 
-const DealComponent = (): JSX.Element => {
+
+const Deal: React.FC<any> = ({ program }): JSX.Element => {
   return <div>DEALS</div>;
+
 };
 
-export default DealComponent;
+export default Deal;

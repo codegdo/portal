@@ -11,7 +11,7 @@ export const NavSub: React.FC<{ name: string }> = ({ name }): JSX.Element => {
 
   if (['coop', 'mdf'].includes(match)) {
     match = 'marketing';
-  } else if (['var', 'spa'].includes(match)) {
+  } else if (['dr', 'spa'].includes(match)) {
     match = 'sales';
   } else if (['rebate', 'spiff'].includes(match)) {
     match = 'rewards';

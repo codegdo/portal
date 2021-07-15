@@ -13,7 +13,11 @@ export const mainInternal = `
     <NavSub {...props} />
   </aside>
   <main class="internal-main">
-    <div class="container"><Content {...props} /></div>  
+    <div class="container">
+      <div id="placeholder">
+        <Content {...props} />
+      </div>
+    </div>  
   </main>
 </div>
 `;
