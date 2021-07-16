@@ -1,0 +1,2 @@
+Error: listen EACCES: permission denied 0.0.0.0:5000
+--- Open PowerShell > net stop winnat > net start winnat

@@ -25,7 +25,7 @@ interface IResultData {
 
 const Login: React.FC = (): JSX.Element => {
   const { loggedIn, orgId } = useSelector((state: AppState) => state.session);
-  const [form, setForm] = useState<FormType>();
+  const [form, setForm] = useState<FormType | null>(null);
   const { updateSession, updateNav } = useAction();
   const { fetching, result, isMounted, fetchData } = useFetch<IResultData>('api/auth/login');
   const navigate = useNavigate();
@@ -72,7 +72,7 @@ const Login: React.FC = (): JSX.Element => {
 
   return loggedIn ? (orgId ? <Navigate to="/" /> : <Navigate to="setup" />) :
     (
-      form == undefined ? <div>loading</div> :
+      form === null ? <div>loading</div> :
         <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>
           <Form.Message />
           <Form.Header />

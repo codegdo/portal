@@ -2,36 +2,23 @@ import React, { lazy } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { Template } from '../../components/template/template.component';
 
-//import Internal from './user/internal.component';
-//import External from './user/internal.component';
-
-const admin = lazy(() => import('./admin.component'));
-const user = lazy(() => import('./user/user.component'));
-const notfound = lazy(() => import('../notfound.component'));
+const Admin = Template(lazy(() => import('./admin.component')));
+const User = Template(lazy(() => import('./user/user.component')));
+const NotFound = Template(lazy(() => import('../notfound.component')));
 
 export const AdminRoute: React.FC = (): JSX.Element => {
   const routes = useRoutes([
     {
       path: '/',
-      element: <Template name="admin" component={admin} />
+      element: <Admin name="admin" />
     },
     {
       path: 'users',
-      element: <Template name="users" component={user} />,
-      /* children: [
-        {
-          path: 'internal',
-          element: <Internal />
-        },
-        {
-          path: 'external',
-          element: <External />
-        }
-      ] */
+      element: <User name="users" />,
     },
     {
       path: '*',
-      element: <Template name="not-found" component={notfound} />
+      element: <NotFound name="not-found" />
     },
   ]);
 

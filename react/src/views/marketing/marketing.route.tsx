@@ -2,23 +2,23 @@ import React, { lazy } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { Template } from '../../components/template/template.component';
 
-const marketing = lazy(() => import('./marketing.component'));
-const program = lazy(() => import('./marketing.program'));
-const notfound = lazy(() => import('../notfound.component'));
+const Marketing = Template(lazy(() => import('./marketing.component')));
+const Program = Template(lazy(() => import('./marketing.program')));
+const NotFound = Template(lazy(() => import('../notfound.component')));
 
 export const MarketingRoute: React.FC = (): JSX.Element => {
   const routes = useRoutes([
     {
       path: '/',
-      element: <Template name="marketing" component={marketing} />
+      element: <Marketing name="marketing" />
     },
     {
       path: ':programId*',
-      element: <Template name="program" component={program} />
+      element: <Program name="program" />
     },
     {
       path: '*',
-      element: <Template name="not-found" component={notfound} />
+      element: <NotFound name="not-found" />
     },
   ]);
 

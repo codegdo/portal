@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
 import { createBrowserHistory } from 'history';
-//import { useNavigate } from 'react-router-dom';
 import { apiUrl, jwtToken } from '../app.config';
 
 import { http, RequestOption } from '../services';
@@ -11,7 +10,7 @@ export type FetchConfig = {
   detail?: { [key: string]: any };
 };
 
-type FetchState<T> = {
+export type FetchState<T> = {
   fetching: 'idle' | 'loading' | 'error' | 'success';
   result?: T;
 };

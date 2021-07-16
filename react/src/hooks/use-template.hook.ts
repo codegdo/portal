@@ -9,6 +9,8 @@ export const useTemplate = (name: string): { template: string, fallback: string 
   const fallback = document.getElementById('root')?.innerHTML.trim() || '';
   let template = `<Content {...props} />`;
 
+  console.log('PAGE', name);
+
   if (loggedIn && orgId) {
     if (user?.roletype === 'internal') {
       template = internal[name] || internal['main'] || mainInternal;

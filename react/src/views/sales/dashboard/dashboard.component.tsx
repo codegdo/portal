@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Dashboard: React.FC<any> = (props): JSX.Element => {
+const Dashboard: React.FC<{ name: string }> = (props): JSX.Element => {
 
   console.log(props);
 
