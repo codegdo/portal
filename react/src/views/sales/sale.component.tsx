@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { Route, Routes, useLocation, Link, NavLink, Navigate, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, Link, Outlet, useParams, NavLink, Navigate, useNavigate } from 'react-router-dom';
 
 import Dashboard from './dashboard/dashboard.component';
 import Deal from './deals/deal.component';
 import DealForm from './deals/deal.form';
 import NotFound from '../notfound.component';
-import { useParams } from 'react-router';
-
 
 const programs = [
   {
@@ -65,8 +63,10 @@ const Sale: React.FC<{ name: string }> = (props): JSX.Element => {
         props.name == 'program' && <Routes>
           <Route path="/" element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard {...props} />} />
-          <Route path="deals*" element={<Deal {...props} />} >
-            <Route path=":id" element={<DealForm {...props} />} />
+          <Route path="deals*" element={<Outlet />}>
+            <Route path="/" element={<Deal />} />
+            <Route path=":id" element={<DealForm />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
