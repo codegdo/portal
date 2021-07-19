@@ -1,5 +1,5 @@
-import React, { lazy, useEffect, useState } from 'react';
-import { Navigate, Outlet, Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import React, { lazy } from 'react';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import { Partial } from '../../components/partial/partial.component';
 
@@ -8,24 +8,22 @@ const Deals = Partial(lazy(() => import('./deals/deal.component')));
 const Deal = Partial(lazy(() => import('./deals/deal.detail')));
 const NotFound = Partial(lazy(() => import('../notfound.component')));
 
-const SaleProgram: React.FC<any> = ({ programs }): JSX.Element => {
-  const { programId } = useParams();
-  const navigate = useNavigate();
-  const [found, setFound] = useState(true);
-
-  // check valid programs
-  useEffect(() => {
-
-    if (programId !== undefined) {
-      if (programs.filter(p => p.id === programId).length === 0) {
-        navigate('not-found');
-        setFound(false);
+const SaleProgram: React.FC<any> = (): JSX.Element => {
+  /*   const { programId } = useParams();
+    const navigate = useNavigate();
+    const [found, setFound] = useState(true);
+  
+    // check valid programs
+    useEffect(() => {
+      if (programId) {
+        if (programs?.filter(p => p.id === programId).length === 0) {
+          navigate('not-found');
+          setFound(false);
+        }
       }
-    }
+    }, [programId]); */
 
-  }, [programId]);
-
-  return found ? <Routes>
+  return <Routes>
     <Route path="/" element={<Navigate to="dashboard" />} />
     <Route path="dashboard" element={<Dashboard name="dashboard" />} />
     <Route path="deals*" element={<Outlet />}>
@@ -33,7 +31,7 @@ const SaleProgram: React.FC<any> = ({ programs }): JSX.Element => {
       <Route path=":formId" element={<Deal name="deal" />} />
     </Route>
     <Route path="*" element={<NotFound name="not-found" />} />
-  </Routes> : <NotFound name="not-found" />;
+  </Routes>;
 };
 
 export default SaleProgram;

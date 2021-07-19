@@ -7,7 +7,7 @@ const SaleList: React.FC<any> = ({ programs, name: pagename }): JSX.Element => {
 
   return <ul>
     {
-      programs.map((program) => {
+      programs?.map((program) => {
         const { id, name, programtype } = program;
 
         if (programtype?.toLowerCase() === pathname?.substring(1) || pagename === pathname?.substring(1)) {

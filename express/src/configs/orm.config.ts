@@ -14,10 +14,20 @@ const portal: ConnectionOptions = {
   ...options,
   database: 'portal',
   name: 'default',
-  entities: [__dirname + '/../**/**.entity{.ts,.js}'],
+  entities: [__dirname + 'portal/../**/**.entity{.ts,.js}'],
   cli: {
     migrationsDir: 'src/database/migrations',
   },
 };
 
-export const connectionOptions = [portal];
+const sales: ConnectionOptions = {
+  ...options,
+  database: 'sales',
+  name: 'sales',
+  entities: [__dirname + 'sales/../**/**.entity{.ts,.js}'],
+  cli: {
+    migrationsDir: 'src/database/migrations',
+  },
+};
+
+export const connectionOptions = [portal, sales];

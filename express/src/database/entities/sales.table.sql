@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS org.program (
+  id SERIAL NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  description VARCHAR(225),
+  owner_id INT,
+  org_id INT,
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP(6),
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP(6),
+  --
+  PRIMARY KEY(id)
+);
