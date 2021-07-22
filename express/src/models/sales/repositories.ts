@@ -7,6 +7,7 @@ import { RegistrationRepository } from './registration/registration.repository';
 @Service()
 export class SalesRepository {
   get connection(): Connection {
+    console.log('SALES CONNECTION', getConnection('sales'));
     return getConnection('sales');
   }
 

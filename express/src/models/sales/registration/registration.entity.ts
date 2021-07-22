@@ -1,4 +1,13 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Program } from '../entities';
 
 @Entity({ database: 'sales', schema: 'org', name: 'registration' })

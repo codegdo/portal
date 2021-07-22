@@ -5,10 +5,8 @@ import { CreateRegistrationDto } from './registration.dto';
 import { Program } from '../program/program.entity';
 import { Registration } from './registration.entity';
 
-
 @EntityRepository(Registration)
 export class RegistrationRepository extends Repository<Registration> {
-
   async getAllRegistrations(orgId: number | null): Promise<Registration[]> {
     const query = this.createQueryBuilder('registration');
 
@@ -37,7 +35,9 @@ export class RegistrationRepository extends Repository<Registration> {
     }
   }
 
-  async createRegistration(createRegistrationDto: CreateRegistrationDto): Promise<Registration> {
+  async createRegistration(
+    createRegistrationDto: CreateRegistrationDto
+  ): Promise<Registration> {
     const { regNumber, formId, ownerId, orgId } = createRegistrationDto;
     const program = new Program();
     const registration = new Registration();
@@ -53,8 +53,10 @@ export class RegistrationRepository extends Repository<Registration> {
     console.log('REGISTRATION', registration);
 
     try {
-      return registration.save();
+      // return registration.save(); ERROR: relation "org.registration" does not exist
+      return this.save(registration);
     } catch (e) {
+      console.log(e);
       throw new InternalServerError('Internal server error');
     }
   }
