@@ -11,15 +11,15 @@ export const appConnection = async (): Promise<{ connections: Connection[] | nul
       connections = await createConnections(connectionOptions);
 
       return { connections, errorCode };
-    } catch (err) {
+    } catch (e) {
 
-      console.log('ERROR', err);
+      console.log('ERROR', e);
       retries -= 1;
       console.log(`retries left: ${retries}`);
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
-      errorCode = err.code;
+      errorCode = e.code;
     }
   }
 

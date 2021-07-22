@@ -14,9 +14,9 @@ import {
   LoginUserDto,
   ResendUserTokenDto,
   SignupUserDto,
-} from '../../models/portal/dtos';
-import { JwtService } from '../../services';
-import { LoginOutput } from '../../types';
+} from '../../../models/portal/dtos';
+import { JwtService } from '../../../services';
+import { LoginOutput } from '../../../types';
 import { AuthService } from './auth.service';
 
 @JsonController('/auth')
@@ -55,13 +55,13 @@ export class AuthController {
     @Session() session: any,
     @Body() loginInput: LoginUserDto
   ): Promise<LoginOutput> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
     const { user, nav } = await this.authService.loginUser(loginInput);
 
-    const { username, email, orgId, role } = user;
+    const { id, username, email, orgId, role } = user;
     const token = this.jwt.sign({ username });
     const payload = {
-      user: { username, email, roletype: role.roletype.name, isOwner: role.isOwner },
+      user: { userId: id, username, email, roletype: role.roletype.name, isOwner: role.isOwner },
       orgId,
       token,
       nav,

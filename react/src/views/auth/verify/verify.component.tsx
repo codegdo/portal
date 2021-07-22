@@ -6,8 +6,8 @@ import VerifySuccess from './verify.success';
 
 const Verify: React.FC = (): JSX.Element => {
 
-  const { params: { token } } = useParams();
-  const { fetching, result, fetchData } = useFetch(`/api/auth/verify/${token}`);
+  const { tokenId } = useParams();
+  const { fetching, result, fetchData } = useFetch(`/api/auth/verify/${tokenId}`);
 
   useEffect(() => {
     void fetchData();

@@ -123,7 +123,7 @@ VALUES
 ('401', 'Guides', 'view', null, '1', '1', '1', '1'),
 --Sales
 ('1100', 'Dashboard', 'view', null, '0', '1', '1', '1'),
-('1101', 'Deals', 'view', null, '1', '1', '1', '1'),
+('1101', 'Registrations', 'view', null, '1', '1', '1', '1'),
 --Marketing
 ('1200', 'Dashboard', 'view', null, '0', '1', '1', '1'),
 ('1201', 'Requests', 'view', null, '1', '1', '1', '1'),

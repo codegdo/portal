@@ -225,7 +225,7 @@ CREATE TABLE IF NOT EXISTS sec.organization (
   phone VARCHAR(15),
   fax VARCHAR(15),
   website VARCHAR(45),
-  hostname VARCHAR(45) NOT NULL,
+  subdomain VARCHAR(45) NOT NULL,
   is_active BOOLEAN DEFAULT TRUE,
   territory_id INT,
   owner_id INT,
@@ -235,7 +235,7 @@ CREATE TABLE IF NOT EXISTS sec.organization (
   updated_by VARCHAR(45) DEFAULT CURRENT_USER,
   --
   PRIMARY KEY(id),
-  UNIQUE(hostname, owner_id),
+  UNIQUE(subdomain, owner_id),
   FOREIGN KEY(owner_id) REFERENCES sec.user(id)
 );
 

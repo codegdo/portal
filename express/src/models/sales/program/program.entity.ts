@@ -12,7 +12,7 @@ export class Program extends BaseEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
-  @Column({ name: 'name', nullable: true })
+  @Column({ name: 'name', nullable: false })
   name!: string;
 
   @Column({ name: 'description', nullable: true })
@@ -30,17 +30,16 @@ export class Program extends BaseEntity {
   @Column({ name: 'org_id', nullable: true })
   orgId!: number;
 
-  @CreateDateColumn({
-    name: 'start_date',
-    type: 'timestamp',
+  @Column({
+    name: 'created_by',
   })
-  startDate!: Date;
+  createdBy!: 'CURRENT_USER';
 
-  @CreateDateColumn({
-    name: 'end_date',
-    type: 'timestamp',
+  @Column({
+    name: 'updated_by',
+    onUpdate: 'CURRENT_USER',
   })
-  endDate!: Date;
+  updatedBy!: 'CURRENT_USER';
 
   @CreateDateColumn({
     name: 'created_at',

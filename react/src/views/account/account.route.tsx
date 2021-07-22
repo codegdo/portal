@@ -2,7 +2,7 @@ import React, { lazy } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { Template } from '../../components/template/template.component';
 
-const Account = Template(lazy(() => import('./account.component')));
+const Account = Template(lazy(() => import('./account.index')));
 const Profile = Template(lazy(() => import('./profile/profile.component')));
 const Subscription = Template(lazy(() => import('./subscription/subscription.component')));
 const Notfound = Template(lazy(() => import('../notfound.component')));

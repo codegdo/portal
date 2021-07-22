@@ -1,35 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { useFetch } from '../../hooks';
 import { AppState } from '../../store/reducers';
-import List from './sale.list';
-import Program from './sale.program';
-
-const data = [
-  {
-    id: "1",
-    name: "Deal Registration",
-    description: null,
-    programtype: "DR"
-  },
-  {
-    id: "2",
-    name: "Special Pricing",
-    description: null,
-    programtype: "SPA"
-  }
-]
 
 const Sale: React.FC<{ name: string }> = (props): JSX.Element => {
 
   const orgId = useSelector((state: AppState) => state.session.orgId);
 
+  const { pathname } = useLocation();
+
   const { fetching, result, fetchData } = useFetch<any>(
-    `/api/sales?orgId=${orgId}`
+    `/api/sales/programs?orgId=${orgId}`
   );
   const [programs, setPrograms] = useState(null);
-
-  const { name } = props;
 
   // fetch data
   useEffect(() => {
@@ -47,14 +31,19 @@ const Sale: React.FC<{ name: string }> = (props): JSX.Element => {
   }, [fetching]);
 
   return result ? (
-    <div>
+    <ul>
       {
-        name === 'sales' && <List {...props} programs={programs} />
+        programs?.map((program) => {
+          const { id, name, programtype } = program;
+
+          if (programtype?.toLowerCase() === pathname?.substring(1) || props.name === pathname?.substring(1)) {
+            return <li key={id}><Link to={`${id}`}>{name}</Link></li>
+          }
+
+          return null;
+        })
       }
-      {
-        name === 'program' && <Program {...props} />
-      }
-    </div>
+    </ul>
   ) : <div>loading...</div>;
 };
 

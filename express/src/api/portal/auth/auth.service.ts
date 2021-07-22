@@ -1,17 +1,17 @@
 import { InternalServerError } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
-import { ExceptionHttp } from '../../app.exception';
+import { ExceptionHttp } from '../../../app.exception';
 import { format } from 'date-fns';
 import {
   LoginUserDto,
   ResendUserTokenDto,
   SignupUserDto,
   TokenDto,
-} from '../../models/portal/dtos';
-import { Organization, Role, Token, User } from '../../models/portal/entities';
-import { PortalRepository } from '../../models/portal/repositories';
-import { MailService } from '../../services';
-import { httpHost, dateStyle } from '../../configs';
+} from '../../../models/portal/dtos';
+import { Organization, Role, Token, User } from '../../../models/portal/entities';
+import { PortalRepository } from '../../../models/portal/repositories';
+import { MailService } from '../../../services';
+import { httpHost, dateStyle } from '../../../configs';
 
 @Service()
 export class AuthService {
@@ -114,7 +114,7 @@ export class AuthService {
   };
 
   setupUser = async (setupUserDto: any): Promise<any> => {
-    const { name, hostname, modules, user } = setupUserDto;
+    const { name, subdomain, modules, user } = setupUserDto;
 
     // session user
     if (!user) {
@@ -133,7 +133,7 @@ export class AuthService {
     // create org
     const org = new Organization();
     org.name = name;
-    org.hostname = hostname;
+    org.subdomain = subdomain;
     org.owner = owner;
 
     // assign role to owner

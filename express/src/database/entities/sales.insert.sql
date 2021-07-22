@@ -1,5 +1,5 @@
 INSERT
-INTO org.program(name, description, org_id, owner_id, is_active)
+INTO org.program(name, description, owner_id, form_id, org_id, is_active)
 VALUES
-('Deal Registration', null, null, null, '1'),
-('Special Pricing', null, null, null, '1');
+('Deal Registration', null, null, null, '34', '1'),
+('Special Pricing', null, null, null, '34', '1');

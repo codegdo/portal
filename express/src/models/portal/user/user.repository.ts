@@ -36,8 +36,7 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  async loginUser(loginUserDto: LoginUserDto): Promise<User | null | undefined> {
-    const { username, password } = loginUserDto;
+  async loginUser({ username, password }: LoginUserDto): Promise<User | null | undefined> {
     const query = this.createQueryBuilder('user');
 
     try {

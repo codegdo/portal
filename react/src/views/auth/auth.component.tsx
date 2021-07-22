@@ -22,7 +22,7 @@ const Auth: React.FC = (): JSX.Element => {
     <Route path="register*" element={<Register name="register" />} />
     <Route path="recovery" element={<Recovery name="recovery" />} />
     <Route path="resend" element={<Resend name="resend" />} />
-    <Route path="verify" element={<Verify name="verify" />} />
+    <Route path="verify/:tokenId" element={<Verify name="verify" />} />
     <Route path="setup" element={<Setup name="setup" />} />
     <Route path="*" element={<NotFound name="not-found" />} />
   </Routes>;

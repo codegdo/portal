@@ -10,7 +10,7 @@ import {
 import { User } from '../user/user.entity';
 
 @Entity({ database: 'portal', schema: 'sec', name: 'organization' })
-@Unique(['hostname'])
+@Unique(['subdomain'])
 export class Organization extends BaseEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
@@ -39,8 +39,8 @@ export class Organization extends BaseEntity {
   @Column({ name: 'fax', nullable: true })
   fax!: number;
 
-  @Column({ name: 'hostname', nullable: false })
-  hostname!: string;
+  @Column({ name: 'subdomain', nullable: false })
+  subdomain!: string;
 
   @Column({ name: 'is_active', default: true })
   isActive!: boolean;

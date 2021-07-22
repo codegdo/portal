@@ -70,7 +70,7 @@ const Login: React.FC = (): JSX.Element => {
     }
   }
 
-  return loggedIn ? (orgId ? <Navigate to="/" /> : <Navigate to="setup" />) :
+  return loggedIn ? (orgId ? <Navigate to="/" /> : <Navigate to="/setup" />) :
     (
       form === null ? <div>loading</div> :
         <Form data={form} response={{ fetching, result }} onSubmit={handleSubmit}>

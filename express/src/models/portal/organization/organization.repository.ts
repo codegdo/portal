@@ -5,11 +5,11 @@ import { Organization } from './organization.entity';
 @EntityRepository(Organization)
 export class OrganizationRepository extends Repository<Organization> {
   async createOrg(createOrgDto: CreateOrgDto): Promise<Organization> {
-    const { name, hostname, owner } = createOrgDto;
+    const { name, subdomain, owner } = createOrgDto;
     const org = new Organization();
     org.owner = owner;
     org.name = name;
-    org.hostname = hostname;
+    org.subdomain = subdomain;
     await org.save();
     return org;
   }

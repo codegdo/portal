@@ -6,7 +6,7 @@ export class CreateOrgDto {
   name!: string;
 
   @IsNotEmpty()
-  hostname!: string;
+  subdomain!: string;
 
   @IsNotEmpty()
   owner!: User;
