@@ -18,6 +18,9 @@ export class Program extends BaseEntity {
   @Column({ name: 'description', nullable: true })
   description!: string;
 
+  @Column({ name: 'reg_prefix', nullable: true })
+  regPrefix!: string;
+
   @Column({ name: 'is_active', default: true })
   isActive!: boolean;
 

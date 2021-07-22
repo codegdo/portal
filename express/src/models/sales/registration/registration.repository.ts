@@ -1,18 +1,18 @@
 import { InternalServerError } from 'routing-controllers';
 import { EntityRepository, Repository } from 'typeorm';
 
-import { CreateRegistrationDto } from './registration.dto';
+import { CreateRegDto } from './registration.dto';
 import { Program } from '../program/program.entity';
 import { Registration } from './registration.entity';
 
 @EntityRepository(Registration)
 export class RegistrationRepository extends Repository<Registration> {
-  async getAllRegistrations(orgId: number | null): Promise<Registration[]> {
+  async getAllRegistrations(programId: number): Promise<Registration[]> {
     const query = this.createQueryBuilder('registration');
 
     try {
       const registrations = await query
-        .where('registration.orgId = :orgId', { orgId })
+        .where('registration.program = :programId', { programId })
         .getMany();
 
       return registrations;
@@ -36,25 +36,28 @@ export class RegistrationRepository extends Repository<Registration> {
   }
 
   async createRegistration(
-    createRegistrationDto: CreateRegistrationDto
+    createRegDto: CreateRegDto
   ): Promise<Registration> {
-    const { regNumber, formId, ownerId, orgId } = createRegistrationDto;
+    const { programId, regNumber, formId, ownerId, orgId, createdBy, updatedBy } = createRegDto;
     const program = new Program();
     const registration = new Registration();
 
-    program.id = 1;
+    program.id = programId;
 
     registration.regNumber = regNumber;
     registration.program = program;
     registration.formId = formId;
     registration.ownerId = ownerId;
     registration.orgId = orgId;
+    registration.createdBy = createdBy;
+    registration.updatedBy = updatedBy;
 
     console.log('REGISTRATION', registration);
 
     try {
       // return registration.save(); ERROR: relation "org.registration" does not exist
-      return this.save(registration);
+      const result = await this.save(registration);
+      return this.save({ id: result.id, regNumber: `${result.regNumber}${result.id}` });
     } catch (e) {
       console.log(e);
       throw new InternalServerError('Internal server error');

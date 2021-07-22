@@ -5,10 +5,10 @@ import JsxParser from 'react-jsx-parser';
 import * as Nav from '../nav';
 import { useTemplate } from '../../hooks';
 
-export const Template = (Content: React.FC<{ name: string }>) => (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; } & { name: string }): JSX.Element => {
+export const Template = (Content: React.FC<{ page: string }>) => (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; } & { page: string }): JSX.Element => {
 
-  const { name } = props;
-  const { template, fallback } = useTemplate(name);
+  const { page } = props;
+  const { template, fallback } = useTemplate(page);
   const components: Record<string, any> = { Content, Link, ...Nav };
 
   const jsxTemplate = useMemo(() => {
@@ -18,18 +18,18 @@ export const Template = (Content: React.FC<{ name: string }>) => (props: JSX.Int
       bindings={{ props }}
       components={{ ...components }}
       jsx={template} />
-  }, [name]);
+  }, [page]);
 
   const jsxFallback = useMemo(() => {
     return <JsxParser
       allowUnknownElements={false}
       renderInWrapper={false}
       jsx={fallback} />
-  }, [name]);
+  }, [page]);
 
   useLayoutEffect(() => {
-    document.body.setAttribute('data-page', name);
-  }, [name]);
+    document.body.setAttribute('data-page', page);
+  }, [page]);
 
   return <Suspense fallback={jsxFallback}>{jsxTemplate}</Suspense>;
 };

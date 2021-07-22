@@ -63,7 +63,7 @@ export const AppRoute: React.FC = (): JSX.Element => {
     },
     {
       path: '*',
-      element: <NotFound name="not-found" />
+      element: <NotFound page="not-found" />
     },
   ]);
 

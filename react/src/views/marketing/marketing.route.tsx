@@ -10,15 +10,15 @@ export const MarketingRoute: React.FC = (): JSX.Element => {
   const routes = useRoutes([
     {
       path: '/',
-      element: <Marketing name="marketing" />
+      element: <Marketing page="marketing" />
     },
     {
       path: ':programId*',
-      element: <Program name="program" />
+      element: <Program page="program" />
     },
     {
       path: '*',
-      element: <NotFound name="not-found" />
+      element: <NotFound page="not-found" />
     },
   ]);
 

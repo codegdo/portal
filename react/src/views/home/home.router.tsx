@@ -9,11 +9,11 @@ export const HomeRoute: React.FC = (): JSX.Element => {
   const routes = useRoutes([
     {
       path: '/',
-      element: <Home name="home" />
+      element: <Home page="home" />
     },
     {
       path: '*',
-      element: <NotFound name="not-found" />
+      element: <NotFound page="not-found" />
     },
   ]);
 

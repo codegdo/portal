@@ -1,10 +1,10 @@
 import React, { Suspense, useLayoutEffect } from "react";
 
-export const Partial = (Component: React.FC<{ name: string }>) => (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; } & { name: string }): JSX.Element => {
+export const Partial = (Component: React.FC<{ page: string }>) => (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; } & { page: string }): JSX.Element => {
 
   useLayoutEffect(() => {
-    document.body.setAttribute('data-page', props.name);
-  }, [props.name]);
+    document.body.setAttribute('data-page', props.page);
+  }, [props.page]);
 
   return (<Suspense fallback={<div>loading...</div>}>
     <Component {...props} />

@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useFetch } from '../../hooks';
 import { AppState } from '../../store/reducers';
 
-const Sale: React.FC<{ name: string }> = (props): JSX.Element => {
+const Sale: React.FC<{ page: string }> = (props): JSX.Element => {
 
   const orgId = useSelector((state: AppState) => state.session.orgId);
 
@@ -13,6 +13,7 @@ const Sale: React.FC<{ name: string }> = (props): JSX.Element => {
   const { fetching, result, fetchData } = useFetch<any>(
     `/api/sales/programs?orgId=${orgId}`
   );
+
   const [programs, setPrograms] = useState(null);
 
   // fetch data
@@ -24,19 +25,16 @@ const Sale: React.FC<{ name: string }> = (props): JSX.Element => {
   useEffect(() => {
     if (fetching == 'success' && result) {
       setPrograms(result.data);
-      console.log('RESULT', result);
-    } else if (fetching == 'error') {
-      console.log('error');
     }
   }, [fetching]);
 
-  return result ? (
+  return programs ? (
     <ul>
       {
         programs?.map((program) => {
           const { id, name, programtype } = program;
 
-          if (programtype?.toLowerCase() === pathname?.substring(1) || props.name === pathname?.substring(1)) {
+          if (programtype?.toLowerCase() === pathname?.substring(1) || props.page === pathname?.substring(1)) {
             return <li key={id}><Link to={`${id}`}>{name}</Link></li>
           }
 

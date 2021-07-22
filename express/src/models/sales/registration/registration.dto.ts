@@ -1,11 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateRegistrationInput {
-  @IsNotEmpty()
-  programId!: number;
-}
-
-export class CreateRegistrationDto {
+export class CreateRegDto {
   @IsNotEmpty()
   regNumber!: string;
 
@@ -20,4 +15,10 @@ export class CreateRegistrationDto {
 
   @IsNotEmpty()
   orgId!: number;
+
+  @IsNotEmpty()
+  createdBy!: string;
+
+  @IsNotEmpty()
+  updatedBy!: string;
 }

@@ -16,15 +16,15 @@ const NotFound = Partial(lazy(() => import('../notfound.component')));
 const Auth: React.FC = (): JSX.Element => {
   return <Routes>
     <Route path="/" element={<Navigate to="login" />} />
-    <Route path="login" element={<Login name="login" />} />
-    <Route path="logout" element={<Logout name="logout" />} />
-    <Route path="signup" element={<Signup name="signup" />} />
-    <Route path="register*" element={<Register name="register" />} />
-    <Route path="recovery" element={<Recovery name="recovery" />} />
-    <Route path="resend" element={<Resend name="resend" />} />
-    <Route path="verify/:tokenId" element={<Verify name="verify" />} />
-    <Route path="setup" element={<Setup name="setup" />} />
-    <Route path="*" element={<NotFound name="not-found" />} />
+    <Route path="login" element={<Login page="login" />} />
+    <Route path="logout" element={<Logout page="logout" />} />
+    <Route path="signup" element={<Signup page="signup" />} />
+    <Route path="register*" element={<Register page="register" />} />
+    <Route path="recovery" element={<Recovery page="recovery" />} />
+    <Route path="resend" element={<Resend page="resend" />} />
+    <Route path="verify/:tokenId" element={<Verify page="verify" />} />
+    <Route path="setup" element={<Setup page="setup" />} />
+    <Route path="*" element={<NotFound page="not-found" />} />
   </Routes>;
 };
 

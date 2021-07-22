@@ -9,11 +9,11 @@ export const AuthRoute: React.FC = (): JSX.Element => {
   const routes = useRoutes([
     {
       path: '/*',
-      element: <Auth name="auth" />
+      element: <Auth page="auth" />
     },
     {
       path: '*',
-      element: <NotFound name="not-found" />
+      element: <NotFound page="not-found" />
     },
   ]);
 

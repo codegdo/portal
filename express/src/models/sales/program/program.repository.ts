@@ -46,7 +46,7 @@ export class ProgramRepository extends Repository<Program> {
     program.orgId = orgId;
 
     try {
-      return program.save();
+      return this.save(program);
     } catch (e) {
       throw new InternalServerError('Internal server error');
     }

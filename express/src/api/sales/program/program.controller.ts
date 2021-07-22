@@ -1,4 +1,4 @@
-import { Get, JsonController, QueryParam } from 'routing-controllers';
+import { Get, JsonController, Param, QueryParam } from 'routing-controllers';
 import { Inject } from 'typedi';
 import { Program } from '../../../models/sales/entities';
 import { ProgramService } from './program.service';
@@ -15,6 +15,14 @@ export class ProgramController {
     const programs = await this.programService.getAllPrograms(orgId);
 
     return programs;
+  }
+
+  @Get('/programs/:programId')
+  async getProgramById(@Param('programId') programId: number): Promise<Program | undefined> {
+
+    const program = await this.programService.getProgramById(programId);
+
+    return program;
   }
 
   //@Post('/programs')

@@ -1,3 +1,4 @@
+import { NotFoundError } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
 import { Program } from '../../../models/sales/entities';
 import { SalesRepository } from '../../../models/sales/repositories';
@@ -14,6 +15,17 @@ export class ProgramService {
     }
 
     return [];
+  }
+
+  async getProgramById(programId: number): Promise<Program> {
+
+    const program = await this.sales.programRepository.getProgramById(programId);
+
+    if (!program) {
+      throw new NotFoundError('Not Found');
+    }
+
+    return program;
   }
 
   //async createProgram(): Promise<void> { }

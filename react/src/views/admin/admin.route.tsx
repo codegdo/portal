@@ -10,15 +10,15 @@ export const AdminRoute: React.FC = (): JSX.Element => {
   const routes = useRoutes([
     {
       path: '/',
-      element: <Admin name="admin" />
+      element: <Admin page="admin" />
     },
     {
       path: 'users',
-      element: <User name="users" />,
+      element: <User page="users" />,
     },
     {
       path: '*',
-      element: <NotFound name="not-found" />
+      element: <NotFound page="not-found" />
     },
   ]);
 

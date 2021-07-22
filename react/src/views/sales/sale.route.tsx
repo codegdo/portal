@@ -10,15 +10,15 @@ export const SaleRoute: React.FC = (): JSX.Element => {
   const routes = useRoutes([
     {
       path: '/',
-      element: <Sale name="sales" />
+      element: <Sale page="sales" />
     },
     {
       path: ':programId*',
-      element: <Program name="program" />
+      element: <Program page="program" />
     },
     {
       path: '*',
-      element: <NotFound name="not-found" />
+      element: <NotFound page="not-found" />
     },
   ]);
 

@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS org.program (
   id SERIAL NOT NULL,
   name VARCHAR(45) NOT NULL,
   description VARCHAR(225),
+  reg_prefix VARCHAR(4) DEFAULT 'REG',
 
   form_id INT,
   owner_id INT,

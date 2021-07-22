@@ -15,7 +15,7 @@ export class Registration extends BaseEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
-  @Column({ name: 'reg_number', nullable: true })
+  @Column({ name: 'reg_number', default: 'REG', nullable: false })
   regNumber!: string;
 
   @Column({ name: 'json', nullable: true })
@@ -37,16 +37,11 @@ export class Registration extends BaseEntity {
   @Column({ name: 'org_id', nullable: true })
   orgId!: number;
 
-  @Column({
-    name: 'created_by',
-  })
-  createdBy!: 'CURRENT_USER';
+  @Column({ name: 'created_by', default: 'CURRENT_USER' })
+  createdBy!: string;
 
-  @Column({
-    name: 'updated_by',
-    onUpdate: 'CURRENT_USER',
-  })
-  updatedBy!: 'CURRENT_USER';
+  @Column({ name: 'updated_by', default: 'CURRENT_USER' })
+  updatedBy!: string;
 
   @CreateDateColumn({
     name: 'created_at',

@@ -11,19 +11,19 @@ export const AccountRoute: React.FC = (): JSX.Element => {
   const routes = useRoutes([
     {
       path: '/',
-      element: <Account name="account" />
+      element: <Account page="account" />
     },
     {
       path: 'profile',
-      element: <Profile name="profile" />
+      element: <Profile page="profile" />
     },
     {
       path: 'subscription',
-      element: <Subscription name="subscription" />
+      element: <Subscription page="subscription" />
     },
     {
       path: '*',
-      element: <Notfound name="not-found" />
+      element: <Notfound page="not-found" />
     },
   ]);
 

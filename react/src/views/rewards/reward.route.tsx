@@ -10,15 +10,15 @@ export const RewardRoute: React.FC = (): JSX.Element => {
   const routes = useRoutes([
     {
       path: '/',
-      element: <Reward name="rewards" />
+      element: <Reward page="rewards" />
     },
     {
       path: ':programId*',
-      element: <Program name="program" />
+      element: <Program page="program" />
     },
     {
       path: '*',
-      element: <NotFound name="not-found" />
+      element: <NotFound page="not-found" />
     },
   ]);
 

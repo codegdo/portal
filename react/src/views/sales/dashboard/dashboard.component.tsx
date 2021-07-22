@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Dashboard: React.FC<{ name: string }> = (props): JSX.Element => {
+const Dashboard: React.FC<any> = (props): JSX.Element => {
 
   console.log(props);
 
-  return <div>DASHBOARD</div>;
+  return <div>Dashboard</div>;
 };
 
 export default Dashboard;
