@@ -1,16 +1,16 @@
 import React, { lazy } from 'react';
 import { Navigate, Route, Routes, } from 'react-router-dom';
 
-import { Partial } from '../../components/partial/partial.component';
+import { Partial } from '../../components/template/template.partial';
 
-const Login = Partial(lazy(() => import('./login/login.component')));
-const Logout = Partial(lazy(() => import('./logout/logout.component')));
-const Signup = Partial(lazy(() => import('./signup/signup.component')));
-const Register = Partial(lazy(() => import('./register/register.component')));
-const Recovery = Partial(lazy(() => import('./recovery/recovery.component')));
-const Resend = Partial(lazy(() => import('./resend/resend.component')));
-const Verify = Partial(lazy(() => import('./verify/verify.component')));
-const Setup = Partial(lazy(() => import('./setup/setup.component')));
+const Login = Partial(lazy(() => import('./login/login.page')));
+const Logout = Partial(lazy(() => import('./logout/logout.page')));
+const Signup = Partial(lazy(() => import('./signup/signup.page')));
+const Register = Partial(lazy(() => import('./register/register.page')));
+const Recovery = Partial(lazy(() => import('./recovery/recovery.page')));
+const Resend = Partial(lazy(() => import('./resend/resend.page')));
+const Verify = Partial(lazy(() => import('./verify/verify.page')));
+const Trial = Partial(lazy(() => import('./trial/trial.page')));
 const NotFound = Partial(lazy(() => import('../notfound.component')));
 
 const Auth: React.FC = (): JSX.Element => {
@@ -23,7 +23,7 @@ const Auth: React.FC = (): JSX.Element => {
     <Route path="recovery" element={<Recovery page="recovery" />} />
     <Route path="resend" element={<Resend page="resend" />} />
     <Route path="verify/:tokenId" element={<Verify page="verify" />} />
-    <Route path="setup" element={<Setup page="setup" />} />
+    <Route path="trial" element={<Trial page="trial" />} />
     <Route path="*" element={<NotFound page="not-found" />} />
   </Routes>;
 };

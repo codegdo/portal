@@ -3,8 +3,8 @@ import { useRoutes } from 'react-router-dom';
 import { Template } from '../../components/template/template.component';
 
 const Account = Template(lazy(() => import('./account.index')));
-const Profile = Template(lazy(() => import('./profile/profile.component')));
-const Subscription = Template(lazy(() => import('./subscription/subscription.component')));
+const Profile = Template(lazy(() => import('./profile/profile.page')));
+const Subscription = Template(lazy(() => import('./subscription/subscription.page')));
 const Notfound = Template(lazy(() => import('../notfound.component')));
 
 export const AccountRoute: React.FC = (): JSX.Element => {

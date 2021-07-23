@@ -1,4 +1,4 @@
-export const mainExternal = `
+export const defaultExternal = `
 <div>
 External App
 

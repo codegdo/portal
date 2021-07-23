@@ -2,19 +2,14 @@ import React, { lazy } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { Template } from '../../components/template/template.component';
 
-const Admin = Template(lazy(() => import('./admin.component')));
-const User = Template(lazy(() => import('./user/user.component')));
+const Admin = Template(lazy(() => import('./admin.index')));
 const NotFound = Template(lazy(() => import('../notfound.component')));
 
 export const AdminRoute: React.FC = (): JSX.Element => {
   const routes = useRoutes([
     {
-      path: '/',
+      path: '/*',
       element: <Admin page="admin" />
-    },
-    {
-      path: 'users',
-      element: <User page="users" />,
     },
     {
       path: '*',

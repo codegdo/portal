@@ -13,7 +13,7 @@ interface FetchOutput {
   username: string;
 }
 
-const Setup: React.FC = (): JSX.Element => {
+const Trial: React.FC = (): JSX.Element => {
   const { loggedIn, orgId } = useSelector((state: AppState) => state.session);
   const { updateSession, updateLayout, updateNav } = useAction();
   const { fetching, result, isMounted, fetchData } = useFetch<FetchOutput>('api/auth/setup');
@@ -22,7 +22,7 @@ const Setup: React.FC = (): JSX.Element => {
   // initial load form
   useEffect(() => {
     void (async () => {
-      const json = await import('./setup.form.json');
+      const json = await import('./trial.form.json');
       const formData = normalizeData(json.default);
       setForm(formData);
     })()
@@ -68,4 +68,4 @@ const Setup: React.FC = (): JSX.Element => {
   );
 };
 
-export default Setup;
+export default Trial;

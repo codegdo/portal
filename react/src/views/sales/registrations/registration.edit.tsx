@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router';
 import { useFetch } from '../../../hooks';
+import { RegistrationProps } from '../sale.type';
 
-const RegistrationEdit: React.FC = (): JSX.Element => {
+const RegistrationEdit: React.FC<RegistrationProps> = (props): JSX.Element => {
 
   const location = useLocation();
   const { programId } = useParams();

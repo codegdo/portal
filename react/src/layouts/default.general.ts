@@ -1,4 +1,4 @@
-export const mainGeneral = `
+export const defaultGeneral = `
 <div class="general">
   <aside class="general-aside">
     <div class="container">

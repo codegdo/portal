@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Dashboard from './dashboard/dashboard.component';
-import Claim from './claims/claim.component';
+import Dashboard from './dashboard/dashboard.page';
+import Claim from './claims/claim.page';
 
 const RewardProgram = (): JSX.Element => {
 

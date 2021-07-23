@@ -1,3 +1,3 @@
-export * from './main.external';
-export * from './main.internal';
-export * from './main.general';
+export * from './default.external';
+export * from './default.internal';
+export * from './default.general';

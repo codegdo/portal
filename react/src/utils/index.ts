@@ -4,5 +4,8 @@ export * from './map-to-parent.util';
 export * from './split-string-key-id.util';
 export * from './split-object-key-id.util';
 export * from './regex-check.util';
+export * from './string-dom-replace.util';
+export * from './string-var-replace.util';
+export * from './string-component-replace.util';
 export * from './string-template-replace.util';
 export * from './sort-array.util';

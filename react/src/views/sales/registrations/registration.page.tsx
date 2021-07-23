@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useFetch } from '../../../hooks';
+import { RegistrationProps } from '../sale.type';
 
-const Registration: React.FC<any> = (props): JSX.Element => {
+const Registration: React.FC<RegistrationProps> = (props): JSX.Element => {
   const { programId } = useParams();
 
   const { fetching, result, fetchData } = useFetch<any>(

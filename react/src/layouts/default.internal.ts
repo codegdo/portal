@@ -1,10 +1,10 @@
-export const mainInternal = `
+export const defaultInternal = `
 <div class="internal">
   <header class="internal-header">
     <div class="container"> 
       <nav class="nav -bar">
         <div class="nav-logo"><Link to="/">Internal App</Link></div>
-        <ul class="nav-link nav_main"><NavMain {...props} /></ul>
+        <ul class="nav-link nav_main"><NavMain {...props}/></ul>
         <ul class="nav-link nav_menu"><NavMenuProfile {...props} /></ul>
       </nav>
     </div> 

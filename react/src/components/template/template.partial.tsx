@@ -1,6 +1,12 @@
 import React, { Suspense, useLayoutEffect } from "react";
+import { SaleProgramData } from "../../views/sales/sale.type";
 
-export const Partial = (Component: React.FC<{ page: string }>) => (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; } & { page: string }): JSX.Element => {
+type PartialProps = {
+  page: string;
+  program?: SaleProgramData;
+}
+
+export const Partial = (Component: React.FC<PartialProps>) => (props: PartialProps): JSX.Element => {
 
   useLayoutEffect(() => {
     document.body.setAttribute('data-page', props.page);

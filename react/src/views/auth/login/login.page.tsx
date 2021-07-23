@@ -23,7 +23,7 @@ interface IResultData {
   message: string;
 }
 
-const Login: React.FC = (): JSX.Element => {
+const Login: React.FC<{ page: string }> = (): JSX.Element => {
   const { loggedIn, orgId } = useSelector((state: AppState) => state.session);
   const [form, setForm] = useState<FormType | null>(null);
   const { updateSession, updateNav } = useAction();

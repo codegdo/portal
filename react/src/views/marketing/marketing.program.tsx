@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Dashboard from './dashboard/dashboard.component';
-import Request from './requests/request.component';
-import Claim from './claims/claim.component';
-import Payment from './payments/payment.component';
+import Dashboard from './dashboard/dashboard.page';
+import Request from './requests/request.page';
+import Claim from './claims/claim.page';
+import Payment from './payments/payment.page';
 
 const MarketingProgram = (): JSX.Element => {
 

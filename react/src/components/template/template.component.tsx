@@ -1,15 +1,21 @@
-import React, { Suspense, useLayoutEffect, useMemo } from 'react';
+import React, { Suspense, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { Link, } from 'react-router-dom';
 import JsxParser from 'react-jsx-parser';
 
 import * as Nav from '../nav';
 import { useTemplate } from '../../hooks';
 
-export const Template = (Content: React.FC<{ page: string }>) => (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; } & { page: string }): JSX.Element => {
+type TemplateProps = {
+  page: string;
+}
 
+export const TemplateContext = React.createContext<any>(undefined);
+
+export const Template = (Content: React.FC<TemplateProps>) => (props: JSX.IntrinsicAttributes & { children?: React.ReactNode; } & TemplateProps): JSX.Element => {
   const { page } = props;
-  const { template, fallback } = useTemplate(page);
-  const components: Record<string, any> = { Content, Link, ...Nav };
+  const [program, setProgram] = useState('');
+  const { template, fallback } = useTemplate(program, page);
+  const components: Record<string, React.ComponentType<any> | React.ExoticComponent<any>> | undefined = { Content, Link, ...Nav };
 
   const jsxTemplate = useMemo(() => {
     return <JsxParser
@@ -18,7 +24,7 @@ export const Template = (Content: React.FC<{ page: string }>) => (props: JSX.Int
       bindings={{ props }}
       components={{ ...components }}
       jsx={template} />
-  }, [page]);
+  }, [program, page]);
 
   const jsxFallback = useMemo(() => {
     return <JsxParser
@@ -31,35 +37,9 @@ export const Template = (Content: React.FC<{ page: string }>) => (props: JSX.Int
     document.body.setAttribute('data-page', page);
   }, [page]);
 
-  return <Suspense fallback={jsxFallback}>{jsxTemplate}</Suspense>;
+  return <Suspense fallback={jsxFallback}>
+    <TemplateContext.Provider value={{ setProgram }}>
+      {jsxTemplate}
+    </TemplateContext.Provider>
+  </Suspense>;
 };
-
-/* export const Template: React.FC<TemplateProps> = (props): JSX.Element => {
-
-  const { name } = props;
-  const { template, fallback } = useTemplate(name);
-  const Content: React.FC<TemplateProps> = (props): JSX.Element => <props.component {...props} />;
-  const components: Record<string, any> = { Content, Link, ...Nav };
-
-  const jsxTemplate = useMemo(() => {
-    return <JsxParser
-      allowUnknownElements={false}
-      renderInWrapper={false}
-      bindings={{ props }}
-      components={{ ...components }}
-      jsx={template} />
-  }, [name]);
-
-  const jsxFallback = useMemo(() => {
-    return <JsxParser
-      allowUnknownElements={false}
-      renderInWrapper={false}
-      jsx={fallback} />
-  }, [name]);
-
-  useLayoutEffect(() => {
-    document.body.setAttribute('data-page', name);
-  }, [name]);
-
-  return <Suspense fallback={jsxFallback}>{jsxTemplate}</Suspense>;
-}; */
