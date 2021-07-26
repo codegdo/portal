@@ -1,19 +1,25 @@
 import { InternalServerError } from 'routing-controllers';
 import { EntityRepository, Repository } from 'typeorm';
 
-import { CreateRegDto } from './registration.dto';
+import { CreateRegDto, GetRegDto } from './registration.dto';
 import { Program } from '../program/program.entity';
 import { Registration } from './registration.entity';
 
 @EntityRepository(Registration)
 export class RegistrationRepository extends Repository<Registration> {
-  async getAllRegistrations(programId: number): Promise<Registration[]> {
+  async getRegistrations(getRegDto: GetRegDto): Promise<Registration[]> {
+    const { programId, orgId } = getRegDto;
     const query = this.createQueryBuilder('registration');
 
     try {
-      const registrations = await query
-        .where('registration.program = :programId', { programId })
-        .getMany();
+      const registrations = await query.getMany();
+
+      if (!orgId) {
+        return [];
+      }
+
+      query.andWhere('registration.orgId = :orgId', { orgId });
+      query.andWhere('registration.program = :programId', { programId });
 
       return registrations;
     } catch (e) {
@@ -35,29 +41,31 @@ export class RegistrationRepository extends Repository<Registration> {
     }
   }
 
-  async createRegistration(
-    createRegDto: CreateRegDto
-  ): Promise<Registration> {
-    const { programId, regNumber, formId, ownerId, orgId, createdBy, updatedBy } = createRegDto;
+  async createRegistration(createRegDto: CreateRegDto): Promise<Registration> {
+    const { programId, regNumber, formId, ownerId, orgId, createdBy, updatedBy } =
+      createRegDto;
     const program = new Program();
-    const registration = new Registration();
-
     program.id = programId;
 
-    registration.regNumber = regNumber;
-    registration.program = program;
-    registration.formId = formId;
-    registration.ownerId = ownerId;
-    registration.orgId = orgId;
-    registration.createdBy = createdBy;
-    registration.updatedBy = updatedBy;
+    const registration = this.create({
+      regNumber,
+      program,
+      formId,
+      ownerId,
+      orgId,
+      createdBy,
+      updatedBy,
+    });
 
     console.log('REGISTRATION', registration);
 
     try {
       // return registration.save(); ERROR: relation "org.registration" does not exist
       const result = await this.save(registration);
-      return this.save({ id: result.id, regNumber: `${result.regNumber}${result.id}` });
+      return this.save({
+        id: result.id,
+        regNumber: `${result.regNumber}${result.id}`,
+      });
     } catch (e) {
       console.log(e);
       throw new InternalServerError('Internal server error');

@@ -20,13 +20,7 @@ export class JwtService {
 
   async verify(token: string) {
     try {
-      return (
-        jwt.verify(token, publicKey),
-        {
-          expiresIn: '1d',
-          algorithm: ['RS256'],
-        }
-      );
+      return jwt.verify(token, publicKey);
     } catch (error) {
       return false;
     }

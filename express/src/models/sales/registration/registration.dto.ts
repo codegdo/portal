@@ -1,5 +1,13 @@
 import { IsNotEmpty } from 'class-validator';
 
+export class GetRegDto {
+  @IsNotEmpty()
+  orgId!: number;
+
+  @IsNotEmpty()
+  programId!: number;
+}
+
 export class CreateRegDto {
   @IsNotEmpty()
   regNumber!: string;

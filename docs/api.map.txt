@@ -10,17 +10,20 @@ Help
 	Guides
 
 Marketing
-	Coop
-		Summary
-		Requests
-		Claims
-		Accruals
-		Reports
+	Dashboard
+	Requests
+	Claims
+	Accruals
+	Reports
 	
+Rewards
+	Dashboard
+	Claims
+	Reports
 
 Sales
-	Summary
-	Deals
+	Dashboard
+	Registrations
 	Reports
 
 Admin
@@ -43,16 +46,18 @@ Admin
 
 
 /marketing
-/marketing/:programType/:programId/summary
-/marketing/:programType/:programId/summary/{companyId}
-/marketing/:programType/:programId/requests
-/marketing/:programType/:programId/requests?formId=0
-/marketing/:programType/:programId/claims
-/marketing/:programType/:programId/claims?formId=0
+/marketing/:programId/summary
+/marketing/:programId/summary/:companyId
+/marketing/:programId/requests
+/marketing/:programId/requests?formId=0
+/marketing/:programId/claims
+/marketing/:programId/claims?formId=0
+/marketing/:programId/reports
+/marketing/:programId/reports?companyId=0
 
 /sales
-/sales/spa/{programId}/summary
-/sales/spa/{programId}/deals?formId=0
+/sales/:programId/summary
+/sales/:programId/deals?formId=0
 
 /admin/users
 /admin/users/internals

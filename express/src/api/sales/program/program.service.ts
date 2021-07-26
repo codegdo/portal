@@ -8,17 +8,15 @@ export class ProgramService {
   @Inject()
   private sales!: SalesRepository;
 
-  async getAllPrograms(orgId: number): Promise<Program[]> {
-
+  async getPrograms(orgId: number): Promise<Program[]> {
     if (orgId) {
-      return this.sales.programRepository.getAllPrograms(orgId);
+      return this.sales.programRepository.getPrograms(orgId);
     }
 
     return [];
   }
 
   async getProgramById(programId: number): Promise<Program> {
-
     const program = await this.sales.programRepository.getProgramById(programId);
 
     if (!program) {

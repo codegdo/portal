@@ -4,7 +4,7 @@ import { JsonController, Req, Res, All, CurrentUser } from 'routing-controllers'
 @JsonController()
 export class AppError {
   @All('*')
-  all(
+  catchAll(
     @Req() _req: Request,
     @Res() res: Response,
     @CurrentUser() error?: string

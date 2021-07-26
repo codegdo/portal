@@ -27,6 +27,8 @@ const Program: React.FC = (props): JSX.Element => {
     if (fetching == 'success' && result) {
       setProgram(result.data);
       //context?.setProgram(result.data.name);
+    } else if (fetching == 'error') {
+      console.log();
     }
   }, [fetching])
 

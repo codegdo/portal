@@ -13,10 +13,11 @@ const Registration: React.FC<RegistrationProps> = (props): JSX.Element => {
   const [registrations, setRegistrations] = useState(null);
 
   useEffect(() => {
-    if (fetching == 'success' && result) {
+    if (fetching === 'success') {
       setRegistrations(result.data);
-
       console.log(result)
+    } else if (fetching === 'error') {
+
     }
   }, [fetching])
 

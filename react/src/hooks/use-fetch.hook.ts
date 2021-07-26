@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
-import { createBrowserHistory } from 'history';
 import { apiUrl, jwtToken } from '../app.config';
 
 import { http, RequestOption } from '../services';
 import { stripTrailingSlash } from '../utils';
+import { useNavigate } from 'react-router-dom';
 
 export type FetchConfig = {
   option?: { [key: string]: any };
@@ -70,9 +70,7 @@ export const useFetch = <T>(
   };
 
   const [state, dispatch] = useReducer(fetchReducer, initialState);
-
-  //const navigate = useNavigate();
-
+  const navigate = useNavigate();
   const isMounted = useRef(false);
 
   const fetchData = useCallback(
@@ -95,6 +93,8 @@ export const useFetch = <T>(
       } catch (error) {
         const status: number = error.status;
 
+        console.log('EERRROO', error);
+
         if (error.message === 'Failed to fetch') {
           dispatch({
             type: 'FAILURE',
@@ -106,10 +106,7 @@ export const useFetch = <T>(
             },
           });
         } else if (error?.data?.message === 'Session timeout') {
-          //navigate('/auth/logout');
-          const history = createBrowserHistory();
-          history.push('/auth/logout');
-
+          navigate('/auth/logout');
         } else {
           dispatch({
             type: 'FAILURE',

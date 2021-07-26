@@ -5,8 +5,7 @@ import { Program } from './program.entity';
 
 @EntityRepository(Program)
 export class ProgramRepository extends Repository<Program> {
-
-  async getAllPrograms(orgId: number | null): Promise<Program[]> {
+  async getPrograms(orgId: number | null): Promise<Program[]> {
     const query = this.createQueryBuilder('program');
 
     try {
@@ -32,18 +31,22 @@ export class ProgramRepository extends Repository<Program> {
     } catch (e) {
       throw new InternalServerError('Internal server error');
     }
-
   }
 
-  async createProgram({ name, description, formId, ownerId, orgId }: CreateProgramDto): Promise<Program> {
-
-    const program = new Program();
-
-    program.name = name;
-    program.description = description;
-    program.formId = formId;
-    program.ownerId = ownerId;
-    program.orgId = orgId;
+  async createProgram({
+    name,
+    description,
+    formId,
+    ownerId,
+    orgId,
+  }: CreateProgramDto): Promise<Program> {
+    const program = this.create({
+      name,
+      description,
+      formId,
+      ownerId,
+      orgId,
+    });
 
     try {
       return this.save(program);
@@ -51,5 +54,4 @@ export class ProgramRepository extends Repository<Program> {
       throw new InternalServerError('Internal server error');
     }
   }
-
 }

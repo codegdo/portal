@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { useFetch } from '../../hooks';
-import { AppState } from '../../store/reducers';
+//import { AppState } from '../../store/reducers';
 
 const Sale: React.FC<{ page: string }> = (props): JSX.Element => {
 
-  const orgId = useSelector((state: AppState) => state.session.orgId);
+  //const orgId = useSelector((state: AppState) => state.session.orgId);
 
   const { pathname } = useLocation();
 
   const { fetching, result, fetchData } = useFetch<any>(
-    `/api/sales/programs?orgId=${orgId}`
+    `/api/sales/programs`
   );
 
   const [programs, setPrograms] = useState(null);

@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Entity,
   PrimaryGeneratedColumn,
   Column,
@@ -8,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity({ database: 'sales', schema: 'org', name: 'program' })
-export class Program extends BaseEntity {
+export class Program {
   @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
