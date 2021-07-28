@@ -10,6 +10,8 @@ import { OrganizationRepository } from './organization/organization.repository';
 import { RoleRepository } from './role/role.repository';
 import { PolicyRepository } from './policy/policy.repository';
 import { SubscriptionRepository } from './subscription/subscription.repository';
+import { TerritoryRepository } from './territory/territory.repository';
+import { AssignmentRepository } from './assignment/assignment.repository';
 
 @Service()
 export class PortalRepository {
@@ -23,12 +25,21 @@ export class PortalRepository {
   }
 
   // org
+
   get templateRepository(): TemplateRepository {
     return this.connection.getCustomRepository(TemplateRepository);
   }
 
   get subscriptionRepository(): SubscriptionRepository {
     return this.connection.getCustomRepository(SubscriptionRepository);
+  }
+
+  get territoryRepository(): TerritoryRepository {
+    return this.connection.getCustomRepository(TerritoryRepository);
+  }
+
+  get assignmentRepository(): AssignmentRepository {
+    return this.connection.getCustomRepository(AssignmentRepository);
   }
 
   // sec

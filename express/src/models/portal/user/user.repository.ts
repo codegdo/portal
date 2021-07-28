@@ -6,12 +6,12 @@ import { LoginUserDto, SignupUserDto } from './user.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  async signupUser({ email, username, password }: SignupUserDto): Promise<User> {
+  async signupUser({ emailAddress, username, password }: SignupUserDto): Promise<User> {
     const role = new Role();
     const user = new User();
 
     role.id = 2;
-    user.email = email;
+    user.emailAddress = emailAddress;
     user.username = username;
     user.password = password;
     user.role = role;
@@ -65,12 +65,12 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  getUser({ email, username, password }: SignupUserDto): User {
+  getUser({ emailAddress, username, password }: SignupUserDto): User {
     const role = new Role();
     const user = new User();
 
     role.id = 2;
-    user.email = email;
+    user.emailAddress = emailAddress;
     user.username = username;
     user.password = password;
     user.role = role;

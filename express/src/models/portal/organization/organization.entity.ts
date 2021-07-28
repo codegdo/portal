@@ -24,11 +24,11 @@ export class Organization extends BaseEntity {
   @Column({ name: 'city', nullable: true })
   city!: string;
 
-  @Column({ name: 'territory_id', nullable: true })
-  territoryId!: number;
-
   @Column({ name: 'postal_code', nullable: true })
   postalCode!: number;
+
+  @Column({ name: 'territory_id', nullable: true })
+  territoryId!: number;
 
   @Column({ name: 'website', nullable: true })
   website!: string;

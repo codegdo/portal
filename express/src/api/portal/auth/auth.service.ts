@@ -105,7 +105,7 @@ export class AuthService {
     // send mail
     await this.mailer.send({
       from: 'giangd@gmail.com',
-      to: `${user.email}`,
+      to: `${user.emailAddress}`,
       subject: 'Activate',
       html: `<a href="${httpHost}/auth/verify/${token.id}">Activate</a>`,
     });
@@ -236,7 +236,7 @@ export class AuthService {
     // send mail
     await this.mailer.send({
       from: 'giangd@gmail.com',
-      to: `${user.email}`,
+      to: `${user.emailAddress}`,
       subject: 'Activate',
       html: `<a href="${httpHost}/auth/verify/${token.id}">Activate</a>`,
     });

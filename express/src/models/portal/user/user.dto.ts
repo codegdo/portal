@@ -2,7 +2,7 @@ import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
-  email!: string;
+  emailAddress!: string;
 
   @IsNotEmpty()
   username!: string;
@@ -30,7 +30,7 @@ export class LoginUserDto {
 export class SignupUserDto {
   @IsString()
   @IsNotEmpty()
-  email!: string;
+  emailAddress!: string;
 
   @IsString()
   @IsNotEmpty()

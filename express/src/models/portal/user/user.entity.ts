@@ -22,8 +22,8 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn({ name: 'id' })
   id!: number;
 
-  @Column({ name: 'email' })
-  email!: string;
+  @Column({ name: 'email_address' })
+  emailAddress!: string;
 
   @Column({ name: 'username' })
   username!: string;

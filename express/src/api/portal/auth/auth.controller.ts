@@ -58,10 +58,10 @@ export class AuthController {
 
     const { user, nav } = await this.authService.loginUser(loginInput);
 
-    const { id, username, email, orgId, role } = user;
+    const { id, username, emailAddress, orgId, role } = user;
     const token = this.jwt.sign({ username });
     const payload = {
-      user: { userId: id, username, email, roletype: role.roletype.name, isOwner: role.isOwner },
+      user: { userId: id, username, emailAddress, roletype: role.roletype.name, isOwner: role.isOwner },
       orgId,
       token,
       nav,

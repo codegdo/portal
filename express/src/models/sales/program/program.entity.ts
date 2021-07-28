@@ -38,8 +38,7 @@ export class Program {
   createdBy!: 'CURRENT_USER';
 
   @Column({
-    name: 'updated_by',
-    onUpdate: 'CURRENT_USER',
+    name: 'updated_by'
   })
   updatedBy!: 'CURRENT_USER';
 

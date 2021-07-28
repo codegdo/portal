@@ -1,5 +1,5 @@
 interface UserData {
-  email: string;
+  emailAddress: string;
   username: string;
 }
 export interface LoginOutput {
