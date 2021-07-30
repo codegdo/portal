@@ -4,13 +4,18 @@ CREATE TABLE IF NOT EXISTS sec.user (
   username VARCHAR(45),
   password VARCHAR(75),
   email_address VARCHAR(45),
+
   salt VARCHAR(75),
   json TEXT,
-  contact_id INT,
+  
   company_id INT,
-  is_active BOOLEAN DEFAULT FALSE,
+  contact_id INT,
   role_id INT,
   org_id INT,
+
+  is_new_password BOOLEAN DEFAULT FALSE,
+  is_active BOOLEAN DEFAULT FALSE,
+
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   created_by VARCHAR(45) DEFAULT CURRENT_USER,

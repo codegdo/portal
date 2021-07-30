@@ -18,15 +18,24 @@ export class Company extends BaseEntity {
   @Column({ name: 'billing_postal_code', nullable: true })
   billingPostalCode!: number;
 
-  @Column({ name: 'billing_state', nullable: true })
-  billingState!: string;
-
-  @Column({ name: 'billing_country', nullable: true })
-  billingCountry!: string;
-
   @OneToOne(() => Territory, (territory) => territory.id)
   @JoinColumn({ name: 'billing_territory_id' })
-  territory!: Territory;
+  billingTerritory!: Territory;
+
+  @Column({ name: 'shipping_street_address', nullable: true })
+  shippingStreetAddress!: string;
+
+  @Column({ name: 'shipping_city', nullable: true })
+  shippingCity!: string;
+
+  @Column({ name: 'shipping_postal_code', nullable: true })
+  shippingPostalCode!: number;
+
+  @OneToOne(() => Territory, (territory) => territory.id)
+  @JoinColumn({ name: 'shipping_territory_id' })
+  shippingTerritory!: Territory;
+
+
 
   @Column({ name: 'form_id', nullable: true })
   formId!: number;

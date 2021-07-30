@@ -37,15 +37,26 @@ export class User extends BaseEntity {
   @Column({ name: 'json', nullable: true })
   json!: string;
 
-  @Column({ name: 'is_active', default: false })
-  isActive!: boolean;
+  @Column({ name: 'company_id', nullable: true })
+  companyId!: number;
+
+  @Column({ name: 'contact_id', nullable: true })
+  contactId!: number;
 
   @OneToOne(() => Role, (role) => role.id)
   @JoinColumn({ name: 'role_id' })
   role!: Role;
 
+
+
   @Column({ name: 'org_id', nullable: true })
   orgId!: number;
+
+  @Column({ name: 'is_new_password', default: false })
+  isNewPassword!: boolean;
+
+  @Column({ name: 'is_active', default: false })
+  isActive!: boolean;
 
   @CreateDateColumn({
     name: 'created_at',

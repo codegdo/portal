@@ -1,21 +1,21 @@
-CREATE TABLE IF NOT EXISTS dbo.roletype (
+CREATE TABLE IF NOT EXISTS dbo.emailtype (
   id SERIAL NOT NULL,
-  name roletype_enum NOT NULL,
+  name VARCHAR(45) NOT NULL,
   --
   PRIMARY KEY(id)
 );
 
-CREATE TYPE dbo.roletype_enum AS ENUM ('system', 'internal', 'external');
-
-CREATE TABLE IF NOT EXISTS sec.role (
+CREATE TABLE IF NOT EXISTS org.email (
   id SERIAL NOT NULL,
-  name VARCHAR(45) NOT NULL,
-  description VARCHAR(255),
-  
-  org_id INT,
-  roletype_id INT,
 
-  is_owner BOOLEAN DEFAULT FALSE,
+  name VARCHAR(45) NOT NULL,
+  format VARCHAR(45) CHECK(format in ('html', 'text')),
+  subject VARCHAR(255) NOT NULL,
+  body TEXT,
+
+  emailtype_id INT,
+  org_id INT,
+
   is_active BOOLEAN DEFAULT TRUE,
 
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -24,5 +24,5 @@ CREATE TABLE IF NOT EXISTS sec.role (
   updated_by VARCHAR(45) DEFAULT CURRENT_USER,
   --
   PRIMARY KEY(id),
-  FOREIGN KEY(roletype_id) REFERENCES dbo.roletype(id) ON DELETE SET NULL
+  FOREIGN KEY(emailtype_id) REFERENCES dbo.emailtype(id) ON DELETE CASCADE
 );

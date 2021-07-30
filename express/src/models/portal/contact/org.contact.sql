@@ -4,17 +4,17 @@ CREATE TABLE IF NOT EXISTS org.contact (
   first_name VARCHAR(45),
   last_name VARCHAR(45),
   title VARCHAR(95),
-
   email_address VARCHAR(45),
-  phone VARCHAR(20),
-  mobile_phone VARCHAR(20),
-  other_phone VARCHAR(20),
-  fax VARCHAR(20),
 
   street_address VARCHAR(95),
   city VARCHAR(95),
   postal_code VARCHAR(18),
   territory_id INT,
+
+  phone VARCHAR(20),
+  mobile_phone VARCHAR(20),
+  other_phone VARCHAR(20),
+  fax VARCHAR(20),
 
   json TEXT,
 

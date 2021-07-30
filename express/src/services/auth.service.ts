@@ -1,11 +1,15 @@
 import { Service, Container, Inject } from 'typedi';
 import { Program } from '../models/sales/entities';
 import { SalesRepository } from '../models/sales/repositories';
+import { JwtService } from './jwt.service';
 
 @Service()
-class RBAC {
+class Authorize {
   @Inject()
   private sales!: SalesRepository;
+
+  @Inject()
+  public jwt!: JwtService;
 
   async getPrograms(orgId: number): Promise<Program[]> {
     const programs = await this.sales.programRepository.getPrograms(orgId);
@@ -13,6 +17,11 @@ class RBAC {
     return programs;
   }
 
+  // auth modules
+
+  // auth pages
+
+  // auth programs
   async programAuthorize(programId: number, orgId: number): Promise<boolean> {
     const programs = await this.getPrograms(orgId);
 
@@ -24,4 +33,4 @@ class RBAC {
   }
 }
 
-export const rbac = Container.get(RBAC);
+export const auth = Container.get(Authorize);

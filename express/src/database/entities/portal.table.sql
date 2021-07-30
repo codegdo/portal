@@ -185,6 +185,8 @@ CREATE TABLE IF NOT EXISTS sec.policy (
   FOREIGN KEY(roletype_id) REFERENCES dbo.roletype(id) ON DELETE SET NULL
 );
 
+CREATE INDEX idx_role_policy ON sec.role_policy(role_id, policy_id);
+
 CREATE TABLE IF NOT EXISTS sec.role_policy (
   role_id INT NOT NULL,
   policy_id INT NOT NULL,
@@ -194,7 +196,7 @@ CREATE TABLE IF NOT EXISTS sec.role_policy (
   FOREIGN KEY(role_id) REFERENCES sec.role(id) ON DELETE CASCADE,
   FOREIGN KEY(policy_id) REFERENCES sec.policy(id) ON DELETE CASCADE
 );
-CREATE INDEX idx_role_policy ON sec.role_policy(role_id, policy_id);
+
 
 CREATE TABLE IF NOT EXISTS sec.user (
   id SERIAL NOT NULL,

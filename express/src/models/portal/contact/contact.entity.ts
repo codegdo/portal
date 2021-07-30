@@ -29,6 +29,18 @@ export class Contact extends BaseEntity {
   @JoinColumn({ name: 'territory_id' })
   territory!: Territory;
 
+  @Column({ name: 'phone', nullable: true })
+  phone!: string;
+
+  @Column({ name: 'mobile_phone', nullable: true })
+  mobilePhone!: string;
+
+  @Column({ name: 'other_phone', nullable: true })
+  otherPhone!: string;
+
+  @Column({ name: 'fax', nullable: true })
+  fax!: string;
+
   @Column({ name: 'json', nullable: true })
   json!: string;
 
@@ -43,7 +55,7 @@ export class Contact extends BaseEntity {
 
   @OneToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'owner_id' })
-  user!: User;
+  ownerId!: User;
 
   @Column({ name: 'org_id', nullable: true })
   orgId!: number;

@@ -1,17 +1,20 @@
-CREATE TABLE IF NOT EXISTS org.contact (
+CREATE TABLE IF NOT EXISTS org.company (
   id SERIAL NOT NULL,
 
   name VARCHAR(95),
 
-  phone VARCHAR(20),
-  fax VARCHAR(20),
-
   billing_street_address VARCHAR(95),
   billing_city VARCHAR(95),
   billing_postal_code VARCHAR(18),
-  billing_state VARCHAR(18),
-  billing_country VARCHAR(18),
   billing_territory_id INT,
+
+  shipping_street_address VARCHAR(95),
+  shipping_city VARCHAR(95),
+  shipping_postal_code VARCHAR(18),
+  shipping_territory_id INT,
+
+  phone VARCHAR(20),
+  fax VARCHAR(20),
 
   json TEXT,
 

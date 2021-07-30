@@ -10,14 +10,13 @@ import {
 import { Container } from 'typedi';
 import queryString from 'query-string';
 
-import { rbac, JwtService } from './services';
+import { auth } from './services';
 import { appConnection } from './app.connection';
 import { appMiddleware } from './app.middleware';
 import { AppError } from './app.error';
 
 export default async (): Promise<Application> => {
   const app = express();
-  const jwt = new JwtService();
   const { connections, errorCode } = await appConnection();
 
   useContainer(Container);
@@ -30,7 +29,7 @@ export default async (): Promise<Application> => {
         const token = headers['authorization']?.split(' ')[1];
         const { user } = session;
 
-        const t = await jwt.verify(token);
+        const t = await auth.jwt.verify(token);
 
         console.log('TOKEN VERIFY', t);
         console.log('SESSION VERIFY', session);

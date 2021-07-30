@@ -183,7 +183,9 @@ INSERT
 INTO sec.role(name, description, is_owner, org_id, roletype_id)
 VALUES
 ('System User', null, '0', null, '1'),
-('Owner User', null, '1', null, '2');
+('Owner User', null, '1', null, '2'),
+('Admin User', null, '0', null, '2'),
+('Partner User', null, '0', null, '3');
 
 INSERT
 INTO sec.policy(name, description, json, is_active, org_id, roletype_id)
@@ -195,4 +197,6 @@ INSERT
 INTO sec.role_policy(role_id, policy_id)
 VALUES
 ('1', '1'),
-('2', '2');
+('2', '2'),
+('3', '3'),
+('4', '4');

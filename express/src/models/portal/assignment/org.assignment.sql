@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS org.assignment (
   PRIMARY KEY(id),
 );
 
+CREATE TYPE org.assignmentcompanytype_enum AS ENUM ('region', 'country', 'state', 'company');
+
 CREATE TABLE IF NOT EXISTS org.assignment_company (
   id SERIAL NOT NULL,
   
@@ -37,7 +39,7 @@ CREATE TABLE IF NOT EXISTS org.assignment_company (
   FOREIGN KEY(assignment_id) REFERENCES org.assignment(id) ON DELETE CASCADE
 );
 
-CREATE TYPE org.assignmentcompanytype_enum AS ENUM ('region', 'country', 'state', 'company');
+CREATE TYPE org.assignmentusertype_enum AS ENUM ('group', 'role', 'user');
 
 CREATE TABLE IF NOT EXISTS org.assignment_user (
   id SERIAL NOT NULL,
@@ -61,5 +63,5 @@ CREATE TABLE IF NOT EXISTS org.assignment_user (
   FOREIGN KEY(assignment_id) REFERENCES org.assignment(id) ON DELETE CASCADE
 );
 
-CREATE TYPE org.assignmentusertype_enum AS ENUM ('group', 'role', 'user');
+
 
