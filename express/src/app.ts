@@ -43,7 +43,7 @@ export default async (): Promise<Application> => {
           const { programId } = query;
 
           console.log(programId);
-          const isProgramAuthorize = await rbac.programAuthorize(1, 1);
+          const isProgramAuthorize = await auth.programAuthorize(1, 1);
 
           if (!isProgramAuthorize) {
             throw new ForbiddenError('Forbidden');

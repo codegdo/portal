@@ -5,11 +5,11 @@ import { AppState } from '../../store/reducers';
 import { NavComponentProps } from './nav.type';
 
 export const NavComponent: React.FC<NavComponentProps> = ({ group }): JSX.Element | null => {
-  const { modules = [] } = useSelector((state: AppState) => state.nav);
+  const { data = [] } = useSelector((state: AppState) => state.nav);
 
   return <>
     {
-      modules.map((item): JSX.Element | null => {
+      data.map((item): JSX.Element | null => {
 
         const { id, name, sortGroup, pages = [] } = item;
         const pathmodule = name.toLowerCase();

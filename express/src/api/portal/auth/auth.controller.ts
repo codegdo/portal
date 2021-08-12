@@ -10,6 +10,7 @@ import {
 } from 'routing-controllers';
 import { Inject } from 'typedi';
 
+
 import {
   LoginUserDto,
   ResendUserTokenDto,
@@ -53,10 +54,10 @@ export class AuthController {
   @Post('/login')
   async loginUser(
     @Session() session: any,
-    @Body() loginInput: LoginUserDto
+    @Body() loginUserDto: LoginUserDto
   ): Promise<LoginOutput> {
 
-    const { user, nav } = await this.authService.loginUser(loginInput);
+    const { user, nav } = await this.authService.loginUser(loginUserDto);
 
     const { id, username, emailAddress, orgId, role } = user;
     const token = this.jwt.sign({ username });

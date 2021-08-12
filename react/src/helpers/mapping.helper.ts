@@ -34,18 +34,30 @@ export const mapTemplate = (templates: [] = []): Layouts => {
   );
 };
 
-export const mapNav = (modules: [] = []): { modules: []; ids: {} } => {
-  const ids = modules.reduce((acc, item, index) => {
+export const mapNav = (data: [] = []): { data: []; modules: {}, pages: {} } => {
+  const pages = {};
+
+  const modules = data.reduce((acc, item, index) => {
     const key: string = item.name.toLowerCase();
 
-    const { pages = [] } = modules[index];
+    const { pages: _pages = [] } = data[index];
 
-    if (pages && pages.length > 0) {
-      sortArray(pages, 'sortOrder');
+    if (_pages && _pages.length > 0) {
+
+      sortArray(_pages, 'sortOrder');
+      let page = {};
+
+      _pages.forEach(function (p) {
+        const name = p.name.toLowerCase();
+
+        page = { ...page, [name]: p.id };
+
+        pages[key] = page;
+      });
     }
 
     return { ...acc, [key]: index };
   }, {});
 
-  return { modules, ids };
+  return { data, modules, pages };
 };

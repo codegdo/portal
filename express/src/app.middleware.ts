@@ -4,7 +4,7 @@ import session from 'express-session';
 import cors from 'cors';
 import { Connection, getConnection } from 'typeorm';
 import { Session } from './models/portal/entities';
-import { sessionSecret, corsOrigin } from './configs';
+import { sessionSecret, corsOrigin, } from './configs';
 import { TypeormStore } from 'connect-typeorm/out';
 
 declare module 'express-session' {
@@ -28,6 +28,8 @@ export const appMiddleware = (app: Application, connections: Connection[] | null
       });
     })
   );
+
+
 
   if (connections) {
     app.use(

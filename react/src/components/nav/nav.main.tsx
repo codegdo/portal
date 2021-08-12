@@ -5,12 +5,12 @@ import { AppState } from '../../store/reducers';
 import { NavMainProps } from './nav.type';
 
 export const NavMain: React.FC<NavMainProps> = ({ className = 'link' }): JSX.Element => {
-  const { modules = [] } = useSelector((state: AppState) => state.nav);
+  const { data = [] } = useSelector((state: AppState) => state.nav);
   const path = window.location.pathname.split('/')[1];
 
   return <>
     {
-      modules.map(
+      data.map(
         ({ id, name, sortGroup }): JSX.Element | null => {
 
           const pathname = `/${name.toLowerCase()}`;

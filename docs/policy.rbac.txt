@@ -2,34 +2,39 @@
   "version": "1",
   "id": "",
   "metadata": {
-    "Modules": {
-      "Home": "*",
-      "Marketing": "*",
-      "Sales": "*",
-      "Rewards": "*",
-      "Admin": "*",
-      "System": "*"
+    "modules": {
+      "home": "*",
+      "marketing": "*",
+      "sales": "*",
+      "rewards": "*",
+      "admin": "*",
+      "system": "*"
     },
-    "Pages": {
-      "Marketing": {
-        "Summary": "*",
-        "Requests": "*",
-        "Claims": "*",
-        "Accruals": "*"
+    "pages": {
+      "marketing": {
+        "dashboard": "*",
+        "requests": "*",
+        "claims": "*",
+        "accruals": "*",
+        "reports": "*"
       },
-      "Sales": {
-        "Summary": "*",
-        "Deals": "*"
+      "sales": {
+        "dashboard": "*",
+        "registrations": "*",
+        "reports": "*"
       },
-      "Rewards": {
-        "Summary": "*",
-        "Claims": "*"
+      "rewards": {
+        "dashboard": "*",
+        "claims": "*",
+        "reports": "*"
       },
-      "Admin": {
-        "Users": "*"
+      "admin": {
+        "users": "*"
       }
     },
-    "Objects": {
+    
+    
+    "objects": {
       "MarketingSummary": {
         "Company": "*"
       }
